@@ -1,0 +1,28 @@
+{
+    "texts": {
+        "nav.home": {
+            "fa": "خانه",
+            "en": "Home"
+        },
+        "nav.services": {
+            "fa": "خدمات",
+            "en": "Services"
+        },
+        "nav.works": {
+            "fa": "نمونه‌کارها",
+            "en": "Works"
+        },
+        "nav.about": {
+            "fa": "درباره من",
+            "en": "About"
+        },
+        "nav.contact": {
+            "fa": "تماس",
+            "en": "Contact"
+        },
+        "hero.tagline": {
+            "fa": "از ایده تا پیاده‌سازی",
+            "en": "From Idea to Implementation"
+        }
+    }
+}

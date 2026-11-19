@@ -1,6 +1,4 @@
 import { createI18n } from "vue-i18n";
-import fa from './fa.js'
-import en from './en.js'
 
 const saved = localStorage.getItem('lang') || 'fa'
 
@@ -8,7 +6,8 @@ export const i18n = createI18n({
     legacy: false,
     locale: saved,
     fallbackLocale: 'en',
-    messages: { fa, en },
+    flatJson: true,
+    messages: { fa: {}, en: {} }
 })
 
 export function setLang(lang) {
