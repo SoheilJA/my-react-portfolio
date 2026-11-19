@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import {
   saveContent,
   exportContent,
@@ -19,14 +19,20 @@ const input = ref('')
 const error = ref(false)
 const tab = ref('texts')
 const saved = ref(false)
+onMounted(() => {
+  const m = document.createElement('meta')
+  m.name = 'robots'
+  m.content = 'noindex'
+  document.head.appendChild(m)
+})
 
 const tabs = [
   {id: 'texts', label: 'متن‌ها', comp: TextsEditor},
   {id: 'services', label: 'خدمات', comp: ServicesEditor},
   {id: 'certs', label: 'گواهی‌نامه‌ها', comp: CertificatesEditor},
   {id: 'projects', label: 'نمونه‌کارها', comp: ProjectsEditor},
-  { id: 'skills', label: 'مهارت‌ها', comp: SkillsEditor },
-  { id: 'contact', label: 'تماس', comp: ContactEditor },
+  {id: 'skills', label: 'مهارت‌ها', comp: SkillsEditor},
+  {id: 'contact', label: 'تماس', comp: ContactEditor},
 ]
 
 function login() {
