@@ -59,6 +59,14 @@
         "works.less": {
             "fa": "نمایش کمتر",
             "en": "Show less"
+        },
+        "works.visit": {
+            "fa": "مشاهده سایت",
+            "en": "Visit site"
+        },
+        "works.close": {
+            "fa": "بستن",
+            "en": "Close"
         }
     },
     "services": [

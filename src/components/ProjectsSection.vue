@@ -2,10 +2,12 @@
 import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { content } from "../data/store";
+import ProjectModal from './ProjectModal.vue'
 
 const { locale } = useI18n();
 const tab = ref("code");
 const showAll = ref(false);
+const selected = ref(null)
 
 const inTab = computed(() =>
   content.projects.filter((p) => p.category === tab.value),
@@ -49,7 +51,8 @@ function setTab(t) {
       <article
         v-for="p in list"
         :key="p.id"
-        class="border border-muted/40 transition hover:border-accent"
+        class="border border-muted/40 transition hover:border-accent cursor-pointer"
+        @click="selected = p"
       >
         <img
           v-if="p.image"
@@ -76,5 +79,6 @@ function setTab(t) {
     >
       {{ showAll ? $t("works.less") : $t("works.more") }}
     </button>
+    <ProjectModal :project="selected" @close="selected = null" />
   </section>
 </template>
