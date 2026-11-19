@@ -12,3 +12,11 @@ body {
   color: var(--color-muted);
   font-family: var(--font-mono);
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 5rem;
+}
