@@ -10,6 +10,8 @@ import TextsEditor from '../components/admin/TextsEditor.vue'
 import ServicesEditor from '../components/admin/ServicesEditor.vue'
 import CertificatesEditor from '../components/admin/CertificatesEditor.vue'
 import ProjectsEditor from '../components/admin/ProjectsEditor.vue'
+import SkillsEditor from '../components/admin/SkillsEditor.vue'
+import ContactEditor from '../components/admin/ContactEditor.vue'
 
 const PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
 const authed = ref(sessionStorage.getItem('admin') === '1')
@@ -23,6 +25,8 @@ const tabs = [
   {id: 'services', label: 'خدمات', comp: ServicesEditor},
   {id: 'certs', label: 'گواهی‌نامه‌ها', comp: CertificatesEditor},
   {id: 'projects', label: 'نمونه‌کارها', comp: ProjectsEditor},
+  { id: 'skills', label: 'مهارت‌ها', comp: SkillsEditor },
+  { id: 'contact', label: 'تماس', comp: ContactEditor },
 ]
 
 function login() {
