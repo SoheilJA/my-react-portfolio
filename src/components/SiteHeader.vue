@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { setLang } from "../i18n";
+import {ref} from "vue";
+import {useI18n} from "vue-i18n";
+import {setLang} from "../i18n";
 
-const { locale } = useI18n();
+const {locale} = useI18n();
 const open = ref(false);
-const links = ["home", "services", "works", "about", "contact"];
+const links = ["home", "services", "works", "about", 'certificates', "contact"];
 </script>
 
 <template>
@@ -20,8 +20,8 @@ const links = ["home", "services", "works", "about", "contact"];
           <span class="text-accent">#</span>{{ $t("nav." + l) }}
         </a>
         <button
-          class="hover:text-white"
-          @click="setLang(locale === 'fa' ? 'en' : 'fa')"
+            class="hover:text-white"
+            @click="setLang(locale === 'fa' ? 'en' : 'fa')"
         >
           {{ locale === "fa" ? "EN" : "FA" }}
         </button>
@@ -34,17 +34,17 @@ const links = ["home", "services", "works", "about", "contact"];
 
     <nav v-if="open" class="flex flex-col gap-6 px-6 pb-8 text-2xl md:hidden">
       <a
-        v-for="l in links"
-        :key="l"
-        :href="'#' + l"
-        class="hover:text-white"
-        @click="open = false"
+          v-for="l in links"
+          :key="l"
+          :href="'#' + l"
+          class="hover:text-white"
+          @click="open = false"
       >
         <span class="text-accent">#</span>{{ $t("nav." + l) }}
       </a>
       <button
-        class="w-fit hover:text-white"
-        @click="setLang(locale === 'fa' ? 'en' : 'fa')"
+          class="w-fit hover:text-white"
+          @click="setLang(locale === 'fa' ? 'en' : 'fa')"
       >
         {{ locale === "fa" ? "EN" : "FA" }}
       </button>

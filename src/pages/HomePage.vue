@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection.vue";
 import ServicesSection from "../components/ServicesSection.vue";
 import ProjectsSection from "../components/ProjectsSection.vue";
 import AboutSection from "../components/AboutSection.vue";
+import CertificatesSection from "../components/CertificatesSection.vue";
 
 const sections = [ "contact"];
 </script>
@@ -15,6 +16,8 @@ const sections = [ "contact"];
     <ServicesSection />
     <ProjectsSection />
     <AboutSection />
+    <CertificatesSection/>
+
     <section v-for="s in sections" :id="s" :key="s" class="min-h-screen py-16">
       <h2 class="text-3xl font-bold text-white">
         <span class="text-accent">#</span>{{ $t("nav." + s) }}

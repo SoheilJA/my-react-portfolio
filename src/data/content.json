@@ -75,6 +75,14 @@
     "skills.title": {
       "fa": "مهارت‌ها",
       "en": "skills"
+    },
+    "nav.certificates": {
+      "fa": "گواهی‌نامه‌ها",
+      "en": "Certificates"
+    },
+    "certs.verify": {
+      "fa": "مشاهده گواهی",
+      "en": "View certificate"
     }
   },
   "services": [
@@ -400,6 +408,32 @@
         "Elementor",
         "Woodmart"
       ]
+    }
+  ],
+  "certificates": [
+    {
+      "id": 1,
+      "title": {
+        "fa": "CS50x",
+        "en": "CS50x"
+      },
+      "issuer": {
+        "fa": "دانشگاه هاروارد",
+        "en": "Harvard University"
+      },
+      "link": "https://certificates.cs50.io/"
+    },
+    {
+      "id": 2,
+      "title": {
+        "fa": "Django",
+        "en": "Django"
+      },
+      "issuer": {
+        "fa": "مکتب‌خونه",
+        "en": "Maktabkhooneh"
+      },
+      "link": "https://www.maktabkhooneh.org/"
     }
   ]
 }
