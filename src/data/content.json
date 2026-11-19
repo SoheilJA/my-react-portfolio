@@ -1,344 +1,405 @@
 {
-    "texts": {
-        "nav.home": {
-            "fa": "خانه",
-            "en": "Home"
-        },
-        "nav.services": {
-            "fa": "خدمات",
-            "en": "Services"
-        },
-        "nav.works": {
-            "fa": "نمونه‌کارها",
-            "en": "Works"
-        },
-        "nav.about": {
-            "fa": "درباره من",
-            "en": "About"
-        },
-        "nav.contact": {
-            "fa": "تماس",
-            "en": "Contact"
-        },
-        "hero.tagline": {
-            "fa": "از ایده تا پیاده‌سازی",
-            "en": "From Idea to Implementation"
-        },
-        "hero.title_1": {
-            "fa": "سهیل جلال‌احمدی،",
-            "en": "Soheil JalalAhmadi is a"
-        },
-        "hero.title_2": {
-            "fa": "توسعه‌دهنده و طراح وب",
-            "en": "web developer & designer"
-        },
-        "hero.subtitle": {
-            "fa": "ساخت وب‌سایت‌هایی که هم ظاهر درستی دارند و هم درست کار می‌کنند",
-            "en": "Building websites that look right and run right"
-        },
-        "hero.cta": {
-            "fa": "با من تماس بگیرید",
-            "en": "Contact me"
-        },
-        "hero.status": {
-            "fa": "آماده پذیرش پروژه جدید",
-            "en": "Open for new projects"
-        },
-        "works.tab_code": {
-            "fa": "برنامه‌نویسی",
-            "en": "Development"
-        },
-        "works.tab_wp": {
-            "fa": "وردپرس",
-            "en": "WordPress"
-        },
-        "works.more": {
-            "fa": "نمایش بیشتر",
-            "en": "Show more"
-        },
-        "works.less": {
-            "fa": "نمایش کمتر",
-            "en": "Show less"
-        },
-        "works.visit": {
-            "fa": "مشاهده سایت",
-            "en": "Visit site"
-        },
-        "works.close": {
-            "fa": "بستن",
-            "en": "Close"
-        }
+  "texts": {
+    "nav.home": {
+      "fa": "خانه",
+      "en": "Home"
     },
-    "services": [
-        {
-            "id": 1,
-            "title": {
-                "fa": "توسعه بک‌اند با Django و Laravel",
-                "en": "Backend Development with Django & Laravel"
-            },
-            "desc": {
-                "fa": "منطق سمت سرور، طراحی پایگاه داده و پنل مدیریت متناسب با نیاز و مقیاس پروژه.",
-                "en": "Server-side logic, database architecture, and admin panels tailored to your project."
-            }
-        },
-        {
-            "id": 2,
-            "title": {
-                "fa": "طراحی فروشگاه اینترنتی",
-                "en": "E-Commerce Website Design"
-            },
-            "desc": {
-                "fa": "فروشگاه اختصاصی با پنل مدیریت، مدیریت محصولات و سفارش‌ها و اتصال درگاه پرداخت.",
-                "en": "Custom online store with admin panel, product and order management, and payment gateway."
-            }
-        },
-        {
-            "id": 3,
-            "title": {
-                "fa": "طراحی وب‌سایت شرکتی",
-                "en": "Corporate Website Design"
-            },
-            "desc": {
-                "fa": "وب‌سایت حرفه‌ای برای شرکت‌ها و برندها، هماهنگ با هویت کسب‌وکار.",
-                "en": "Professional websites for companies and brands, matching your business identity."
-            }
-        },
-        {
-            "id": 4,
-            "title": {
-                "fa": "طراحی مارکت‌پلیس چندفروشندگی",
-                "en": "Multi-Vendor Marketplace"
-            },
-            "desc": {
-                "fa": "پلتفرمی که فروشندگان در آن ثبت‌نام می‌کنند، محصولاتشان را مدیریت می‌کنند و مدیر آن‌ها را تأیید می‌کند.",
-                "en": "A platform where sellers register and manage their products, with admin approval."
-            }
-        },
-        {
-            "id": 5,
-            "title": {
-                "fa": "طراحی وب‌سایت شخصی و رزومه",
-                "en": "Portfolio & Resume Website"
-            },
-            "desc": {
-                "fa": "وب‌سایت شخصی چندزبانه برای نمایش رزومه، نمونه‌کارها و مهارت‌ها.",
-                "en": "Multilingual personal websites to showcase your resume, work, and skills."
-            }
-        }
-    ],
-    "projects": [
-        {
-            "id": 1,
-            "category": "code",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "رزومه رضا حسینی",
-                "en": "Reza Hoseini's Resume"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "Django",
-                "Python",
-                "Tailwind"
-            ]
-        },
-        {
-            "id": 2,
-            "category": "code",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "پیکسوریا",
-                "en": "Pixoria"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "Django",
-                "Python",
-                "Tailwind",
-                "JavaScript"
-            ]
-        },
-        {
-            "id": 3,
-            "category": "code",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "رزومه مرجان حسین‌زاده",
-                "en": "Marjan Hosseinzadeh Resume"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "HTML",
-                "CSS",
-                "PHP",
-                "Alpine.js"
-            ]
-        },
-        {
-            "id": 4,
-            "category": "code",
-            "featured": false,
-            "image": "",
-            "title": {
-                "fa": "درخت توت",
-                "en": "Derakht-e Toot"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "Tailwind",
-                "PHP",
-                "Laravel",
-                "Three.js"
-            ]
-        },
-        {
-            "id": 5,
-            "category": "code",
-            "featured": false,
-            "image": "",
-            "title": {
-                "fa": "هلدینگ فضل‌دارو",
-                "en": "Phazldaru Holding"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "Django",
-                "Python",
-                "Tailwind",
-                "Three.js"
-            ]
-        },
-        {
-            "id": 6,
-            "category": "wordpress",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "Cocodood",
-                "en": "Cocodood"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        },
-        {
-            "id": 7,
-            "category": "wordpress",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "Yousefi Rice",
-                "en": "Yousefi Rice"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        },
-        {
-            "id": 8,
-            "category": "wordpress",
-            "featured": true,
-            "image": "",
-            "title": {
-                "fa": "Valiasr Charity",
-                "en": "Valiasr Charity"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        },
-        {
-            "id": 9,
-            "category": "wordpress",
-            "featured": false,
-            "image": "",
-            "title": {
-                "fa": "Pershia Chic",
-                "en": "Pershia Chic"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        },
-        {
-            "id": 10,
-            "category": "wordpress",
-            "featured": false,
-            "image": "",
-            "title": {
-                "fa": "Persia Ozone",
-                "en": "Persia Ozone"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        },
-        {
-            "id": 11,
-            "category": "wordpress",
-            "featured": false,
-            "image": "",
-            "title": {
-                "fa": "Arnik Web",
-                "en": "Arnik Web"
-            },
-            "desc": {
-                "fa": "",
-                "en": ""
-            },
-            "tech": [
-                "WordPress",
-                "Elementor",
-                "Woodmart"
-            ]
-        }
-    ]
+    "nav.services": {
+      "fa": "خدمات",
+      "en": "Services"
+    },
+    "nav.works": {
+      "fa": "نمونه‌کارها",
+      "en": "Works"
+    },
+    "nav.about": {
+      "fa": "درباره من",
+      "en": "About"
+    },
+    "nav.contact": {
+      "fa": "تماس",
+      "en": "Contact"
+    },
+    "hero.tagline": {
+      "fa": "از ایده تا پیاده‌سازی",
+      "en": "From Idea to Implementation"
+    },
+    "hero.title_1": {
+      "fa": "سهیل جلال‌احمدی،",
+      "en": "Soheil JalalAhmadi is a"
+    },
+    "hero.title_2": {
+      "fa": "توسعه‌دهنده و طراح وب",
+      "en": "web developer & designer"
+    },
+    "hero.subtitle": {
+      "fa": "ساخت وب‌سایت‌هایی که هم ظاهر درستی دارند و هم درست کار می‌کنند",
+      "en": "Building websites that look right and run right"
+    },
+    "hero.cta": {
+      "fa": "با من تماس بگیرید",
+      "en": "Contact me"
+    },
+    "hero.status": {
+      "fa": "آماده پذیرش پروژه جدید",
+      "en": "Open for new projects"
+    },
+    "works.tab_code": {
+      "fa": "برنامه‌نویسی",
+      "en": "Development"
+    },
+    "works.tab_wp": {
+      "fa": "وردپرس",
+      "en": "WordPress"
+    },
+    "works.more": {
+      "fa": "نمایش بیشتر",
+      "en": "Show more"
+    },
+    "works.less": {
+      "fa": "نمایش کمتر",
+      "en": "Show less"
+    },
+    "works.visit": {
+      "fa": "مشاهده سایت",
+      "en": "Visit site"
+    },
+    "works.close": {
+      "fa": "بستن",
+      "en": "Close"
+    },
+    "about.text": {
+      "fa": "من سهیل جلال‌احمدی، توسعه‌دهنده و طراح وب فریلنسر ساکن مشهد هستم. در بک‌اند با Django و Python و در فرانت‌اند با HTML، Tailwind CSS و JavaScript کار می‌کنم. پروژه‌ها را از مرحله توسعه تا استقرار روی زیرساخت ابری همراهی می‌کنم. دارای گواهی‌نامه مهارتی طراحی وب و گواهی CS50x هستم. خارج از دنیای کدنویسی به سینما، عکاسی و رسانه‌های دیجیتال علاقه دارم.",
+      "en": "I'm Soheil JalalAhmadi, a freelance web developer and designer based in Mashhad, Iran. I work with Django and Python on the backend, and HTML, Tailwind CSS, and JavaScript on the frontend. I take projects from development through deployment on cloud infrastructure. I hold a vocational certificate in web design and the CS50x certificate. Outside of coding, I'm interested in cinema, photography, and digital media."
+    },
+    "skills.title": {
+      "fa": "مهارت‌ها",
+      "en": "skills"
+    }
+  },
+  "services": [
+    {
+      "id": 1,
+      "title": {
+        "fa": "توسعه بک‌اند با Django و Laravel",
+        "en": "Backend Development with Django & Laravel"
+      },
+      "desc": {
+        "fa": "منطق سمت سرور، طراحی پایگاه داده و پنل مدیریت متناسب با نیاز و مقیاس پروژه.",
+        "en": "Server-side logic, database architecture, and admin panels tailored to your project."
+      }
+    },
+    {
+      "id": 2,
+      "title": {
+        "fa": "طراحی فروشگاه اینترنتی",
+        "en": "E-Commerce Website Design"
+      },
+      "desc": {
+        "fa": "فروشگاه اختصاصی با پنل مدیریت، مدیریت محصولات و سفارش‌ها و اتصال درگاه پرداخت.",
+        "en": "Custom online store with admin panel, product and order management, and payment gateway."
+      }
+    },
+    {
+      "id": 3,
+      "title": {
+        "fa": "طراحی وب‌سایت شرکتی",
+        "en": "Corporate Website Design"
+      },
+      "desc": {
+        "fa": "وب‌سایت حرفه‌ای برای شرکت‌ها و برندها، هماهنگ با هویت کسب‌وکار.",
+        "en": "Professional websites for companies and brands, matching your business identity."
+      }
+    },
+    {
+      "id": 4,
+      "title": {
+        "fa": "طراحی مارکت‌پلیس چندفروشندگی",
+        "en": "Multi-Vendor Marketplace"
+      },
+      "desc": {
+        "fa": "پلتفرمی که فروشندگان در آن ثبت‌نام می‌کنند، محصولاتشان را مدیریت می‌کنند و مدیر آن‌ها را تأیید می‌کند.",
+        "en": "A platform where sellers register and manage their products, with admin approval."
+      }
+    },
+    {
+      "id": 5,
+      "title": {
+        "fa": "طراحی وب‌سایت شخصی و رزومه",
+        "en": "Portfolio & Resume Website"
+      },
+      "desc": {
+        "fa": "وب‌سایت شخصی چندزبانه برای نمایش رزومه، نمونه‌کارها و مهارت‌ها.",
+        "en": "Multilingual personal websites to showcase your resume, work, and skills."
+      }
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "category": "code",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "رزومه رضا حسینی",
+        "en": "Reza Hoseini's Resume"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "Django",
+        "Python",
+        "Tailwind"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "code",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "پیکسوریا",
+        "en": "Pixoria"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "Django",
+        "Python",
+        "Tailwind",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "code",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "رزومه مرجان حسین‌زاده",
+        "en": "Marjan Hosseinzadeh Resume"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "HTML",
+        "CSS",
+        "PHP",
+        "Alpine.js"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "code",
+      "featured": false,
+      "image": "",
+      "title": {
+        "fa": "درخت توت",
+        "en": "Derakht-e Toot"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "Tailwind",
+        "PHP",
+        "Laravel",
+        "Three.js"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "code",
+      "featured": false,
+      "image": "",
+      "title": {
+        "fa": "هلدینگ فضل‌دارو",
+        "en": "Phazldaru Holding"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "Django",
+        "Python",
+        "Tailwind",
+        "Three.js"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "wordpress",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "Cocodood",
+        "en": "Cocodood"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    },
+    {
+      "id": 7,
+      "category": "wordpress",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "Yousefi Rice",
+        "en": "Yousefi Rice"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "wordpress",
+      "featured": true,
+      "image": "",
+      "title": {
+        "fa": "Valiasr Charity",
+        "en": "Valiasr Charity"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "wordpress",
+      "featured": false,
+      "image": "",
+      "title": {
+        "fa": "Pershia Chic",
+        "en": "Pershia Chic"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "wordpress",
+      "featured": false,
+      "image": "",
+      "title": {
+        "fa": "Persia Ozone",
+        "en": "Persia Ozone"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    },
+    {
+      "id": 11,
+      "category": "wordpress",
+      "featured": false,
+      "image": "",
+      "title": {
+        "fa": "Arnik Web",
+        "en": "Arnik Web"
+      },
+      "desc": {
+        "fa": "",
+        "en": ""
+      },
+      "tech": [
+        "WordPress",
+        "Elementor",
+        "Woodmart"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "title": {
+        "fa": "زبان‌ها",
+        "en": "Languages"
+      },
+      "items": [
+        "Python",
+        "PHP",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "id": 2,
+      "title": {
+        "fa": "بک‌اند و CMS",
+        "en": "Backend & CMS"
+      },
+      "items": [
+        "Django",
+        "Laravel",
+        "WordPress"
+      ]
+    },
+    {
+      "id": 3,
+      "title": {
+        "fa": "فرانت‌اند",
+        "en": "Frontend"
+      },
+      "items": [
+        "Tailwind CSS",
+        "Alpine.js",
+        "HTMX",
+        "Three.js",
+        "GSAP"
+      ]
+    },
+    {
+      "id": 4,
+      "title": {
+        "fa": "ابزار وردپرس",
+        "en": "WordPress Tools"
+      },
+      "items": [
+        "Elementor",
+        "Woodmart"
+      ]
+    }
+  ]
 }
