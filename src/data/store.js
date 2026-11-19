@@ -25,7 +25,11 @@ export function applyTexts() {
 }
 
 export function saveContent() {
-    localStorage.setItem('content', JSON.stringify(content))
+    try {
+        localStorage.setItem('content', JSON.stringify(content))
+    } catch {
+        alert('حافظه‌ی مرورگر پر شد. از تصاویر کوچک‌تر استفاده کن.')
+    }
     applyTexts()
 }
 
