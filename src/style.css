@@ -20,3 +20,11 @@ html {
 section {
   scroll-margin-top: 5rem;
 }
+
+.dots {
+  background-image: radial-gradient(
+    var(--color-muted) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 14px 14px;
+}

@@ -23,6 +23,26 @@
         "hero.tagline": {
             "fa": "از ایده تا پیاده‌سازی",
             "en": "From Idea to Implementation"
+        },
+        "hero.title_1": {
+            "fa": "سهیل جلال‌احمدی،",
+            "en": "Soheil JalalAhmadi is a"
+        },
+        "hero.title_2": {
+            "fa": "توسعه‌دهنده و طراح وب",
+            "en": "web developer & designer"
+        },
+        "hero.subtitle": {
+            "fa": "ساخت وب‌سایت‌هایی که هم ظاهر درستی دارند و هم درست کار می‌کنند",
+            "en": "Building websites that look right and run right"
+        },
+        "hero.cta": {
+            "fa": "با من تماس بگیرید",
+            "en": "Contact me"
+        },
+        "hero.status": {
+            "fa": "آماده پذیرش پروژه جدید",
+            "en": "Open for new projects"
         }
     }
 }
