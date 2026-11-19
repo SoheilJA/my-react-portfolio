@@ -43,6 +43,22 @@
         "hero.status": {
             "fa": "آماده پذیرش پروژه جدید",
             "en": "Open for new projects"
+        },
+        "works.tab_code": {
+            "fa": "برنامه‌نویسی",
+            "en": "Development"
+        },
+        "works.tab_wp": {
+            "fa": "وردپرس",
+            "en": "WordPress"
+        },
+        "works.more": {
+            "fa": "نمایش بیشتر",
+            "en": "Show more"
+        },
+        "works.less": {
+            "fa": "نمایش کمتر",
+            "en": "Show less"
         }
     },
     "services": [
@@ -100,6 +116,221 @@
                 "fa": "وب‌سایت شخصی چندزبانه برای نمایش رزومه، نمونه‌کارها و مهارت‌ها.",
                 "en": "Multilingual personal websites to showcase your resume, work, and skills."
             }
+        }
+    ],
+    "projects": [
+        {
+            "id": 1,
+            "category": "code",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "رزومه رضا حسینی",
+                "en": "Reza Hoseini's Resume"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "Django",
+                "Python",
+                "Tailwind"
+            ]
+        },
+        {
+            "id": 2,
+            "category": "code",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "پیکسوریا",
+                "en": "Pixoria"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "Django",
+                "Python",
+                "Tailwind",
+                "JavaScript"
+            ]
+        },
+        {
+            "id": 3,
+            "category": "code",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "رزومه مرجان حسین‌زاده",
+                "en": "Marjan Hosseinzadeh Resume"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "HTML",
+                "CSS",
+                "PHP",
+                "Alpine.js"
+            ]
+        },
+        {
+            "id": 4,
+            "category": "code",
+            "featured": false,
+            "image": "",
+            "title": {
+                "fa": "درخت توت",
+                "en": "Derakht-e Toot"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "Tailwind",
+                "PHP",
+                "Laravel",
+                "Three.js"
+            ]
+        },
+        {
+            "id": 5,
+            "category": "code",
+            "featured": false,
+            "image": "",
+            "title": {
+                "fa": "هلدینگ فضل‌دارو",
+                "en": "Phazldaru Holding"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "Django",
+                "Python",
+                "Tailwind",
+                "Three.js"
+            ]
+        },
+        {
+            "id": 6,
+            "category": "wordpress",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "Cocodood",
+                "en": "Cocodood"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
+        },
+        {
+            "id": 7,
+            "category": "wordpress",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "Yousefi Rice",
+                "en": "Yousefi Rice"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
+        },
+        {
+            "id": 8,
+            "category": "wordpress",
+            "featured": true,
+            "image": "",
+            "title": {
+                "fa": "Valiasr Charity",
+                "en": "Valiasr Charity"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
+        },
+        {
+            "id": 9,
+            "category": "wordpress",
+            "featured": false,
+            "image": "",
+            "title": {
+                "fa": "Pershia Chic",
+                "en": "Pershia Chic"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
+        },
+        {
+            "id": 10,
+            "category": "wordpress",
+            "featured": false,
+            "image": "",
+            "title": {
+                "fa": "Persia Ozone",
+                "en": "Persia Ozone"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
+        },
+        {
+            "id": 11,
+            "category": "wordpress",
+            "featured": false,
+            "image": "",
+            "title": {
+                "fa": "Arnik Web",
+                "en": "Arnik Web"
+            },
+            "desc": {
+                "fa": "",
+                "en": ""
+            },
+            "tech": [
+                "WordPress",
+                "Elementor",
+                "Woodmart"
+            ]
         }
     ]
 }
