@@ -44,5 +44,62 @@
             "fa": "آماده پذیرش پروژه جدید",
             "en": "Open for new projects"
         }
-    }
+    },
+    "services": [
+        {
+            "id": 1,
+            "title": {
+                "fa": "توسعه بک‌اند با Django و Laravel",
+                "en": "Backend Development with Django & Laravel"
+            },
+            "desc": {
+                "fa": "منطق سمت سرور، طراحی پایگاه داده و پنل مدیریت متناسب با نیاز و مقیاس پروژه.",
+                "en": "Server-side logic, database architecture, and admin panels tailored to your project."
+            }
+        },
+        {
+            "id": 2,
+            "title": {
+                "fa": "طراحی فروشگاه اینترنتی",
+                "en": "E-Commerce Website Design"
+            },
+            "desc": {
+                "fa": "فروشگاه اختصاصی با پنل مدیریت، مدیریت محصولات و سفارش‌ها و اتصال درگاه پرداخت.",
+                "en": "Custom online store with admin panel, product and order management, and payment gateway."
+            }
+        },
+        {
+            "id": 3,
+            "title": {
+                "fa": "طراحی وب‌سایت شرکتی",
+                "en": "Corporate Website Design"
+            },
+            "desc": {
+                "fa": "وب‌سایت حرفه‌ای برای شرکت‌ها و برندها، هماهنگ با هویت کسب‌وکار.",
+                "en": "Professional websites for companies and brands, matching your business identity."
+            }
+        },
+        {
+            "id": 4,
+            "title": {
+                "fa": "طراحی مارکت‌پلیس چندفروشندگی",
+                "en": "Multi-Vendor Marketplace"
+            },
+            "desc": {
+                "fa": "پلتفرمی که فروشندگان در آن ثبت‌نام می‌کنند، محصولاتشان را مدیریت می‌کنند و مدیر آن‌ها را تأیید می‌کند.",
+                "en": "A platform where sellers register and manage their products, with admin approval."
+            }
+        },
+        {
+            "id": 5,
+            "title": {
+                "fa": "طراحی وب‌سایت شخصی و رزومه",
+                "en": "Portfolio & Resume Website"
+            },
+            "desc": {
+                "fa": "وب‌سایت شخصی چندزبانه برای نمایش رزومه، نمونه‌کارها و مهارت‌ها.",
+                "en": "Multilingual personal websites to showcase your resume, work, and skills."
+            }
+        }
+    ]
 }
