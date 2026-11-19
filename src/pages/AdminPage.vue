@@ -7,6 +7,8 @@ import {
   resetContent,
 } from '../data/store'
 import TextsEditor from '../components/admin/TextsEditor.vue'
+import ServicesEditor from '../components/admin/ServicesEditor.vue'
+import CertificatesEditor from '../components/admin/CertificatesEditor.vue'
 
 const PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
 const authed = ref(sessionStorage.getItem('admin') === '1')
@@ -15,7 +17,11 @@ const error = ref(false)
 const tab = ref('texts')
 const saved = ref(false)
 
-const tabs = [{id: 'texts', label: 'متن‌ها', comp: TextsEditor}]
+const tabs = [
+  {id: 'texts', label: 'متن‌ها', comp: TextsEditor},
+  {id: 'services', label: 'خدمات', comp: ServicesEditor},
+  {id: 'certs', label: 'گواهی‌نامه‌ها', comp: CertificatesEditor},
+]
 
 function login() {
   if (input.value === PASSWORD) {
