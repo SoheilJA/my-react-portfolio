@@ -1,10 +1,11 @@
 <script setup>
-import { useI18n } from "vue-i18n";
-import { setLang } from "./i18n";
+import { ref } from 'vue'
+import Preloader from './components/Preloader.vue'
 
-const { locale } = useI18n();
+const loading = ref(true)
 </script>
 
 <template>
+  <Preloader v-if="loading && $route.path === '/'" @done="loading = false" />
   <RouterView />
 </template>
