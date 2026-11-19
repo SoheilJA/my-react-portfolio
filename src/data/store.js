@@ -1,10 +1,16 @@
-import { reactive } from 'vue'
+import {reactive} from 'vue'
 import defaults from './content.json'
-import { i18n } from '../i18n'
+import {i18n} from '../i18n'
 
-const saved = localStorage.getItem('content')
+const saved = JSON.parse(localStorage.getItem('content') || 'null')
 export const content = reactive(
-    saved ? JSON.parse(saved) : structuredClone(defaults)
+    saved
+        ? {
+            ...structuredClone(defaults),
+            ...saved,
+            texts: {...defaults.texts, ...saved.texts},
+        }
+        : structuredClone(defaults)
 )
 
 export function applyTexts() {
@@ -20,5 +26,29 @@ export function applyTexts() {
 
 export function saveContent() {
     localStorage.setItem('content', JSON.stringify(content))
+    applyTexts()
+}
+
+export function exportContent() {
+    const blob = new Blob([JSON.stringify(content, null, 2)], {
+        type: 'application/json',
+    })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = 'content.json'
+    a.click()
+    URL.revokeObjectURL(a.href)
+}
+
+export function importContent(obj) {
+    Object.keys(content).forEach((k) => delete content[k])
+    Object.assign(content, obj)
+    saveContent()
+}
+
+export function resetContent() {
+    localStorage.removeItem('content')
+    Object.keys(content).forEach((k) => delete content[k])
+    Object.assign(content, structuredClone(defaults))
     applyTexts()
 }
