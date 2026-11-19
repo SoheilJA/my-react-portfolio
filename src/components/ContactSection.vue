@@ -4,12 +4,12 @@ import {content} from '../data/store'
 
 <template>
   <section id="contact" class="py-16">
-    <h2 class="text-3xl font-bold text-white">
+    <h2 v-reveal class="text-3xl font-bold text-white">
       <span class="text-accent">#</span>{{ $t('nav.contact') }}
     </h2>
 
     <div class="mt-8 grid gap-12 md:grid-cols-2">
-      <div>
+      <div v-reveal >
         <p class="leading-8">{{ $t('contact.text') }}</p>
         <p class="mt-4 text-white">
           <span class="me-2 inline-block h-3 w-3 bg-accent"></span>
@@ -17,7 +17,7 @@ import {content} from '../data/store'
         </p>
       </div>
 
-      <div class="space-y-6">
+      <div v-reveal class="space-y-6">
         <div class="border border-muted/40 p-6">
           <ul class="space-y-3">
             <li>

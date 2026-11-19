@@ -7,12 +7,12 @@ const {locale} = useI18n()
 
 <template>
   <section id="about" class="py-16">
-    <h2 class="text-3xl font-bold text-white">
+    <h2 v-reveal class="text-3xl font-bold text-white">
       <span class="text-accent">#</span>{{ $t('nav.about') }}
     </h2>
 
     <div class="mt-8 grid items-center gap-12 md:grid-cols-2">
-      <p class="leading-8">{{ $t('about.text') }}</p>
+      <p v-reveal class="leading-8">{{ $t('about.text') }}</p>
 
       <div class="relative mx-auto hidden h-64 w-64 md:block">
         <div class="absolute left-0 top-0 h-40 w-40 border border-accent"></div>
@@ -21,12 +21,13 @@ const {locale} = useI18n()
       </div>
     </div>
 
-    <h3 class="mt-16 text-2xl font-bold text-white">
+    <h3 v-reveal class="mt-16 text-2xl font-bold text-white">
       <span class="text-accent">#</span>{{ $t('skills.title') }}
     </h3>
 
     <div class="mt-8 flex flex-wrap gap-4">
       <div
+          v-reveal
           v-for="g in content.skills"
           :key="g.id"
           class="min-w-44 border border-muted/40"

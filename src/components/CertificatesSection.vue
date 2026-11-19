@@ -7,12 +7,13 @@ const {locale} = useI18n()
 
 <template>
   <section id="certificates" class="py-16">
-    <h2 class="text-3xl font-bold text-white">
+    <h2 v-reveal class="text-3xl font-bold text-white">
       <span class="text-accent">#</span>{{ $t('nav.certificates') }}
     </h2>
 
     <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       <article
+          v-reveal
           v-for="c in content.certificates"
           :key="c.id"
           class="border border-muted/40 p-6 transition hover:border-accent"
