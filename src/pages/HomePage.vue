@@ -5,23 +5,20 @@ import ServicesSection from "../components/ServicesSection.vue";
 import ProjectsSection from "../components/ProjectsSection.vue";
 import AboutSection from "../components/AboutSection.vue";
 import CertificatesSection from "../components/CertificatesSection.vue";
+import ContactSection from "../components/ContactSection.vue";
+import SiteFooter from "../components/SiteFooter.vue";
 
-const sections = [ "contact"];
 </script>
 
 <template>
-  <SiteHeader />
+  <SiteHeader/>
   <main class="mx-auto max-w-6xl px-6 pt-24">
-    <HeroSection />
-    <ServicesSection />
-    <ProjectsSection />
-    <AboutSection />
+    <HeroSection/>
+    <ServicesSection/>
+    <ProjectsSection/>
+    <AboutSection/>
     <CertificatesSection/>
-
-    <section v-for="s in sections" :id="s" :key="s" class="min-h-screen py-16">
-      <h2 class="text-3xl font-bold text-white">
-        <span class="text-accent">#</span>{{ $t("nav." + s) }}
-      </h2>
-    </section>
+    <ContactSection/>
   </main>
+  <SiteFooter/>
 </template>

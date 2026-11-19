@@ -83,6 +83,30 @@
     "certs.verify": {
       "fa": "مشاهده گواهی",
       "en": "View certificate"
+    },
+    "contact.text": {
+      "fa": "اگه برای ساخت وب‌سایت یا سامانه‌ای نیاز به همکاری دارید، پیامتون رو برام بفرستید.",
+      "en": "If you need a website or web system built, send me a message."
+    },
+    "contact.email": {
+      "fa": "ایمیل",
+      "en": "Email"
+    },
+    "contact.phone": {
+      "fa": "تلفن",
+      "en": "Phone"
+    },
+    "contact.location": {
+      "fa": "مشهد، ایران",
+      "en": "Mashhad, Iran"
+    },
+    "contact.social": {
+      "fa": "شبکه‌های اجتماعی",
+      "en": "Social media"
+    },
+    "footer.rights": {
+      "fa": "© ۲۰۲۶ سهیل جلال‌احمدی",
+      "en": "© 2026 Soheil JalalAhmadi"
     }
   },
   "services": [
@@ -435,5 +459,31 @@
       },
       "link": "https://www.maktabkhooneh.org/"
     }
-  ]
+  ],
+  "contact": {
+    "email": "soheilahmadijalal.sj1378@gmail.com",
+    "phone": "+989011016263",
+    "socials": [
+      {
+        "id": 1,
+        "name": "GitHub",
+        "url": ""
+      },
+      {
+        "id": 2,
+        "name": "LinkedIn",
+        "url": ""
+      },
+      {
+        "id": 3,
+        "name": "Telegram",
+        "url": ""
+      },
+      {
+        "id": 4,
+        "name": "WhatsApp",
+        "url": ""
+      }
+    ]
+  }
 }
