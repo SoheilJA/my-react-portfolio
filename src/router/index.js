@@ -26,7 +26,7 @@ export const router = createRouter({
                     meta: { auth: true },
                     children: [
                         { path: '', component: () => import('../admin/DashboardPage.vue') },
-                        { path: 'texts', meta: { title: 'متن‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'texts', component: () => import('../admin/TextsPage.vue') },
                         { path: 'services', meta: { title: 'خدمات' }, component: () => import('../admin/PlaceholderPage.vue') },
                         { path: 'projects', meta: { title: 'نمونه‌کارها' }, component: () => import('../admin/PlaceholderPage.vue') },
                         { path: 'skills', meta: { title: 'مهارت‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
