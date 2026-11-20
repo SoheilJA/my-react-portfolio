@@ -1,9 +1,10 @@
 <script setup>
 import {ref, onMounted, onUnmounted} from 'vue'
 import gsap from 'gsap'
-import AbstractArt from './AbstractArt.vue'
-import { useI18n } from 'vue-i18n'
-const { locale } = useI18n()
+import HeroArt from './HeroArt.vue'
+import {useI18n} from 'vue-i18n'
+
+const {locale} = useI18n()
 
 const root = ref(null)
 let ctx
@@ -79,7 +80,7 @@ onUnmounted(() => ctx?.revert())
       <div
           class="hero-art pointer-events-none absolute -end-24 top-10 w-80 text-ink opacity-40 lg:pointer-events-auto lg:static lg:col-span-4 lg:w-auto lg:opacity-100"
       >
-        <AbstractArt/>
+        <HeroArt/>
       </div>
     </div>
 
