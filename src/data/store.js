@@ -1,13 +1,13 @@
-import { reactive } from 'vue'
+import {reactive} from 'vue'
 import defaults from './content.json'
-import { i18n } from '../i18n'
+import {i18n} from '../i18n'
 
 export const content = reactive(structuredClone(defaults))
 
 function merge(saved) {
     Object.keys(content).forEach((k) => delete content[k])
     Object.assign(content, structuredClone(defaults), saved || {}, {
-        texts: { ...defaults.texts, ...(saved?.texts || {}) },
+        texts: {...defaults.texts, ...(saved?.texts || {})},
     })
 }
 
@@ -24,7 +24,9 @@ export function applyTexts() {
 
 export async function loadContent() {
     try {
-        const res = await fetch('/api/content')
+        const res = await fetch('/api/content', {
+            signal: AbortSignal.timeout(4000),
+        })
         const saved = res.ok ? await res.json() : null
         if (saved) merge(saved)
     } catch {
@@ -34,13 +36,13 @@ export async function loadContent() {
 }
 
 function authHeaders() {
-    return { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+    return {Authorization: `Bearer ${sessionStorage.getItem('token')}`}
 }
 
 export async function saveContent() {
     const res = await fetch('/api/content', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        headers: {'Content-Type': 'application/json', ...authHeaders()},
         body: JSON.stringify(content),
     })
     if (!res.ok) throw new Error('save failed')
@@ -52,8 +54,8 @@ export async function uploadImage(dataUrl) {
     const mime = head.match(/:(.*?);/)[1]
     const res = await fetch('/api/upload', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeaders() },
-        body: JSON.stringify({ data, mime }),
+        headers: {'Content-Type': 'application/json', ...authHeaders()},
+        body: JSON.stringify({data, mime}),
     })
     if (!res.ok) throw new Error('upload failed')
     return (await res.json()).url

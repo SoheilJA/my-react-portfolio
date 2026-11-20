@@ -10,7 +10,7 @@ import {reveal} from "./directives/reveal";
 import { float } from './directives/float'
 
 applyTexts()
-loadContent()
+await loadContent()
 setLang(i18n.global.locale.value)
 createApp(App)
     .use(i18n)
