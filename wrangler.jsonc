@@ -1,8 +1,18 @@
 {
-  "name": "soheil-portfolio",
-  "compatibility_date": "2026-11-19",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "single-page-application"
-  }
+	"name": "soheil-portfolio",
+	"main": "worker/index.js",
+	"compatibility_date": "2026-11-19",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+		"run_worker_first": ["/api/*", "/img/*"]
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "portfolio-db",
+			"database_id": "26157186-15b6-499e-a2a3-2822cf517382"
+		}
+	]
 }
