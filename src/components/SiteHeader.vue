@@ -1,7 +1,6 @@
 <script setup>
 import {ref} from "vue";
 import {useI18n} from "vue-i18n";
-import {setLang} from "../i18n";
 
 const {locale} = useI18n();
 const open = ref(false);
@@ -19,12 +18,9 @@ const links = ["home", "services", "works", "about", 'certificates', "contact"];
         <a v-for="l in links" :key="l" :href="'#' + l" class="hover:text-white">
           <span class="text-accent">#</span>{{ $t("nav." + l) }}
         </a>
-        <button
-            class="hover:text-white"
-            @click="setLang(locale === 'fa' ? 'en' : 'fa')"
-        >
-          {{ locale === "fa" ? "EN" : "FA" }}
-        </button>
+        <RouterLink :to="locale === 'fa' ? '/en' : '/fa'" class="w-fit hover:text-white">
+          {{ locale === 'fa' ? 'EN' : 'FA' }}
+        </RouterLink>
       </nav>
 
       <button class="text-2xl text-white md:hidden" @click="open = !open">
@@ -42,12 +38,9 @@ const links = ["home", "services", "works", "about", 'certificates', "contact"];
       >
         <span class="text-accent">#</span>{{ $t("nav." + l) }}
       </a>
-      <button
-          class="w-fit hover:text-white"
-          @click="setLang(locale === 'fa' ? 'en' : 'fa')"
-      >
-        {{ locale === "fa" ? "EN" : "FA" }}
-      </button>
+      <RouterLink :to="locale === 'fa' ? '/en' : '/fa'" class="w-fit hover:text-white">
+        {{ locale === 'fa' ? 'EN' : 'FA' }}
+      </RouterLink>
     </nav>
   </header>
 </template>

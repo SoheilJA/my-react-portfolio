@@ -9,9 +9,9 @@ const loading = ref(true)
 
 <template>
   <Preloader
-      v-if="loading && $route.path === '/'"
+      v-if="loading && $route.path !== '/admin'"
       @leaving="ready = true"
       @done="loading = false"
   />
-  <RouterView v-if="ready || $route.path !== '/'"/>
+  <RouterView v-if="ready || $route.path === '/admin'" />
 </template>
