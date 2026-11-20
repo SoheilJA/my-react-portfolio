@@ -131,7 +131,10 @@
     "works.view": {
       "fa": "مشاهده پروژه",
       "en": "View project"
-    }
+    },
+    "about.label_base": { "fa": "مستقر در", "en": "Based in" },
+    "about.label_focus": { "fa": "تمرکز", "en": "Focus" },
+    "about.label_status": { "fa": "وضعیت", "en": "Status" }
   },
   "services": [
     {
