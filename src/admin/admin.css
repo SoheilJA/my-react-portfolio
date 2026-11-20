@@ -1,6 +1,10 @@
+html.admin-mode {
+  color-scheme: dark;
+}
+
 html.admin-mode body {
-  background: var(--p-surface-50);
-  color: var(--p-surface-800);
+  background: var(--p-surface-950);
+  color: var(--p-surface-0);
   font-family: "Vazirmatn Variable", system-ui, sans-serif;
 }
 

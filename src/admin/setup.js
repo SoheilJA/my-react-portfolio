@@ -10,7 +10,7 @@ export function setupPrimeVue(app) {
     theme: {
       preset: Aura,
       options: {
-        darkModeSelector: '.app-dark',
+                darkModeSelector: '.admin-mode',
         cssLayer: { name: 'primevue', order: 'theme, base, primevue' },
       },
     },
