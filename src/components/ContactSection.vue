@@ -47,12 +47,14 @@ async function copy() {
 
     <div v-reveal class="mt-8 flex flex-wrap gap-4">
       <a
+          v-magnetic
           :href="'mailto:' + content.contact.email"
           class="bg-accent px-6 py-3 font-bold text-bg transition hover:bg-ink"
       >
         {{ $t('hero.cta') }}
       </a>
       <button
+          v-magnetic
           class="border border-line px-6 py-3 text-ink transition hover:border-accent"
           @click="copy"
       >

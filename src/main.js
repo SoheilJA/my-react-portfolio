@@ -10,6 +10,7 @@ import {applyTexts, loadContent} from './data/store'
 import {router} from './router'
 import {reveal} from "./directives/reveal";
 import {float} from './directives/float'
+import { magnetic } from './directives/magnetic'
 import { initScroll } from './lib/scroll'
 
 applyTexts()
@@ -21,4 +22,5 @@ createApp(App)
     .use(router)
     .directive('reveal', reveal)
     .directive('float', float)
+    .directive('magnetic', magnetic)
     .mount('#app')

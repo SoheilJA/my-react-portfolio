@@ -113,6 +113,7 @@ const isHero = (i) => tab.value === 'code' && i === 0
 
     <div v-if="hasMore" class="mt-14 flex justify-center">
       <button
+          v-magnetic
           class="flex items-center gap-3 border border-line px-8 py-4 text-ink transition hover:border-accent hover:bg-accent hover:text-bg"
           @click="showAll = !showAll"
       >

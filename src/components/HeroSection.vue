@@ -57,13 +57,14 @@ onUnmounted(() => ctx?.revert())
         </p>
 
         <div class="hero-fade mt-10 flex flex-wrap items-center gap-4">
-          <a
+          <a v-magnetic
               href="#contact"
               class="bg-accent px-6 py-3 font-bold text-bg transition hover:bg-ink"
           >
             {{ $t('hero.cta') }}
           </a>
           <a
+              v-magnetic
               href="#works"
               class="border border-line px-6 py-3 text-ink transition hover:border-accent"
           >

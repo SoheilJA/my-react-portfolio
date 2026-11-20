@@ -9,10 +9,12 @@ import AboutSection from "../components/AboutSection.vue";
 import CertificatesSection from "../components/CertificatesSection.vue";
 import ContactSection from "../components/ContactSection.vue";
 import SiteFooter from "../components/SiteFooter.vue";
+import CustomCursor from '../components/CustomCursor.vue'
 
 </script>
 
 <template>
+  <CustomCursor />
   <ScrollProgress/>
   <SiteHeader/>
   <main class="mx-auto max-w-6xl px-6 pt-24">
