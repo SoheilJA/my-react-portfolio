@@ -1,17 +1,15 @@
-import {reactive} from 'vue'
+import { reactive } from 'vue'
 import defaults from './content.json'
-import {i18n} from '../i18n'
+import { i18n } from '../i18n'
 
-const saved = JSON.parse(localStorage.getItem('content') || 'null')
-export const content = reactive(
-    saved
-        ? {
-            ...structuredClone(defaults),
-            ...saved,
-            texts: {...defaults.texts, ...saved.texts},
-        }
-        : structuredClone(defaults)
-)
+export const content = reactive(structuredClone(defaults))
+
+function merge(saved) {
+    Object.keys(content).forEach((k) => delete content[k])
+    Object.assign(content, structuredClone(defaults), saved || {}, {
+        texts: { ...defaults.texts, ...(saved?.texts || {}) },
+    })
+}
 
 export function applyTexts() {
     const fa = {}
@@ -24,13 +22,41 @@ export function applyTexts() {
     i18n.global.setLocaleMessage('en', en)
 }
 
-export function saveContent() {
+export async function loadContent() {
     try {
-        localStorage.setItem('content', JSON.stringify(content))
+        const res = await fetch('/api/content')
+        const saved = res.ok ? await res.json() : null
+        if (saved) merge(saved)
     } catch {
-        alert('حافظه‌ی مرورگر پر شد. از تصاویر کوچک‌تر استفاده کن.')
+        // اگه API در دسترس نبود، همون داده‌ی پیش‌فرض می‌مونه
     }
     applyTexts()
+}
+
+function authHeaders() {
+    return { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
+}
+
+export async function saveContent() {
+    const res = await fetch('/api/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify(content),
+    })
+    if (!res.ok) throw new Error('save failed')
+    applyTexts()
+}
+
+export async function uploadImage(dataUrl) {
+    const [head, data] = dataUrl.split(',')
+    const mime = head.match(/:(.*?);/)[1]
+    const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ data, mime }),
+    })
+    if (!res.ok) throw new Error('upload failed')
+    return (await res.json()).url
 }
 
 export function exportContent() {
@@ -44,15 +70,12 @@ export function exportContent() {
     URL.revokeObjectURL(a.href)
 }
 
-export function importContent(obj) {
-    Object.keys(content).forEach((k) => delete content[k])
-    Object.assign(content, obj)
-    saveContent()
+export async function importContent(obj) {
+    merge(obj)
+    await saveContent()
 }
 
-export function resetContent() {
-    localStorage.removeItem('content')
-    Object.keys(content).forEach((k) => delete content[k])
-    Object.assign(content, structuredClone(defaults))
-    applyTexts()
+export async function resetContent() {
+    merge(null)
+    await saveContent()
 }

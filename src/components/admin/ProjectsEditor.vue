@@ -1,6 +1,6 @@
 <script setup>
 import {ref, computed} from 'vue'
-import {content} from '../../data/store'
+import {content, uploadImage} from '../../data/store'
 
 const cat = ref('all')
 
@@ -35,13 +35,17 @@ function onImage(e, p) {
   const file = e.target.files[0]
   if (!file) return
   const img = new Image()
-  img.onload = () => {
+  img.onload = async () => {
     const scale = Math.min(1, 900 / img.width)
     const canvas = document.createElement('canvas')
     canvas.width = img.width * scale
     canvas.height = img.height * scale
     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
-    p.image = canvas.toDataURL('image/webp', 0.8)
+    try {
+      p.image = await uploadImage(canvas.toDataURL('image/webp', 0.8))
+    } catch {
+      alert('آپلود تصویر ناموفق بود.')
+    }
     URL.revokeObjectURL(img.src)
   }
   img.src = URL.createObjectURL(file)

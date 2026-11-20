@@ -13,8 +13,7 @@ import ProjectsEditor from '../components/admin/ProjectsEditor.vue'
 import SkillsEditor from '../components/admin/SkillsEditor.vue'
 import ContactEditor from '../components/admin/ContactEditor.vue'
 
-const PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD
-const authed = ref(sessionStorage.getItem('admin') === '1')
+const authed = ref(Boolean(sessionStorage.getItem('token')))
 const input = ref('')
 const error = ref(false)
 const tab = ref('texts')
@@ -35,19 +34,28 @@ const tabs = [
   {id: 'contact', label: 'تماس', comp: ContactEditor},
 ]
 
-function login() {
-  if (input.value === PASSWORD) {
-    sessionStorage.setItem('admin', '1')
+async function login() {
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {Authorization: `Bearer ${input.value}`},
+  })
+  if (res.ok) {
+    sessionStorage.setItem('token', input.value)
     authed.value = true
+    error.value = false
   } else {
     error.value = true
   }
 }
 
-function save() {
-  saveContent()
-  saved.value = true
-  setTimeout(() => (saved.value = false), 1500)
+async function save() {
+  try {
+    await saveContent()
+    saved.value = true
+    setTimeout(() => (saved.value = false), 1500)
+  } catch {
+    alert('ذخیره نشد. دوباره وارد شو.')
+  }
 }
 
 function onImport(e) {
