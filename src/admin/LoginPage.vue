@@ -1,32 +1,40 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import Card from 'primevue/card'
-import FloatLabel from 'primevue/floatlabel'
-import Password from 'primevue/password'
-import Button from 'primevue/button'
-import Message from 'primevue/message'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import Card from "primevue/card";
+import FloatLabel from "primevue/floatlabel";
+import Password from "primevue/password";
+import Button from "primevue/button";
+import Message from "primevue/message";
 
-const router = useRouter()
-const password = ref('')
-const loading = ref(false)
-const error = ref(false)
+const router = useRouter();
+const password = ref("");
+const loading = ref(false);
+const error = ref(false);
 
 async function login() {
-  loading.value = true
-  error.value = false
+  loading.value = true;
+  error.value = false;
   try {
-    const res = await fetch('/api/login', {
-      method: 'POST',
+    if (
+      import.meta.env.DEV &&
+      password.value === import.meta.env.VITE_ADMIN_PASSWORD
+    ) {
+      sessionStorage.setItem("token", password.value);
+      router.push("/panel");
+      return;
+    }
+    const res = await fetch("/api/login", {
+      method: "POST",
       headers: { Authorization: `Bearer ${password.value}` },
-    })
-    if (!res.ok) throw new Error('unauthorized')
-    sessionStorage.setItem('token', password.value)
-    router.push('/panel')
+    });
+    if (!res.ok) throw new Error("unauthorized");
+    sessionStorage.setItem("token", password.value);
+    router.push("/panel");
   } catch {
-    error.value = true
+    error.value = true;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>

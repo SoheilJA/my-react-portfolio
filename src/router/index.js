@@ -22,8 +22,17 @@ export const router = createRouter({
                 { path: 'login', component: () => import('../admin/LoginPage.vue') },
                 {
                     path: '',
-                    component: () => import('../admin/DashboardPage.vue'),
+                    component: () => import('../admin/AdminLayout.vue'),
                     meta: { auth: true },
+                    children: [
+                        { path: '', component: () => import('../admin/DashboardPage.vue') },
+                        { path: 'texts', meta: { title: 'متن‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'services', meta: { title: 'خدمات' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'projects', meta: { title: 'نمونه‌کارها' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'skills', meta: { title: 'مهارت‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'certificates', meta: { title: 'گواهی‌نامه‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'contact', meta: { title: 'تماس' }, component: () => import('../admin/PlaceholderPage.vue') },
+                    ],
                 },
             ],
         }, { path: '/:pathMatch(.*)*', redirect: '/fa' },
