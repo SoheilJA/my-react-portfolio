@@ -1,20 +1,21 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
-import { useI18n } from 'vue-i18n'
+import {onMounted, onUnmounted} from 'vue'
+import {useI18n} from 'vue-i18n'
 import gsap from 'gsap'
 
-defineProps({ project: Object })
+defineProps({project: Object})
 const emit = defineEmits(['close'])
-const { locale } = useI18n()
+const {locale} = useI18n()
 
 function onEsc(e) {
   if (e.key === 'Escape') emit('close')
 }
+
 onMounted(() => window.addEventListener('keydown', onEsc))
 onUnmounted(() => window.removeEventListener('keydown', onEsc))
 
 function enter(el, done) {
-  gsap.from(el, { opacity: 0, duration: 0.3 })
+  gsap.from(el, {opacity: 0, duration: 0.3})
   gsap.from(el.querySelector('.panel'), {
     y: 60,
     scale: 0.95,
@@ -26,7 +27,7 @@ function enter(el, done) {
 }
 
 function leave(el, done) {
-  gsap.to(el, { opacity: 0, duration: 0.25, onComplete: done })
+  gsap.to(el, {opacity: 0, duration: 0.25, onComplete: done})
 }
 </script>
 
@@ -34,15 +35,15 @@ function leave(el, done) {
   <Teleport to="body">
     <Transition :css="false" @enter="enter" @leave="leave">
       <div
-        v-if="project"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-        @click.self="emit('close')"
+          v-if="project"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          @click.self="emit('close')"
       >
-        <div class="panel max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-accent bg-bg">
-          <img v-if="project.image" :src="project.image" class="w-full object-cover" />
+        <div data-lenis-prevent class="panel max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-accent bg-bg">
+          <img v-if="project.image" :src="project.image" class="w-full object-cover"/>
           <div
-            v-else
-            class="flex aspect-video items-center justify-center bg-muted/10 text-5xl text-accent"
+              v-else
+              class="flex aspect-video items-center justify-center bg-muted/10 text-5xl text-accent"
           >
             {{ project.title.en.slice(0, 2) }}
           </div>
@@ -55,9 +56,9 @@ function leave(el, done) {
 
             <div class="mt-4 flex flex-wrap gap-2">
               <span
-                v-for="t in project.tech"
-                :key="t"
-                class="border border-muted/40 px-2 py-1 text-sm"
+                  v-for="t in project.tech"
+                  :key="t"
+                  class="border border-muted/40 px-2 py-1 text-sm"
               >
                 {{ t }}
               </span>
@@ -65,16 +66,16 @@ function leave(el, done) {
 
             <div class="mt-6 flex gap-4">
               <a
-                v-if="project.link"
-                :href="project.link"
-                target="_blank"
-                class="border border-accent px-4 py-2 text-white transition hover:bg-accent/20"
+                  v-if="project.link"
+                  :href="project.link"
+                  target="_blank"
+                  class="border border-accent px-4 py-2 text-white transition hover:bg-accent/20"
               >
                 {{ $t('works.visit') }}
               </a>
               <button
-                class="border border-muted/40 px-4 py-2 transition hover:border-accent"
-                @click="emit('close')"
+                  class="border border-muted/40 px-4 py-2 transition hover:border-accent"
+                  @click="emit('close')"
               >
                 {{ $t('works.close') }}
               </button>

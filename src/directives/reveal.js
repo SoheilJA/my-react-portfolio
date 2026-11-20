@@ -5,6 +5,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 export const reveal = {
     mounted(el, binding) {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
         el._tween = gsap.from(el, {
             y: 40,
             opacity: 0,

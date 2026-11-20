@@ -10,9 +10,11 @@ import {applyTexts, loadContent} from './data/store'
 import {router} from './router'
 import {reveal} from "./directives/reveal";
 import {float} from './directives/float'
+import { initScroll } from './lib/scroll'
 
 applyTexts()
 await loadContent()
+initScroll()
 setLang(i18n.global.locale.value)
 createApp(App)
     .use(i18n)

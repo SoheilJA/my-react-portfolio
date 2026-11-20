@@ -2,6 +2,7 @@ import gsap from 'gsap'
 
 export const float = {
     mounted(el, binding) {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
         el._tween = gsap.to(el, {
             y: binding.value || 12,
             duration: 2 + Math.random(),
