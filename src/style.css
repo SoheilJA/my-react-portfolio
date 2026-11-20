@@ -101,3 +101,8 @@ body {
     -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
     mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
 }
+
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-ink);
+}

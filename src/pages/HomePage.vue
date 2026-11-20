@@ -2,6 +2,7 @@
 import SiteHeader from "../components/SiteHeader.vue";
 import ScrollProgress from '../components/ScrollProgress.vue'
 import HeroSection from "../components/HeroSection.vue";
+import MarqueeBand from '../components/MarqueeBand.vue'
 import ServicesSection from "../components/ServicesSection.vue";
 import ProjectsSection from "../components/ProjectsSection.vue";
 import AboutSection from "../components/AboutSection.vue";
@@ -16,6 +17,7 @@ import SiteFooter from "../components/SiteFooter.vue";
   <SiteHeader/>
   <main class="mx-auto max-w-6xl px-6 pt-24">
     <HeroSection/>
+    <MarqueeBand/>
     <ServicesSection/>
     <ProjectsSection/>
     <AboutSection/>

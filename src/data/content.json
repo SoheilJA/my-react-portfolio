@@ -123,6 +123,10 @@
     "hero.scroll": {
       "fa": "اسکرول",
       "en": "Scroll"
+    },
+    "marquee.words": {
+      "fa": "طراحی وب‌سایت|فروشگاه اینترنتی|وب‌سایت شرکتی|مارکت‌پلیس|رزومه آنلاین",
+      "en": "Web design|E-commerce|Corporate sites|Marketplaces|Online portfolios"
     }
   },
   "services": [
