@@ -2,6 +2,8 @@
 import {ref, onMounted, onUnmounted} from 'vue'
 import gsap from 'gsap'
 import AbstractArt from './AbstractArt.vue'
+import { useI18n } from 'vue-i18n'
+const { locale } = useI18n()
 
 const root = ref(null)
 let ctx
@@ -81,9 +83,9 @@ onUnmounted(() => ctx?.revert())
       </div>
     </div>
 
-    <div class="label absolute bottom-6 start-0 hidden gap-6 md:flex" dir="ltr">
-      <span>36.30° N / 59.60° E</span>
-      <span>Mashhad</span>
+    <div class="label absolute bottom-6 start-0 hidden gap-6 md:flex">
+      <span dir="ltr">36.30° N / 59.60° E</span>
+      <span>{{ locale === 'fa' ? 'مشهد' : 'Mashhad' }}</span>
     </div>
     <div class="label absolute bottom-6 end-0 hidden md:block">
       {{ $t('hero.scroll') }} ↓

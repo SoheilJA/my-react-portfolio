@@ -66,7 +66,7 @@ onUnmounted(() => {
               class="px-6 font-display font-bold"
               :class="
               size === 'lg'
-                ? ['text-[clamp(3rem,9vw,8rem)] leading-none', i % 2 ? 'text-outline' : 'text-ink']
+                ? ['text-[clamp(3rem,9vw,8rem)] leading-[1.2] pb-3', i % 2 ? 'text-outline' : 'text-ink']
                 : 'font-mono text-lg font-normal text-muted'
             "
           >
