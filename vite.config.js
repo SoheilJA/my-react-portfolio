@@ -11,4 +11,7 @@ export default defineConfig({
             '/img': {target, changeOrigin: true},
         },
     },
+    build: {
+        chunkSizeWarningLimit: 700,
+    },
 })
