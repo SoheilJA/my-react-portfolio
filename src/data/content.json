@@ -24,14 +24,6 @@
       "fa": "از ایده تا پیاده‌سازی",
       "en": "From Idea to Implementation"
     },
-    "hero.title_1": {
-      "fa": "سهیل جلال‌احمدی،",
-      "en": "Soheil JalalAhmadi is a"
-    },
-    "hero.title_2": {
-      "fa": "توسعه‌دهنده و طراح وب",
-      "en": "web developer & designer"
-    },
     "hero.subtitle": {
       "fa": "ساخت وب‌سایت‌هایی که هم ظاهر درستی دارند و هم درست کار می‌کنند",
       "en": "Building websites that look right and run right"
@@ -107,6 +99,30 @@
     "footer.rights": {
       "fa": "© ۲۰۲۶ سهیل جلال‌احمدی",
       "en": "© 2026 Soheil JalalAhmadi"
+    },
+    "hero.kicker": {
+      "fa": "سهیل جلال‌احمدی — توسعه‌دهنده و طراح وب",
+      "en": "Soheil Jalal Ahmadi — Web developer & designer"
+    },
+    "hero.line1": {
+      "fa": "وب‌سایتی که",
+      "en": "Websites"
+    },
+    "hero.line2": {
+      "fa": "برای کسب‌وکارت",
+      "en": "that work for"
+    },
+    "hero.line3": {
+      "fa": "کار می‌کند.",
+      "en": "your business."
+    },
+    "hero.cta2": {
+      "fa": "مشاهده نمونه‌کارها",
+      "en": "View projects"
+    },
+    "hero.scroll": {
+      "fa": "اسکرول",
+      "en": "Scroll"
     }
   },
   "services": [

@@ -92,3 +92,12 @@ section {
     letter-spacing: 0.12em;
     text-transform: uppercase;
 }
+
+body {
+    overflow-x: clip;
+}
+
+.fade-mask {
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 75%);
+}
