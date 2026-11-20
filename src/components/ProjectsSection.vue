@@ -3,6 +3,7 @@ import {ref, computed} from "vue";
 import {useI18n} from "vue-i18n";
 import {content} from "../data/store";
 import ProjectModal from './ProjectModal.vue'
+import SectionTitle from './SectionTitle.vue'
 
 const {locale} = useI18n();
 const tab = ref("code");
@@ -27,10 +28,7 @@ function setTab(t) {
 
 <template>
   <section id="works" class="py-16">
-    <h2 v-reveal class="text-3xl font-bold text-white">
-      <span class="text-accent">#</span>{{ $t("nav.works") }}
-    </h2>
-
+    <SectionTitle :label="$t('nav.works')" />
     <div class="mt-8 flex gap-4">
       <button
           v-for="t in ['code', 'wordpress']"

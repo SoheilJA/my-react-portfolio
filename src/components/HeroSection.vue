@@ -18,9 +18,9 @@
     </div>
 
     <div v-reveal="0.2" class="relative mx-auto h-80 w-80">
-      <div class="absolute left-4 top-4 h-48 w-48 border border-accent"></div>
-      <div
-          class="absolute bottom-16 right-8 h-40 w-40 border border-accent"
+      <div v-float class="absolute left-4 top-4 h-48 w-48 border border-accent"></div>
+      <div v-float="-14"
+           class="absolute bottom-16 right-8 h-40 w-40 border border-accent"
       ></div>
       <div class="dots absolute right-0 top-10 h-28 w-28"></div>
       <div

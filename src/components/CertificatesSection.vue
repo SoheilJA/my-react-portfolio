@@ -1,15 +1,14 @@
 <script setup>
 import {useI18n} from 'vue-i18n'
 import {content} from '../data/store'
+import SectionTitle from './SectionTitle.vue'
 
 const {locale} = useI18n()
 </script>
 
 <template>
   <section id="certificates" class="py-16">
-    <h2 v-reveal class="text-3xl font-bold text-white">
-      <span class="text-accent">#</span>{{ $t('nav.certificates') }}
-    </h2>
+    <SectionTitle :label="$t('nav.certificates')" />
 
     <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       <article

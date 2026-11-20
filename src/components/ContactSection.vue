@@ -1,15 +1,14 @@
 <script setup>
 import {content} from '../data/store'
+import SectionTitle from './SectionTitle.vue'
 </script>
 
 <template>
   <section id="contact" class="py-16">
-    <h2 v-reveal class="text-3xl font-bold text-white">
-      <span class="text-accent">#</span>{{ $t('nav.contact') }}
-    </h2>
+    <SectionTitle :label="$t('nav.contact')"/>
 
     <div class="mt-8 grid gap-12 md:grid-cols-2">
-      <div v-reveal >
+      <div v-reveal>
         <p class="leading-8">{{ $t('contact.text') }}</p>
         <p class="mt-4 text-white">
           <span class="me-2 inline-block h-3 w-3 bg-accent"></span>

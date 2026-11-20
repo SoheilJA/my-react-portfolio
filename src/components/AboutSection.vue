@@ -15,8 +15,8 @@ const {locale} = useI18n()
       <p v-reveal class="leading-8">{{ $t('about.text') }}</p>
 
       <div class="relative mx-auto hidden h-64 w-64 md:block">
-        <div class="absolute left-0 top-0 h-40 w-40 border border-accent"></div>
-        <div class="absolute bottom-0 right-0 h-32 w-32 border border-accent"></div>
+        <div v-float class="absolute left-0 top-0 h-40 w-40 border border-accent"></div>
+        <div v-float="-14" class="absolute bottom-0 right-0 h-32 w-32 border border-accent"></div>
         <div class="dots absolute right-4 top-4 h-24 w-24"></div>
       </div>
     </div>
