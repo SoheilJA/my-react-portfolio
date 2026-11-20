@@ -40,6 +40,7 @@ function move(i, dir) {
         <input v-model="c.issuer.fa" dir="rtl" class="field" placeholder="صادرکننده (فارسی)"/>
         <input v-model="c.issuer.en" dir="ltr" class="field" placeholder="Issuer (English)"/>
         <input v-model="c.link" dir="ltr" class="field md:col-span-2" placeholder="https://..."/>
+        <input v-model="c.image" dir="ltr" class="field md:col-span-2" placeholder="/certs/cs50x.webp" />
       </div>
     </div>
 
