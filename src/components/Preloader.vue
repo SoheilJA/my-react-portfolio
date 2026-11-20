@@ -43,24 +43,29 @@ onMounted(() => {
       .to(root.value, {yPercent: -100, duration: 0.9, ease: "power4.inOut"});
 });
 </script>
-
 <template>
   <div
       ref="root"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-bg"
+      class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-bg"
   >
+    <div class="bg-grid fade-mask absolute inset-0 opacity-60"></div>
+    <div class="bg-glow absolute inset-0"></div>
+
     <div
         ref="name"
         dir="ltr"
-        class="flex text-5xl font-bold text-white md:text-7xl"
+        class="relative flex font-display text-5xl font-bold tracking-tight text-ink md:text-8xl"
     >
-      <span class="text-accent">#</span>
       <span v-for="(c, i) in 'SOHEIL'" :key="i">{{ c }}</span>
+      <span class="text-accent">.</span>
     </div>
 
+    <div dir="ltr" class="label absolute bottom-8 left-8 hidden md:block">
+      Portfolio — 2026
+    </div>
     <div
         dir="ltr"
-        class="absolute bottom-8 right-8 text-5xl text-white md:text-7xl"
+        class="absolute bottom-8 right-8 font-display text-5xl font-bold text-ink md:text-7xl"
     >
       <span ref="counter">0</span><span class="text-accent">%</span>
     </div>
