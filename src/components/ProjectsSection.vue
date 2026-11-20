@@ -1,83 +1,126 @@
 <script setup>
-import {ref, computed} from "vue";
-import {useI18n} from "vue-i18n";
-import {content} from "../data/store";
-import ProjectModal from './ProjectModal.vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { content } from '../data/store'
 import SectionTitle from './SectionTitle.vue'
+import ProjectModal from './ProjectModal.vue'
 
-const {locale} = useI18n();
-const tab = ref("code");
-const showAll = ref(false);
+const { locale } = useI18n()
+const tab = ref('code')
+const showAll = ref(false)
 const selected = ref(null)
 
-const inTab = computed(() =>
-    content.projects.filter((p) => p.category === tab.value),
-);
-const list = computed(() =>
-    showAll.value ? inTab.value : inTab.value.filter((p) => p.featured),
-);
-const hasMore = computed(
-    () => inTab.value.length > inTab.value.filter((p) => p.featured).length,
-);
+const tabs = [
+  { id: 'code', label: 'works.tab_code' },
+  { id: 'wordpress', label: 'works.tab_wp' },
+]
 
-function setTab(t) {
-  tab.value = t;
-  showAll.value = false;
+const count = (id) => content.projects.filter((p) => p.category === id).length
+const inTab = computed(() =>
+    content.projects.filter((p) => p.category === tab.value)
+)
+const featured = computed(() => inTab.value.filter((p) => p.featured))
+const list = computed(() => (showAll.value ? inTab.value : featured.value))
+const hasMore = computed(() => inTab.value.length > featured.value.length)
+
+function setTab(id) {
+  tab.value = id
+  showAll.value = false
 }
+
+const isHero = (i) => tab.value === 'code' && i === 0
 </script>
 
 <template>
-  <section id="works" class="py-16">
-    <SectionTitle :label="$t('nav.works')" />
-    <div class="mt-8 flex gap-4">
+  <section id="works" class="relative isolate py-24">
+    <div
+        class="pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
+    >
+      <div class="bg-grid fade-mask absolute inset-0 opacity-50"></div>
+    </div>
+
+    <SectionTitle :label="$t('nav.works')" index="03" />
+
+    <div class="mt-10 flex flex-wrap gap-x-10 gap-y-3">
       <button
-          v-for="t in ['code', 'wordpress']"
-          :key="t"
-          class="border px-4 py-2 transition"
-          :class="
-          tab === t
-            ? 'border-accent text-white'
-            : 'border-muted/40 hover:border-accent'
-        "
-          @click="setTab(t)"
+          v-for="t in tabs"
+          :key="t.id"
+          class="flex items-start gap-2 font-display text-[clamp(1.6rem,4vw,3rem)] font-bold leading-[1.3] transition-colors"
+          :class="tab === t.id ? 'text-ink' : 'text-muted/60 hover:text-ink'"
+          @click="setTab(t.id)"
       >
-        {{ $t(t === "code" ? "works.tab_code" : "works.tab_wp") }}
+        {{ $t(t.label) }}
+        <sup class="label mt-2 text-accent" dir="ltr">{{ count(t.id) }}</sup>
       </button>
     </div>
 
-    <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div
+        :key="tab"
+        class="mt-10 grid gap-x-6 gap-y-12 md:grid-cols-2"
+        :class="tab === 'wordpress' ? 'lg:grid-cols-3' : ''"
+    >
       <article
-          v-reveal
-          v-for="p in list"
+          v-for="(p, i) in list"
           :key="p.id"
-          class="border border-muted/40 transition hover:border-accent cursor-pointer"
+          v-reveal
+          tabindex="0"
+          role="button"
+          class="group cursor-pointer outline-none"
+          :class="isHero(i) ? 'md:col-span-2' : ''"
           @click="selected = p"
+          @keydown.enter="selected = p"
       >
-        <img
-            v-if="p.image"
-            :src="p.image"
-            class="aspect-video w-full object-cover"
-        />
         <div
-            v-else
-            class="flex aspect-video items-center justify-center bg-muted/10 text-3xl text-accent"
+            class="relative overflow-hidden border border-line bg-surface transition-colors group-hover:border-accent group-focus-visible:border-accent"
+            :class="isHero(i) ? 'aspect-[16/9] md:aspect-[21/9]' : 'aspect-[4/3]'"
         >
-          {{ p.title.en.slice(0, 2) }}
+          <img
+              v-if="p.image"
+              :src="p.image"
+              :alt="p.title[locale]"
+              loading="lazy"
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+          />
+          <div v-else class="bg-grid absolute inset-0 flex items-center justify-center">
+            <span class="text-outline font-display text-7xl font-bold">
+              {{ p.title.en.slice(0, 2) }}
+            </span>
+          </div>
+
+          <div
+              class="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-bg/80 via-transparent p-4 opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100"
+          >
+            <span class="label text-accent">{{ $t('works.view') }}</span>
+            <span class="text-2xl text-accent">↗</span>
+          </div>
         </div>
-        <div class="border-y border-muted/40 px-3 py-2 text-sm">
-          {{ p.tech.join(" ") }}
+
+        <div class="mt-4 flex items-baseline gap-4">
+          <span class="label text-accent" dir="ltr">
+            {{ String(i + 1).padStart(2, '0') }}
+          </span>
+          <h3
+              class="font-display text-xl font-bold leading-[1.4] text-ink transition-colors group-hover:text-accent md:text-2xl"
+          >
+            {{ p.title[locale] }}
+          </h3>
         </div>
-        <h3 class="p-4 text-lg font-bold text-white">{{ p.title[locale] }}</h3>
+        <p class="mt-2 ps-9">
+          <span class="label" dir="ltr">{{ p.tech.join(' / ') }}</span>
+        </p>
       </article>
     </div>
 
-    <button
-        v-if="hasMore"
-        class="mt-8 border border-accent px-5 py-3 text-white transition hover:bg-accent/20"
-        @click="showAll = !showAll"
-    >
-      {{ showAll ? $t("works.less") : $t("works.more") }}
-    </button>
-    <ProjectModal :project="selected" @close="selected = null"/>
+    <div v-if="hasMore" class="mt-14 flex justify-center">
+      <button
+          class="flex items-center gap-3 border border-line px-8 py-4 text-ink transition hover:border-accent hover:bg-accent hover:text-bg"
+          @click="showAll = !showAll"
+      >
+        {{ showAll ? $t('works.less') : $t('works.more') }}
+        <span>{{ showAll ? '↑' : '↓' }}</span>
+      </button>
+    </div>
+
+    <ProjectModal :project="selected" @close="selected = null" />
   </section>
 </template>

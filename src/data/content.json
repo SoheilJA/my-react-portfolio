@@ -127,6 +127,10 @@
     "marquee.words": {
       "fa": "طراحی وب‌سایت|فروشگاه اینترنتی|وب‌سایت شرکتی|مارکت‌پلیس|رزومه آنلاین",
       "en": "Web design|E-commerce|Corporate sites|Marketplaces|Online portfolios"
+    },
+    "works.view": {
+      "fa": "مشاهده پروژه",
+      "en": "View project"
     }
   },
   "services": [
