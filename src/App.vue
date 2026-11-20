@@ -17,9 +17,9 @@ function done() {
 
 <template>
   <Preloader
-      v-if="loading && $route.path !== '/admin'"
+      v-if="loading && !$route.meta.skipLoader"
       @leaving="ready = true"
       @done="done"
   />
-  <RouterView v-if="ready || $route.path === '/admin'"/>
+  <RouterView v-if="ready || $route.meta.skipLoader"/>
 </template>

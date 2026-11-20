@@ -1,0 +1,9 @@
+html.admin-mode body {
+  background: var(--p-surface-50);
+  color: var(--p-surface-800);
+  font-family: "Vazirmatn Variable", system-ui, sans-serif;
+}
+
+html.admin-mode body::after {
+  display: none;
+}

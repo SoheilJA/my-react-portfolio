@@ -1,7 +1,7 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
 import AdminPage from '../pages/AdminPage.vue'
-import {setLang} from '../i18n'
+import { setLang } from '../i18n'
 
 const titles = {
     fa: 'سهیل جلال‌احمدی | طراح و توسعه‌دهنده وب',
@@ -11,15 +11,28 @@ const titles = {
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {path: '/', redirect: '/fa'},
-        {path: '/:lang(fa|en)', component: HomePage},
-        {path: '/admin', component: AdminPage},
-        {path: '/:pathMatch(.*)*', redirect: '/fa'},
+        { path: '/', redirect: '/fa' },
+        { path: '/:lang(fa|en)', component: HomePage },
+        { path: '/admin', component: AdminPage, meta: { skipLoader: true } },
+        {
+            path: '/panel',
+            component: () => import('../admin/AdminRoot.vue'),
+            meta: { admin: true, skipLoader: true },
+            children: [
+                { path: 'login', component: () => import('../admin/LoginPage.vue') },
+                {
+                    path: '',
+                    component: () => import('../admin/DashboardPage.vue'),
+                    meta: { auth: true },
+                },
+            ],
+        }, { path: '/:pathMatch(.*)*', redirect: '/fa' },
     ],
 })
 
 router.beforeEach((to) => {
     if (to.params.lang) setLang(to.params.lang)
+    if (to.meta.auth && !sessionStorage.getItem('token')) return '/panel/login'
 })
 
 router.afterEach((to) => {

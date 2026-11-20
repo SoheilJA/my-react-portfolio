@@ -11,6 +11,7 @@ export function initScroll() {
     const lenis = new Lenis({
         lerp: 0.1,
         anchors: { offset: -80 },
+            prevent: () => document.documentElement.classList.contains('admin-mode'),
     })
 
     lenis.on('scroll', ScrollTrigger.update)
