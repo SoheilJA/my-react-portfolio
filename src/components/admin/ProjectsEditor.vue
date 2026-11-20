@@ -59,7 +59,7 @@ function onImage(e, p) {
           v-for="c in [['all', 'همه'], ['code', 'برنامه‌نویسی'], ['wordpress', 'وردپرس']]"
           :key="c[0]"
           class="border px-4 py-2"
-          :class="cat === c[0] ? 'border-accent text-white' : 'border-muted/40'"
+          :class="cat === c[0] ? 'border-accent text-ink' : 'border-muted/40'"
           @click="cat = c[0]"
       >
         {{ c[1] }}

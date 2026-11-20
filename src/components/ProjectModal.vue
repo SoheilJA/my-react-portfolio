@@ -1,11 +1,11 @@
 <script setup>
-import {onMounted, onUnmounted} from 'vue'
-import {useI18n} from 'vue-i18n'
+import { onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import gsap from 'gsap'
 
-defineProps({project: Object})
+defineProps({ project: Object })
 const emit = defineEmits(['close'])
-const {locale} = useI18n()
+const { locale } = useI18n()
 
 function onEsc(e) {
   if (e.key === 'Escape') emit('close')
@@ -15,7 +15,7 @@ onMounted(() => window.addEventListener('keydown', onEsc))
 onUnmounted(() => window.removeEventListener('keydown', onEsc))
 
 function enter(el, done) {
-  gsap.from(el, {opacity: 0, duration: 0.3})
+  gsap.from(el, { opacity: 0, duration: 0.3 })
   gsap.from(el.querySelector('.panel'), {
     y: 60,
     scale: 0.95,
@@ -27,7 +27,7 @@ function enter(el, done) {
 }
 
 function leave(el, done) {
-  gsap.to(el, {opacity: 0, duration: 0.25, onComplete: done})
+  gsap.to(el, { opacity: 0, duration: 0.25, onComplete: done })
 }
 </script>
 
@@ -39,17 +39,27 @@ function leave(el, done) {
           class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
           @click.self="emit('close')"
       >
-        <div data-lenis-prevent class="panel max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-accent bg-bg">
-          <img v-if="project.image" :src="project.image" class="w-full object-cover"/>
+        <div
+            data-lenis-prevent
+            class="panel max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-line bg-surface"
+        >
+          <img
+              v-if="project.image"
+              :src="project.image"
+              :alt="project.title[locale]"
+              class="w-full object-cover"
+          />
           <div
               v-else
-              class="flex aspect-video items-center justify-center bg-muted/10 text-5xl text-accent"
+              class="bg-grid flex aspect-video items-center justify-center font-display text-6xl font-bold text-outline"
           >
             {{ project.title.en.slice(0, 2) }}
           </div>
 
           <div class="p-6">
-            <h3 class="text-2xl font-bold text-white">{{ project.title[locale] }}</h3>
+            <h3 class="font-display text-3xl font-bold leading-[1.3] text-ink">
+              {{ project.title[locale] }}
+            </h3>
             <p v-if="project.desc[locale]" class="mt-4 leading-7">
               {{ project.desc[locale] }}
             </p>
@@ -58,7 +68,7 @@ function leave(el, done) {
               <span
                   v-for="t in project.tech"
                   :key="t"
-                  class="border border-muted/40 px-2 py-1 text-sm"
+                  class="label border border-line px-2 py-1"
               >
                 {{ t }}
               </span>
@@ -69,12 +79,13 @@ function leave(el, done) {
                   v-if="project.link"
                   :href="project.link"
                   target="_blank"
-                  class="border border-accent px-4 py-2 text-white transition hover:bg-accent/20"
+                  rel="noopener"
+                  class="bg-accent px-5 py-2.5 font-bold text-bg transition hover:bg-ink"
               >
                 {{ $t('works.visit') }}
               </a>
               <button
-                  class="border border-muted/40 px-4 py-2 transition hover:border-accent"
+                  class="border border-line px-5 py-2.5 text-ink transition hover:border-accent"
                   @click="emit('close')"
               >
                 {{ $t('works.close') }}

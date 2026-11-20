@@ -17,7 +17,7 @@ import CustomCursor from '../components/CustomCursor.vue'
   <CustomCursor />
   <ScrollProgress/>
   <SiteHeader/>
-  <main class="mx-auto max-w-6xl px-6 pt-24">
+  <main id="main" class="mx-auto max-w-6xl px-6 pt-24">
     <HeroSection/>
     <MarqueeBand/>
     <ServicesSection/>

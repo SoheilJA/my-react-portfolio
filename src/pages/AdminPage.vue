@@ -78,7 +78,7 @@ function reset() {
         class="mx-auto mt-24 max-w-sm border border-accent p-6"
         @submit.prevent="login"
     >
-      <h1 class="text-2xl font-bold text-white">
+      <h1 class="text-2xl font-bold text-ink">
         <span class="text-accent">#</span>admin
       </h1>
       <input
@@ -93,7 +93,7 @@ function reset() {
 
     <div v-else>
       <div class="flex flex-wrap items-center gap-3">
-        <h1 class="text-2xl font-bold text-white">
+        <h1 class="text-2xl font-bold text-ink">
           <span class="text-accent">#</span>admin
         </h1>
         <div class="ms-auto flex flex-wrap gap-3">
@@ -114,7 +114,7 @@ function reset() {
             v-for="t in tabs"
             :key="t.id"
             class="border px-4 py-2"
-            :class="tab === t.id ? 'border-accent text-white' : 'border-muted/40'"
+            :class="tab === t.id ? 'border-accent text-ink' : 'border-muted/40'"
             @click="tab = t.id"
         >
           {{ t.label }}

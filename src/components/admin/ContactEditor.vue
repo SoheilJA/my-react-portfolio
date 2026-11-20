@@ -18,7 +18,7 @@ function remove(i) {
     </div>
 
     <div>
-      <h3 class="mb-4 text-white">شبکه‌های اجتماعی (لینک خالی نمایش داده نمی‌شه)</h3>
+      <h3 class="mb-4 text-ink">شبکه‌های اجتماعی (لینک خالی نمایش داده نمی‌شه)</h3>
       <div class="space-y-3">
         <div
             v-for="(s, i) in content.contact.socials"
