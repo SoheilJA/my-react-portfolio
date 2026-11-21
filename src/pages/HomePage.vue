@@ -18,7 +18,7 @@ import CustomCursor from "../components/CustomCursor.vue";
   <ScrollProgress />
   <SiteHeader />
   <PageFrame>
-    <main id="main" class="px-6 pt-24">
+    <main id="main" class="px-6 pt-14">
       <HeroSection />
       <MarqueeBand />
       <ServicesSection />
