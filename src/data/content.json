@@ -132,14 +132,54 @@
       "fa": "مشاهده پروژه",
       "en": "View project"
     },
-    "about.label_base": { "fa": "مستقر در", "en": "Based in" },
-    "about.label_focus": { "fa": "تمرکز", "en": "Focus" },
-    "about.label_status": { "fa": "وضعیت", "en": "Status" },
-    "contact.headline_1": { "fa": "بیا با هم", "en": "Let's build" },
-    "contact.headline_2": { "fa": "چیزی بسازیم.", "en": "something great." },
-    "contact.copy": { "fa": "کپی ایمیل", "en": "Copy email" },
-    "contact.copied": { "fa": "کپی شد ✓", "en": "Copied ✓" },
-    "footer.top": { "fa": "بازگشت به بالا", "en": "Back to top" }
+    "about.label_base": {
+      "fa": "مستقر در",
+      "en": "Based in"
+    },
+    "about.label_focus": {
+      "fa": "تمرکز",
+      "en": "Focus"
+    },
+    "about.label_status": {
+      "fa": "وضعیت",
+      "en": "Status"
+    },
+    "contact.headline_1": {
+      "fa": "بیا با هم",
+      "en": "Let's build"
+    },
+    "contact.headline_2": {
+      "fa": "چیزی بسازیم.",
+      "en": "something great."
+    },
+    "contact.copy": {
+      "fa": "کپی ایمیل",
+      "en": "Copy email"
+    },
+    "contact.copied": {
+      "fa": "کپی شد ✓",
+      "en": "Copied ✓"
+    },
+    "footer.top": {
+      "fa": "بازگشت به بالا",
+      "en": "Back to top"
+    },
+    "label.about": {
+      "fa": "درباره من",
+      "en": "ABOUT ME"
+    },
+    "about.heading": {
+      "fa": "توسعه‌دهنده‌ای که پروژه را تا تحویل همراهی می‌کند.",
+      "en": "A developer who stays with your project until delivery."
+    },
+    "about.certs": {
+      "fa": "گواهی‌نامه‌ها",
+      "en": "Certificates"
+    },
+    "about.stack": {
+      "fa": "فناوری‌ها",
+      "en": "Stack"
+    }
   },
   "services": [
     {
