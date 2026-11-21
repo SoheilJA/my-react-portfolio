@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
-import AdminPage from '../pages/AdminPage.vue'
 import { setLang } from '../i18n'
 
 const titles = {
@@ -13,9 +12,8 @@ export const router = createRouter({
     routes: [
         { path: '/', redirect: '/fa' },
         { path: '/:lang(fa|en)', component: HomePage },
-        { path: '/admin', component: AdminPage, meta: { skipLoader: true } },
         {
-            path: '/panel',
+            path: '/admin',
             component: () => import('../admin/AdminRoot.vue'),
             meta: { admin: true, skipLoader: true },
             children: [
@@ -41,7 +39,7 @@ export const router = createRouter({
 
 router.beforeEach((to) => {
     if (to.params.lang) setLang(to.params.lang)
-    if (to.meta.auth && !sessionStorage.getItem('token')) return '/panel/login'
+    if (to.meta.auth && !sessionStorage.getItem('token')) return '/admin/login'
 })
 
 router.afterEach((to) => {

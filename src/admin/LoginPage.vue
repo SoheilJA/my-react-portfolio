@@ -21,7 +21,7 @@ async function login() {
       password.value === import.meta.env.VITE_ADMIN_PASSWORD
     ) {
       sessionStorage.setItem("token", password.value);
-      router.push("/panel");
+      router.push("/admin");
       return;
     }
     const res = await fetch("/api/login", {
@@ -30,7 +30,7 @@ async function login() {
     });
     if (!res.ok) throw new Error("unauthorized");
     sessionStorage.setItem("token", password.value);
-    router.push("/panel");
+    router.push("/admin");
   } catch {
     error.value = true;
   } finally {

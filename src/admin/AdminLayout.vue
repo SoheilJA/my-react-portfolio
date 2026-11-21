@@ -1,42 +1,42 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToast } from 'primevue/usetoast'
-import Button from 'primevue/button'
-import Drawer from 'primevue/drawer'
-import AdminMenu from './AdminMenu.vue'
-import { saveContent } from '../data/store'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useToast } from "primevue/usetoast";
+import Button from "primevue/button";
+import Drawer from "primevue/drawer";
+import AdminMenu from "./AdminMenu.vue";
+import { saveContent } from "../data/store";
 
-const router = useRouter()
-const toast = useToast()
-const drawer = ref(false)
-const saving = ref(false)
+const router = useRouter();
+const toast = useToast();
+const drawer = ref(false);
+const saving = ref(false);
 
 async function save() {
-  saving.value = true
+  saving.value = true;
   try {
-    await saveContent()
+    await saveContent();
     toast.add({
-      severity: 'success',
-      summary: 'ذخیره شد',
-      detail: 'تغییرات روی سایت اعمال شد',
+      severity: "success",
+      summary: "ذخیره شد",
+      detail: "تغییرات روی سایت اعمال شد",
       life: 2500,
-    })
+    });
   } catch {
     toast.add({
-      severity: 'error',
-      summary: 'ذخیره نشد',
-      detail: 'دوباره وارد شوید و تلاش کنید',
+      severity: "error",
+      summary: "ذخیره نشد",
+      detail: "دوباره وارد شوید و تلاش کنید",
       life: 4000,
-    })
+    });
   } finally {
-    saving.value = false
+    saving.value = false;
   }
 }
 
 function logout() {
-  sessionStorage.removeItem('token')
-  router.push('/panel/login')
+  sessionStorage.removeItem("token");
+  router.push("/admin/login");
 }
 </script>
 

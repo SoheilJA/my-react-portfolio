@@ -1,4 +1,3 @@
 User-agent: *
 Disallow: /admin
-Disallow: /panel
 Sitemap: https://soheil-ja.ir/sitemap.xml
