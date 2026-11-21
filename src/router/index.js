@@ -27,7 +27,7 @@ export const router = createRouter({
                     children: [
                         { path: '', component: () => import('../admin/DashboardPage.vue') },
                         { path: 'texts', component: () => import('../admin/TextsPage.vue') },
-                        { path: 'services', meta: { title: 'خدمات' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'services', component: () => import('../admin/ServicesPage.vue') },
                         { path: 'projects', meta: { title: 'نمونه‌کارها' }, component: () => import('../admin/PlaceholderPage.vue') },
                         { path: 'skills', meta: { title: 'مهارت‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
                         { path: 'certificates', meta: { title: 'گواهی‌نامه‌ها' }, component: () => import('../admin/PlaceholderPage.vue') },
