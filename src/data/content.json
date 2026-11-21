@@ -179,6 +179,18 @@
     "about.stack": {
       "fa": "فناوری‌ها",
       "en": "Stack"
+    },
+    "label.services": {
+      "fa": "خدمات",
+      "en": "SERVICES"
+    },
+    "services.heading": {
+      "fa": "از ایده تا سایت آماده، این‌ها را می‌سازم.",
+      "en": "What I build, from idea to launch."
+    },
+    "services.cta": {
+      "fa": "درخواست این خدمت",
+      "en": "Request this service"
     }
   },
   "services": [

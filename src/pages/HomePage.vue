@@ -21,13 +21,13 @@ import CustomCursor from "../components/CustomCursor.vue";
   <SiteHeader />
   <PageFrame>
     <main id="main" class="px-6 pt-14">
-      <HeroSection />
-      <MarqueeBand />
-      <ServicesSection />
-      <ProjectsSection />
-      <AboutSection />
-      <CertificatesSection />
-      <ContactSection />
+<HeroSection />
+<MarqueeBand />
+<AboutSection />
+<ServicesSection />
+<ProjectsSection />
+<CertificatesSection />
+<ContactSection />
     </main>
   </PageFrame>
   <SiteFooter />

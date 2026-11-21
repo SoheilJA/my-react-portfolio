@@ -1,62 +1,70 @@
 <script setup>
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { content } from '../data/store'
-import SectionTitle from './SectionTitle.vue'
+import SectionContainer from './SectionContainer.vue'
+import ServiceIcon from './ServiceIcon.vue'
 
 const { locale } = useI18n()
-const open = ref(0)
+
+const spans = [
+  'lg:col-span-7',
+  'lg:col-span-5',
+  'lg:col-span-4',
+  'lg:col-span-4',
+  'lg:col-span-4',
+]
+const span = (i) => spans[i % spans.length]
+const wide = (i) => i % spans.length === 0
 </script>
 
 <template>
-  <section id="services" class="relative isolate py-24">
-    <div class="pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 overflow-hidden">
-      <div class="bg-glow absolute inset-0 -scale-x-100 opacity-70"></div>
-      <span
-          class="text-outline absolute -bottom-10 end-6 hidden font-display text-[18rem] font-bold leading-none opacity-20 md:block"
-          aria-hidden="true"
+  <div class="-mx-6">
+    <SectionContainer id="services" index="03" :label="$t('label.services')">
+      <h2
+        v-reveal
+        class="max-w-3xl text-[clamp(1.8rem,4vw,3.2rem)] font-bold leading-[1.45] text-ink ltr:leading-[1.15] ltr:tracking-tight"
       >
-        02
-      </span>
-    </div>
+        {{ $t('services.heading') }}
+      </h2>
 
-    <SectionTitle :label="$t('nav.services')" index="02" />
-
-    <ul class="mt-4">
-      <li
+      <div class="mt-12 grid border-s border-t border-line md:grid-cols-2 lg:grid-cols-12">
+        <a
           v-for="(s, i) in content.services"
           :key="s.id"
           v-reveal
-          class="border-b border-line"
-      >
-        <button
-            class="group flex w-full items-center gap-6 py-8 text-start"
-            :aria-expanded="open === i"
-            @click="open = open === i ? -1 : i"
+          href="#contact"
+          class="group relative flex flex-col overflow-hidden border-b border-e border-line p-6 transition-colors hover:bg-surface md:p-8"
+          :class="span(i)"
         >
-          <span class="label w-10 shrink-0 text-accent">0{{ i + 1 }}</span>
           <span
-              class="flex-1 font-display text-[clamp(1.4rem,3.4vw,2.8rem)] font-bold leading-[1.35] text-ink transition-colors group-hover:text-accent"
-          >
-            {{ s.title[locale] }}
-          </span>
-          <span
-              class="text-4xl leading-none text-accent transition-transform duration-500"
-              :class="open === i ? 'rotate-45' : ''"
-          >
-            +
-          </span>
-        </button>
+            class="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100 rtl:origin-right"
+          ></span>
+          <div
+            v-if="wide(i)"
+            class="bg-dots pointer-events-none absolute -bottom-6 -end-6 hidden h-40 w-56 opacity-70 lg:block"
+            aria-hidden="true"
+          ></div>
 
-        <div
-            class="grid transition-[grid-template-rows] duration-500"
-            :class="open === i ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
-        >
-          <div class="overflow-hidden">
-            <p class="max-w-2xl pb-8 ps-16 leading-8">{{ s.desc[locale] }}</p>
+          <div class="flex items-start justify-between">
+            <ServiceIcon :index="i" class="h-8 w-8 text-accent" />
+            <span class="label text-faint" dir="ltr">0{{ i + 1 }}</span>
           </div>
-        </div>
-      </li>
-    </ul>
-  </section>
+
+          <h3 class="mt-10 text-xl font-bold leading-[1.5] text-ink md:text-2xl">
+            {{ s.title[locale] }}
+          </h3>
+          <p class="mt-3 max-w-md leading-8">{{ s.desc[locale] }}</p>
+
+          <span class="label mt-auto flex items-center gap-2 pt-8 text-accent">
+            {{ $t('services.cta') }}
+            <span
+              class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            >
+              ↗
+            </span>
+          </span>
+        </a>
+      </div>
+    </SectionContainer>
+  </div>
 </template>

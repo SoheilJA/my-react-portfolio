@@ -5,7 +5,7 @@ import MobileNavigation from './MobileNavigation.vue'
 
 const open = ref(false)
 const active = ref('home')
-const links = ['services', 'works', 'about', 'certificates']
+const links = ['about', 'services', 'works', 'certificates']
 const mobileLinks = [...links, 'contact']
 const ids = ['home', ...mobileLinks]
 let io
