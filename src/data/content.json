@@ -247,6 +247,14 @@
     "hero.reel_label": {
       "fa": "نمونه‌کارها",
       "en": "SELECTED WORK"
+    },
+    "sk.marker": { "fa": "۰۲ — مهارت‌ها", "en": "02 — Skills" },
+    "sk.t1": { "fa": "سه مسیر.", "en": "Three paths." },
+    "sk.t2": { "fa": "یک استاندارد:", "en": "One standard:" },
+    "sk.t3": { "fa": "کیفیت بدون مصالحه.", "en": "uncompromising quality." },
+    "sk.text": {
+      "fa": "هر پروژه بر اساس هدف کارفرما مسیرش انتخاب می‌شود: وردپرس برای سرعت، Django برای کنترل کامل، و فرانت‌اند دقیق برای تجربه‌ای که کاربر فراموش نکند.",
+      "en": "The path depends on the goal: WordPress for speed, Django for full control, and precise frontend work for an experience users remember."
     }
   },
   "services": [
@@ -910,6 +918,38 @@
         "fa": "خدمت اصلی",
         "en": "Core services"
       }
+    }
+  ],
+    "paths": [
+    {
+      "id": 1,
+      "title": { "fa": "برنامه‌نویسی بک‌اند", "en": "BACKEND" },
+      "text": {
+        "fa": "طراحی و توسعه سایت‌های کامل با Django: مدل‌ها، پنل ادمین، چندزبانه، دیپلوی روی Docker و Kubernetes.",
+        "en": "Full Django websites: models, admin panels, multilingual content, deployed with Docker, Kubernetes and Runflare."
+      },
+      "stack": "Django · Python · Flask · PHP",
+      "level": 92
+    },
+    {
+      "id": 2,
+      "title": { "fa": "فرانت‌اند", "en": "FRONTEND" },
+      "text": {
+        "fa": "رابط‌های راست‌چین دقیق با HTML، Tailwind و جاوااسکریپت خالص. انیمیشن با GSAP و صحنه‌های سه‌بعدی با Three.js.",
+        "en": "Pixel-precise RTL/LTR interfaces in HTML, Tailwind and vanilla JavaScript. Motion with GSAP and 3D with Three.js."
+      },
+      "stack": "HTML · Tailwind · JS · GSAP · Three.js",
+      "level": 88
+    },
+    {
+      "id": 3,
+      "title": { "fa": "طراحی وردپرس", "en": "WORDPRESS" },
+      "text": {
+        "fa": "بیش از ۳۰ سایت با وردپرس، المنتور و وودمارت، از سایت شرکتی تا فروشگاه اینترنتی با ارتباط مستقیم با کارفرما.",
+        "en": "30+ sites with WordPress, Elementor and WoodMart — from corporate sites to online stores, with direct client communication."
+      },
+      "stack": "WordPress · Elementor · WoodMart",
+      "level": 95
     }
   ]
 }

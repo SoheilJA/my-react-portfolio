@@ -1,11 +1,12 @@
 <script setup>
-import IconSprite from '../components/IconSprite.vue'
-import GrainOverlay from '../components/GrainOverlay.vue'
-import ScrollProgress from '../components/ScrollProgress.vue'
-import CustomCursor from '../components/CustomCursor.vue'
-import SiteHeader from '../components/SiteHeader.vue'
-import HeroSection from '../components/HeroSection.vue'
-import StatsSection from '../components/StatsSection.vue'
+import IconSprite from "../components/IconSprite.vue";
+import GrainOverlay from "../components/GrainOverlay.vue";
+import ScrollProgress from "../components/ScrollProgress.vue";
+import CustomCursor from "../components/CustomCursor.vue";
+import SiteHeader from "../components/SiteHeader.vue";
+import HeroSection from "../components/HeroSection.vue";
+import StatsSection from "../components/StatsSection.vue";
+import SkillsSection from "../components/SkillsSection.vue";
 </script>
 
 <template>
@@ -17,5 +18,6 @@ import StatsSection from '../components/StatsSection.vue'
   <main id="main">
     <HeroSection />
     <StatsSection />
+    <SkillsSection />
   </main>
 </template>
