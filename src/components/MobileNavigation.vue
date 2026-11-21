@@ -65,7 +65,7 @@ function leave(el, done) {
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
-        class="fixed inset-0 z-[60] flex flex-col bg-bg md:hidden"
+        class="fixed inset-0 z-[60] flex flex-col bg-bg lg:hidden"
       >
         <div
           class="hatch pointer-events-none absolute inset-y-0 start-0 w-3 border-e border-line"
@@ -89,13 +89,13 @@ function leave(el, done) {
         <nav class="flex flex-1 flex-col justify-center px-6">
           <a
             v-for="(l, i) in links"
-            :key="l"
-            :href="'#' + l"
+            :key="l.id"
+            :href="'#' + l.id"
             class="m-item flex items-baseline gap-4 border-b border-line py-5 text-3xl font-bold text-ink first:border-t"
             @click="emit('close')"
           >
             <span class="label text-accent" dir="ltr">0{{ i + 1 }}</span>
-            {{ $t('nav.' + l) }}
+            {{ $t(l.key) }}
           </a>
         </nav>
 

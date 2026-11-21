@@ -191,6 +191,22 @@
     "services.cta": {
       "fa": "درخواست این خدمت",
       "en": "Request this service"
+    },
+    "brand": {
+      "fa": "سهیل احمدی",
+      "en": "SOHEIL AHMADI"
+    },
+    "nav.skills": {
+      "fa": "مهارت‌ها",
+      "en": "Skills"
+    },
+    "nav.experience": {
+      "fa": "سوابق",
+      "en": "Experience"
+    },
+    "nav.cta": {
+      "fa": "همکاری با من",
+      "en": "Hire Me"
     }
   },
   "services": [
