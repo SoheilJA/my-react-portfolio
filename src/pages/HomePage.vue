@@ -2,6 +2,7 @@
 import SiteHeader from "../components/SiteHeader.vue";
 import PageFrame from "../components/PageFrame.vue";
 import ScrollProgress from "../components/ScrollProgress.vue";
+import GrainOverlay from '../components/GrainOverlay.vue'
 import HeroSection from "../components/HeroSection.vue";
 import MarqueeBand from "../components/MarqueeBand.vue";
 import ServicesSection from "../components/ServicesSection.vue";
@@ -15,6 +16,7 @@ import CustomCursor from "../components/CustomCursor.vue";
 
 <template>
   <CustomCursor />
+  <GrainOverlay />
   <ScrollProgress />
   <SiteHeader />
   <PageFrame>

@@ -1,5 +1,7 @@
 import { createApp } from "vue";
-import '@fontsource-variable/inter'
+import '@fontsource/bebas-neue'
+import '@fontsource-variable/oswald'
+import '@fontsource-variable/archivo'
 import '@fontsource-variable/jetbrains-mono'
 import '@fontsource-variable/vazirmatn'
 import './style.css'
