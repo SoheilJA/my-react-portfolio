@@ -1,76 +1,180 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import gsap from 'gsap'
-import HeroVisual from './HeroVisual.vue'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { content } from "../data/store";
 
-const root = ref(null)
-let ctx
+const root = ref(null);
+const reelEl = ref(null);
+const shown = ref(false);
+const cur = ref(0);
+const progress = ref(0);
+const playing = ref(true);
+const FRAME_MS = 5000;
+
+const frames = computed(() => content.projects.slice(0, 5));
+const pad = (n) => String(n).padStart(2, "0");
+
+const stack = [
+  "Django",
+  "Python",
+  "Tailwind CSS",
+  "JavaScript",
+  "WordPress",
+  "Docker",
+];
+const ticker = [
+  "CLEAN CODE",
+  "PIXEL PRECISION",
+  "DJANGO FIRST",
+  "RTL READY",
+  "SHIP IT",
+  "NO SHORTCUTS",
+];
+
+let raf;
+let last = 0;
+let visible = true;
+let io;
+
+function tick(now) {
+  const dt = Math.min(now - last, 100);
+  last = now;
+  if (playing.value && visible && frames.value.length) {
+    progress.value += dt / FRAME_MS;
+    if (progress.value >= 1) {
+      progress.value = 0;
+      cur.value = (cur.value + 1) % frames.value.length;
+    }
+  }
+  raf = requestAnimationFrame(tick);
+}
+
+function onScroll() {
+  const y = window.scrollY;
+  if (y < window.innerHeight && reelEl.value) {
+    reelEl.value.style.transform = `translateY(${y * 0.3}px)`;
+  }
+}
 
 onMounted(() => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  ctx = gsap.context(() => {
-    gsap
-      .timeline({ delay: 0.2, defaults: { ease: 'power4.out' } })
-      .from('.hero-line', { yPercent: 110, duration: 1, stagger: 0.12 })
-      .from('.hero-fade', { y: 20, opacity: 0, duration: 0.7, stagger: 0.08 }, 0.4)
-      .from('.hero-win', { y: 40, opacity: 0, duration: 0.9, stagger: 0.15 }, 0.7)
-  }, root.value)
-})
+  requestAnimationFrame(() => (shown.value = true));
+  last = performance.now();
+  raf = requestAnimationFrame(tick);
+  io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
+  io.observe(root.value);
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+});
 
-onUnmounted(() => ctx?.revert())
+onUnmounted(() => {
+  cancelAnimationFrame(raf);
+  io?.disconnect();
+  window.removeEventListener("scroll", onScroll);
+});
 </script>
 
 <template>
-  <section id="home" ref="root" class="relative -mx-6 border-b border-line">
-    <div
-      class="hero-fade flex flex-wrap items-center justify-between gap-3 border-b border-line px-6 py-3 md:px-12 lg:ps-20"
-    >
-      <p class="label text-faint">{{ $t('hero.kicker') }}</p>
-      <p class="flex items-center gap-2 text-sm text-ink">
-        <span class="h-2 w-2 animate-pulse bg-accent"></span>
-        {{ $t('hero.status') }}
-      </p>
-    </div>
-
-    <div class="border-b border-line px-6 py-8 md:px-12 md:py-12 lg:ps-20">
-      <h1
-        class="text-[clamp(2.6rem,7.5vw,6.25rem)] font-bold leading-[1.3] text-ink ltr:leading-[1.05] ltr:tracking-tighter"
+  <section id="hero" ref="root">
+    <div id="reel" ref="reelEl" class="reel" :class="{ paused: !playing }">
+      <div
+        v-for="(p, i) in frames"
+        :key="p.id"
+        class="reel-frame"
+        :class="{ active: i === cur }"
       >
-        <span class="block overflow-hidden pb-2">
-          <span class="hero-line block">{{ $t('hero.line1') }}</span>
-        </span>
-        <span class="block overflow-hidden pb-2">
-          <span class="hero-line block">{{ $t('hero.line2') }}</span>
-        </span>
-        <span class="block overflow-hidden pb-2">
-          <span class="hero-line block text-accent">{{ $t('hero.line3') }}</span>
-        </span>
-      </h1>
+        <img v-if="p.image" :src="p.image" alt="" />
+      </div>
     </div>
+    <div class="hero-overlay"></div>
+    <div class="scan"></div>
 
-    <div class="hero-fade border-b border-line px-6 py-5 md:px-12 lg:ps-20">
-      <p class="max-w-2xl text-lg leading-8">{{ $t('hero.subtitle') }}</p>
-    </div>
+    <div class="hero-body wrap">
+      <div class="reel-ctrl">
+        <div class="rec">
+          <span class="rec-dot"></span><span>SHOWREEL · LIVE</span>
+        </div>
+        <button
+          class="play-btn"
+          :aria-label="playing ? 'Pause reel' : 'Play reel'"
+          @click="playing = !playing"
+        >
+          <svg class="i"><use :href="playing ? '#i-pause' : '#i-play'" /></svg>
+          <span>{{ playing ? "PLAYING" : "PAUSED" }}</span>
+        </button>
+      </div>
 
-    <div
-      class="hero-fade flex flex-wrap items-center gap-4 border-b border-line px-6 py-6 md:px-12 lg:ps-20"
-    >
-      <a
-        v-magnetic
-        href="#works"
-        class="bg-accent px-6 py-3 font-bold text-bg transition hover:bg-accent2"
+      <div
+        class="reveal"
+        :class="{ 'in-view': shown }"
+        style="max-width: 1100px"
       >
-        {{ $t('hero.cta2') }}
-      </a>
-      <a
-        v-magnetic
-        href="#contact"
-        class="border border-line2 px-6 py-3 text-ink transition hover:border-accent"
-      >
-        {{ $t('hero.cta') }}
-      </a>
+        <div class="marker">
+          <span>{{ $t("hero.marker") }}</span>
+        </div>
+        <h1 class="display hero-title">
+          <span class="hl"
+            ><span>{{ $t("hero.l1") }}</span></span
+          >
+          <span class="hl"
+            ><span class="stroke">{{ $t("hero.l2") }}</span></span
+          >
+          <span class="hl">
+            <span
+              >{{ $t("hero.l3a") }}
+              <span class="accent">{{ $t("hero.l3b") }}</span></span
+            >
+          </span>
+        </h1>
+        <p class="hero-sub">
+          {{ $t("hero.sub_1") }} <b>{{ $t("hero.name") }}</b
+          >{{ $t("hero.sub_2") }}
+        </p>
+      </div>
+
+      <div class="hero-bottom">
+        <div>
+          <div
+            class="mono upper"
+            style="
+              font-size: 10px;
+              letter-spacing: 0.2em;
+              color: var(--muted);
+              margin-bottom: 10px;
+            "
+          >
+            {{ $t("hero.stack") }}
+          </div>
+          <div class="chips">
+            <span
+              v-for="(s, i) in stack"
+              :key="s"
+              class="chip"
+              :class="{ hot: i === 0 }"
+            >
+              {{ s }}
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-progress">
+          <span>{{ pad(cur + 1) }} / {{ pad(frames.length) }}</span>
+          <div class="bar">
+            <i :style="{ width: progress * 100 + '%' }"></i>
+          </div>
+          <span class="accent">{{ $t("hero.reel_label") }}</span>
+        </div>
+      </div>
     </div>
 
-    <HeroVisual />
+    <div class="ticker">
+      <div class="track-m">
+        <template v-for="n in 2" :key="n">
+          <template v-for="w in ticker" :key="n + w">
+            <span>{{ w }}</span
+            ><em>/</em>
+          </template>
+        </template>
+      </div>
+    </div>
   </section>
 </template>

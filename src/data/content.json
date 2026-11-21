@@ -207,7 +207,20 @@
     "nav.cta": {
       "fa": "همکاری با من",
       "en": "Hire Me"
-    }
+    },
+        "hero.marker": { "fa": "مشهد · ایران", "en": "MASHHAD · IRAN" },
+    "hero.l1": { "fa": "کد تمیز.", "en": "CLEAN CODE." },
+    "hero.l2": { "fa": "طراحی دقیق.", "en": "SHARP DESIGN." },
+    "hero.l3a": { "fa": "نتیجه", "en": "REAL" },
+    "hero.l3b": { "fa": "واقعی.", "en": "RESULTS." },
+    "hero.sub_1": { "fa": "من", "en": "I am" },
+    "hero.name": { "fa": "سهیل احمدی", "en": "Soheil Ahmadi" },
+    "hero.sub_2": {
+      "fa": " هستم، برنامه‌نویس Django و طراح وب. از سایت‌های وردپرسی تا پروژه‌های کامل با بک‌اند اختصاصی، هر پروژه را مثل یک محصول جدی می‌سازم.",
+      "en": ", a Django developer and web designer. From WordPress sites to full custom backends, I build every project like a serious product."
+    },
+    "hero.stack": { "fa": "تکنولوژی‌های اصلی", "en": "Core stack" },
+    "hero.reel_label": { "fa": "نمونه‌کارها", "en": "SELECTED WORK" }
   },
   "services": [
     {

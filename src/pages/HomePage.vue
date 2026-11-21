@@ -1,36 +1,19 @@
 <script setup>
-import SiteHeader from "../components/SiteHeader.vue";
-import PageFrame from "../components/PageFrame.vue";
-import ScrollProgress from "../components/ScrollProgress.vue";
-import GrainOverlay from "../components/GrainOverlay.vue";
-import HeroSection from "../components/HeroSection.vue";
-import MarqueeBand from "../components/MarqueeBand.vue";
-import ServicesSection from "../components/ServicesSection.vue";
-import ProjectsSection from "../components/ProjectsSection.vue";
-import AboutSection from "../components/AboutSection.vue";
-import CertificatesSection from "../components/CertificatesSection.vue";
-import ContactSection from "../components/ContactSection.vue";
-import SiteFooter from "../components/SiteFooter.vue";
-import CustomCursor from "../components/CustomCursor.vue";
-import IconSprite from "../components/IconSprite.vue";
+import IconSprite from '../components/IconSprite.vue'
+import GrainOverlay from '../components/GrainOverlay.vue'
+import ScrollProgress from '../components/ScrollProgress.vue'
+import CustomCursor from '../components/CustomCursor.vue'
+import SiteHeader from '../components/SiteHeader.vue'
+import HeroSection from '../components/HeroSection.vue'
 </script>
 
 <template>
-  <CustomCursor />
+  <IconSprite />
   <GrainOverlay />
   <ScrollProgress />
-  <IconSprite />
+  <CustomCursor />
   <SiteHeader />
-  <PageFrame>
-    <main id="main" class="px-6 pt-14">
-      <HeroSection />
-      <MarqueeBand />
-      <AboutSection />
-      <ServicesSection />
-      <ProjectsSection />
-      <CertificatesSection />
-      <ContactSection />
-    </main>
-  </PageFrame>
-  <SiteFooter />
+  <main id="main">
+    <HeroSection />
+  </main>
 </template>
