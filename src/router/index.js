@@ -31,7 +31,7 @@ export const router = createRouter({
                         { path: 'projects', component: () => import('../admin/ProjectsPage.vue') },
                         { path: 'skills', component: () => import('../admin/SkillsPage.vue') },
                         { path: 'certificates', component: () => import('../admin/CertificatesPage.vue') },
-                        { path: 'contact', meta: { title: 'تماس' }, component: () => import('../admin/PlaceholderPage.vue') },
+                        { path: 'contact', component: () => import('../admin/ContactPage.vue') },
                     ],
                 },
             ],
