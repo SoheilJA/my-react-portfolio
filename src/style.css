@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-    --color-bg: #0d0d0d;
-    --color-surface: #141414;
-    --color-raised: #1b1b1b;
-    --color-accent: #ff5a00;
-    --color-ink: #f4f0e9;
-    --color-muted: #929292;
-    --color-line: rgb(255 255 255 / 0.12);
+  --color-bg: #05070d;
+  --color-bg2: #090d16;
+  --color-surface: #0d121d;
+  --color-raised: #121a27;
+  --color-accent: #ff7138;
+  --color-accent2: #ff965f;
+  --color-ink: #f5f6f8;
+  --color-muted: #a0a9b8;
+  --color-faint: #626d7e;
+  --color-line: rgb(148 163 184 / 0.16);
+  --color-line2: rgb(148 163 184 / 0.3);
 
-    --font-display: "Space Grotesk Variable", "Vazirmatn Variable", sans-serif;
-    --font-sans: "Inter Variable", "Vazirmatn Variable", sans-serif;
-    --font-mono: "JetBrains Mono Variable", "Vazirmatn Variable", monospace;
+  --font-display: "Inter Variable", "Vazirmatn Variable", sans-serif;
+  --font-sans: "Inter Variable", "Vazirmatn Variable", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "Vazirmatn Variable", monospace;
 }
 
 body {
@@ -81,7 +85,7 @@ section {
 .bg-glow {
     background: radial-gradient(
             60% 50% at 80% 0%,
-            rgb(255 90 0 / 0.18),
+            rgb(255 113 56 / 0.18),
             transparent 70%
     );
 }
@@ -110,7 +114,7 @@ body {
 .bg-glow-bottom {
     background: radial-gradient(
             60% 80% at 50% 100%,
-            rgb(255 90 0 / 0.28),
+            rgb(255 113 56 / 0.28),
             transparent 70%
     );
 }
@@ -122,4 +126,16 @@ body {
 ::selection {
     background: var(--color-accent);
     color: var(--color-bg);
+}
+.hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-line2) 0 1px,
+    transparent 1px 6px
+  );
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgb(255 255 255 / 0.1) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
