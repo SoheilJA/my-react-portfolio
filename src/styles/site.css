@@ -17,7 +17,9 @@
   --f-heading:
     "Oswald Variable", "Vazirmatn Variable", "Arial Narrow", sans-serif;
   --f-body: "Vazirmatn Variable", "Segoe UI", Tahoma, Arial, sans-serif;
-  --f-mono: "JetBrains Mono Variable", ui-monospace, Consolas, monospace;
+  --f-mono:
+    "JetBrains Mono Variable", "Vazirmatn Variable", ui-monospace, Consolas,
+    monospace;
   --max: 1600px;
   --pad: clamp(20px, 4vw, 40px);
 }
@@ -1669,4 +1671,31 @@ html[lang="fa"] .toast .tt {
   .burger {
     display: none;
   }
+}
+/* آمار: محتوای هر ستون وسط‌چین */
+.stat {
+  text-align: center;
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+@media (min-width: 1024px) {
+  .stat:not(:last-child) {
+    border-inline-end: 1px solid var(--border-light);
+  }
+}
+
+/* فارسی: برچسب‌های ریز خوانا */
+html[lang="fa"] .stat .l,
+html[lang="fa"] .mono,
+html[lang="fa"] .marker,
+html[lang="fa"] .hero-progress,
+html[lang="fa"] .kicker,
+html[lang="fa"] .copy,
+html[lang="fa"] .sticky .s {
+  font-family: "Vazirmatn Variable", sans-serif !important;
+  font-size: 13px !important;
+}
+html[lang="fa"] .stat .l {
+  font-size: 15px !important;
+  color: var(--fg-dim);
 }
