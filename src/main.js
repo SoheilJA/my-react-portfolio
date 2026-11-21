@@ -1,10 +1,10 @@
 import { createApp } from "vue";
 import '@fontsource/bebas-neue'
 import '@fontsource-variable/oswald'
-import '@fontsource-variable/archivo'
 import '@fontsource-variable/jetbrains-mono'
 import '@fontsource-variable/vazirmatn'
 import './style.css'
+import './styles/site.css'
 import App from './App.vue'
 import { i18n, setLang } from './i18n'
 import { applyTexts, loadContent } from './data/store'
