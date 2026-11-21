@@ -1,13 +1,13 @@
-import {reactive} from 'vue'
+import { reactive } from 'vue'
 import defaults from './content.json'
-import {i18n} from '../i18n'
+import { i18n } from '../i18n'
 
 export const content = reactive(structuredClone(defaults))
 
 function merge(saved) {
     Object.keys(content).forEach((k) => delete content[k])
     Object.assign(content, structuredClone(defaults), saved || {}, {
-        texts: {...defaults.texts, ...(saved?.texts || {})},
+        texts: { ...defaults.texts, ...(saved?.texts || {}) },
     })
 }
 
@@ -23,6 +23,14 @@ export function applyTexts() {
 }
 
 export async function loadContent() {
+    if (import.meta.env.DEV) {
+        const local = localStorage.getItem('content-dev')
+        if (local) {
+            merge(JSON.parse(local))
+            applyTexts()
+            return
+        }
+    }
     try {
         const res = await fetch('/api/content', {
             signal: AbortSignal.timeout(4000),
@@ -36,16 +44,20 @@ export async function loadContent() {
 }
 
 function authHeaders() {
-    return {Authorization: `Bearer ${sessionStorage.getItem('token')}`}
+    return { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
 }
-
 export async function saveContent() {
-    const res = await fetch('/api/content', {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json', ...authHeaders()},
-        body: JSON.stringify(content),
-    })
-    if (!res.ok) throw new Error('save failed')
+    try {
+        const res = await fetch('/api/content', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', ...authHeaders() },
+            body: JSON.stringify(content),
+        })
+        if (!res.ok) throw new Error('save failed')
+    } catch (err) {
+        if (!import.meta.env.DEV) throw err
+        localStorage.setItem('content-dev', JSON.stringify(content))
+    }
     applyTexts()
 }
 
@@ -54,8 +66,8 @@ export async function uploadImage(dataUrl) {
     const mime = head.match(/:(.*?);/)[1]
     const res = await fetch('/api/upload', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', ...authHeaders()},
-        body: JSON.stringify({data, mime}),
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ data, mime }),
     })
     if (!res.ok) throw new Error('upload failed')
     return (await res.json()).url
