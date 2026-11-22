@@ -1699,3 +1699,7 @@ html[lang="fa"] .stat .l {
   font-size: 15px !important;
   color: var(--fg-dim);
 }
+.more-btn{display:inline-flex;align-items:center;gap:12px;padding:14px 32px;border:1px solid var(--border-light);font-family:var(--f-heading);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--fg);transition:all .3s}
+html[lang=fa] .more-btn{font-family:'Vazirmatn Variable',sans-serif;font-size:14px;font-weight:700}
+.more-btn:hover{border-color:var(--accent);background:var(--accent);color:#000}
+.proj:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

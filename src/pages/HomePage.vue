@@ -7,6 +7,7 @@ import SiteHeader from "../components/SiteHeader.vue";
 import HeroSection from "../components/HeroSection.vue";
 import StatsSection from "../components/StatsSection.vue";
 import SkillsSection from "../components/SkillsSection.vue";
+import ProjectsSection from "../components/ProjectsSection.vue";
 </script>
 
 <template>
@@ -19,5 +20,6 @@ import SkillsSection from "../components/SkillsSection.vue";
     <HeroSection />
     <StatsSection />
     <SkillsSection />
+    <ProjectsSection />
   </main>
 </template>
