@@ -8,6 +8,7 @@ import HeroSection from "../components/HeroSection.vue";
 import StatsSection from "../components/StatsSection.vue";
 import SkillsSection from "../components/SkillsSection.vue";
 import ProjectsSection from "../components/ProjectsSection.vue";
+import ExperienceSection from '../components/ExperienceSection.vue'
 </script>
 
 <template>
@@ -21,5 +22,6 @@ import ProjectsSection from "../components/ProjectsSection.vue";
     <StatsSection />
     <SkillsSection />
     <ProjectsSection />
+    <ExperienceSection/>
   </main>
 </template>

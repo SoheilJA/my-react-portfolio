@@ -295,7 +295,19 @@
     "pj.details": {
       "fa": "جزئیات",
       "en": "Details"
-    }
+    },
+        "ex.marker": { "fa": "۰۴ — سوابق کاری", "en": "04 — Experience" },
+    "ex.t1": { "fa": "مسیری که", "en": "The path I" },
+    "ex.t2": { "fa": "ساختم،", "en": "built," },
+    "ex.t3": { "fa": "قدم‌به‌قدم", "en": "level by" },
+    "ex.t4": { "fa": "ارتقا یافت.", "en": "level." },
+    "ex.text": {
+      "fa": "از کارآموزی وردپرس تا برنامه‌نویسی Django. برای دیدن جزئیات هر مرحله، روی کارت نگه دارید یا لمس کنید.",
+      "en": "From a WordPress internship to Django development. Hover or tap a card to see what each step involved."
+    },
+    "ex.hover": { "fa": "جزئیات ←", "en": "DETAILS →" },
+    "ex.highlights": { "fa": "نکات کلیدی", "en": "Highlights" },
+    "ex.milestone": { "fa": "نقطه عطف", "en": "Milestone" }
   },
   "services": [
     {
@@ -999,6 +1011,60 @@
       },
       "stack": "WordPress · Elementor · WoodMart",
       "level": 95
+    }
+  ],
+    "experience": [
+    {
+      "id": 1,
+      "period": "JUN 2026 — NOW",
+      "company": { "fa": "فریلنس", "en": "FREELANCE" },
+      "stack": "Django · Tailwind · Docker",
+      "role": { "fa": "توسعه‌دهنده Django و طراح", "en": "Django Developer & Designer" },
+      "tag": { "fa": "مستقل", "en": "FREELANCE" },
+      "sig": { "fa": "پروژه‌های سفارشی", "en": "CUSTOM BUILDS" },
+      "points": {
+        "fa": ["کار مستقیم با کارفرما و تحویل پروژه‌های کامل", "فقط Django و فرانت‌اند Tailwind", "دیپلوی روی Runflare و کانتینر"],
+        "en": ["Direct client work, full project delivery", "Django-only, Tailwind frontends", "Deployments on Runflare and containers"]
+      }
+    },
+    {
+      "id": 2,
+      "period": "APR 2025 — JUN 2026",
+      "company": { "fa": "آتیلیس", "en": "AATILIS" },
+      "stack": "PHP → Python → Flask → Django",
+      "role": { "fa": "طراح وب (وردپرس)", "en": "Website Designer (WordPress)" },
+      "tag": { "fa": "تمام‌وقت", "en": "FULL-TIME" },
+      "sig": { "fa": "مسیر ورود به بک‌اند", "en": "ENTRY TO BACKEND" },
+      "points": {
+        "fa": ["حدود ۲۰ سایت برای مشتریان", "یادگیری PHP، پایتون، Flask و Django", "ارتباط مستقیم با کارفرمایان"],
+        "en": ["~20 client websites delivered", "Learned PHP, Python, Flask, Django", "Direct contact with clients"]
+      }
+    },
+    {
+      "id": 3,
+      "period": "JAN 2025 — APR 2025",
+      "company": { "fa": "آرنیک وب", "en": "ARNIK WEB" },
+      "stack": "WordPress · HTML · Tailwind",
+      "role": { "fa": "طراح وب (وردپرس)", "en": "Website Designer (WordPress)" },
+      "tag": { "fa": "تمام‌وقت", "en": "FULL-TIME" },
+      "sig": { "fa": "شروع کدنویسی فرانت", "en": "FRONTEND CODING STARTS" },
+      "points": {
+        "fa": ["طراحی سایت اصلی شرکت به‌تنهایی", "۵ سایت مشتری", "شروع یادگیری HTML، CSS و Tailwind"],
+        "en": ["Designed the company main site solo", "5 client websites", "Started HTML, CSS and Tailwind"]
+      }
+    },
+    {
+      "id": 4,
+      "period": "AUG 2023 — AUG 2024",
+      "company": { "fa": "فجر فیلم", "en": "FAJR FILM" },
+      "stack": "WordPress · Elementor Pro",
+      "role": { "fa": "طراح وب (وردپرس)", "en": "Website Designer (WordPress)" },
+      "tag": { "fa": "کارآموز ← کارمند", "en": "INTERN → EMPLOYEE" },
+      "sig": { "fa": "پایه‌های وردپرس", "en": "WORDPRESS FOUNDATIONS" },
+      "points": {
+        "fa": ["کارآموزی ۳ ماهه و سپس استخدام", "۲ سایت در دوره کارآموزی و ۳ سایت بعد از آن", "کار نزدیک با تیم گرافیک"],
+        "en": ["3-month internship, then hired", "2 sites as intern, 3 more as employee", "Worked closely with the graphic team"]
+      }
     }
   ]
 }
