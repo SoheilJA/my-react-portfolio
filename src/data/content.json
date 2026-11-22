@@ -318,7 +318,36 @@
     },
     "ce.hint": { "fa": "بکشید · لمس کنید · خودکار", "en": "Drag · Swipe · Auto-advance" },
     "ce.verify": { "fa": "استعلام", "en": "VERIFY" },
-    "ce.year": { "fa": "سال", "en": "YEAR" }
+    "ce.year": { "fa": "سال", "en": "YEAR" },
+        "ct.marker": { "fa": "۰۶ — شروع همکاری", "en": "06 — Let's Work" },
+    "ct.t1": { "fa": "پروژه‌ای", "en": "GOT A" },
+    "ct.t2": { "fa": "در ذهن", "en": "PROJECT" },
+    "ct.t3": { "fa": "دارید؟", "en": "IN MIND?" },
+    "ct.kicker": { "fa": "// درخواست همکاری", "en": "// Project Inquiry" },
+    "ct.cta_t": { "fa": "بیایید شروع کنیم", "en": "LET'S START" },
+    "ct.cta_p": {
+      "fa": "نوع پروژه و یک توضیح کوتاه برایم بنویسید. سریع جواب می‌دهم.",
+      "en": "Tell me the project type and a short note. I reply fast."
+    },
+    "ct.btn": { "fa": "ارسال ایمیل", "en": "SEND EMAIL" },
+    "ct.call": { "fa": "تماس تلفنی", "en": "CALL ME" },
+    "ct.note": { "fa": "پاسخگویی سریع · مشاوره اولیه رایگان", "en": "Fast reply · Free first consultation" },
+    "ct.loc_k": { "fa": "/ موقعیت", "en": "/ Location" },
+    "ct.loc_t": { "fa": "محل کار", "en": "BASED IN" },
+    "ct.langs": { "fa": "فارسی · English", "en": "Persian · English" },
+    "ct.con_k": { "fa": "/ ارتباط مستقیم", "en": "/ Direct Contact" },
+    "ct.con_t": { "fa": "راه‌های تماس", "en": "GET IN TOUCH" },
+    "ft.text": {
+      "fa": "برنامه‌نویس Django و طراح وب. وب‌سایت، مدیریت شبکه‌های اجتماعی، طراحی گرافیک و تصویربرداری.",
+      "en": "Django developer and web designer. Websites, social media management, graphic design and videography."
+    },
+    "ft.nav": { "fa": "صفحه", "en": "Pages" },
+    "ft.svc": { "fa": "خدمات", "en": "Services" },
+    "ft.built": { "fa": "ساخته‌شده با Vue و Tailwind", "en": "Built with Vue & Tailwind" },
+    "st.live": { "fa": "آماده همکاری", "en": "AVAILABLE FOR WORK" },
+    "st.t": { "fa": "پروژه بعدی شما", "en": "YOUR NEXT PROJECT" },
+    "st.s": { "fa": "پاسخ سریع · مشاوره رایگان", "en": "FAST REPLY · FREE CONSULTATION" },
+    "st.btn": { "fa": "تماس", "en": "CONTACT" }
   },
   "services": [
     {

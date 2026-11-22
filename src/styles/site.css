@@ -1706,3 +1706,7 @@ html[lang=fa] .more-btn{font-family:'Vazirmatn Variable',sans-serif;font-size:14
 .exp-grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .flip:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .flip:focus-visible .flip-in{transform:rotateY(180deg)}.c-track{touch-action:pan-y}
+.cta-ghost{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:12px;padding:18px;border:1px solid var(--border-light);font-family:var(--f-heading);font-size:14px;letter-spacing:.2em;text-transform:uppercase;transition:all .3s}
+html[lang=fa] .cta-ghost{font-family:'Vazirmatn Variable',sans-serif;font-weight:700;font-size:15px}
+.cta-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.sticky[inert]{pointer-events:none}

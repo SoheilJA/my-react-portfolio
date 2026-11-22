@@ -10,6 +10,9 @@ import SkillsSection from "../components/SkillsSection.vue";
 import ProjectsSection from "../components/ProjectsSection.vue";
 import ExperienceSection from '../components/ExperienceSection.vue'
 import CertificatesSection from '../components/CertificatesSection.vue'
+import ContactSection from '../components/ContactSection.vue'
+import SiteFooter from '../components/SiteFooter.vue'
+import StickyCta from '../components/StickyCta.vue'
 </script>
 
 <template>
@@ -25,5 +28,8 @@ import CertificatesSection from '../components/CertificatesSection.vue'
     <ProjectsSection />
     <ExperienceSection/>
     <CertificatesSection />
+    <ContactSection />
   </main>
+  <SiteFooter />
+<StickyCta />
 </template>

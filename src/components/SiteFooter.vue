@@ -1,21 +1,74 @@
+<script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { content } from '../data/store'
+
+const { locale } = useI18n()
+const pages = [
+  { id: 'skills', key: 'nav.skills' },
+  { id: 'projects', key: 'nav.works' },
+  { id: 'experience', key: 'nav.experience' },
+  { id: 'certificates', key: 'nav.certificates' },
+]
+const github = computed(() =>
+  content.contact.socials.find((s) => /github/i.test(s.name) && s.url)
+)
+</script>
+
 <template>
-  <footer class="border-t border-line">
-    <div
-        class="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between"
-    >
-      <div>
-        <span class="font-display text-xl font-bold text-ink">
-          Soheil<span class="text-accent">.</span>
-        </span>
-        <p class="mt-1 text-sm">{{ $t('hero.tagline') }}</p>
+  <footer class="foot">
+    <div class="foot-bg">AHMADI</div>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="logo">
+            <div class="logo-mark"><svg class="i"><use href="#i-code" /></svg></div>
+            <div>
+              <div class="logo-name">{{ $t('brand') }}</div>
+              <div class="logo-sub">MASHHAD · IRAN</div>
+            </div>
+          </div>
+          <p>{{ $t('ft.text') }}</p>
+          <div class="socials">
+            <a
+              v-if="github"
+              class="soc"
+              :href="github.url"
+              target="_blank"
+              rel="noopener"
+              aria-label="GitHub"
+            >
+              <svg class="i"><use href="#i-github" /></svg>
+            </a>
+            <a class="soc" :href="'mailto:' + content.contact.email" aria-label="Email">
+              <svg class="i"><use href="#i-mail" /></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h5>{{ $t('ft.nav') }}</h5>
+          <ul>
+            <li v-for="p in pages" :key="p.id">
+              <a :href="'#' + p.id">{{ $t(p.key) }}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h5>{{ $t('ft.svc') }}</h5>
+          <ul>
+            <li v-for="s in content.services" :key="s.id">
+              <a href="#contact">{{ s.title[locale] }}</a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <p class="label">{{ $t('footer.rights') }}</p>
-      <a
-          href="#home"
-          class="label text-accent transition-colors hover:text-ink"
-      >
-        {{ $t('footer.top') }} ↑
-      </a>
+
+      <div class="copy">
+        <div>{{ $t('footer.rights') }}</div>
+        <div>{{ $t('ft.built') }}</div>
+      </div>
     </div>
   </footer>
 </template>
