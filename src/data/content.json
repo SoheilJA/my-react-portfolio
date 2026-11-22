@@ -347,7 +347,11 @@
     "st.live": { "fa": "آماده همکاری", "en": "AVAILABLE FOR WORK" },
     "st.t": { "fa": "پروژه بعدی شما", "en": "YOUR NEXT PROJECT" },
     "st.s": { "fa": "پاسخ سریع · مشاوره رایگان", "en": "FAST REPLY · FREE CONSULTATION" },
-    "st.btn": { "fa": "تماس", "en": "CONTACT" }
+    "st.btn": { "fa": "تماس", "en": "CONTACT" },
+        "pl.ready": { "fa": "سیستم آماده است", "en": "SYSTEM READY" },
+    "pl.enter_sound": { "fa": "ورود با صدا", "en": "ENTER WITH SOUND" },
+    "pl.enter_silent": { "fa": "ورود بی‌صدا", "en": "ENTER SILENT" },
+    "pl.hint": { "fa": "برای تجربه‌ی بهتر، هدفون یا بلندگو را روشن کنید", "en": "Headphones or speakers recommended" }
   },
   "services": [
     {
