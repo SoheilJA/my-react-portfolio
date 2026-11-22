@@ -307,7 +307,18 @@
     },
     "ex.hover": { "fa": "جزئیات ←", "en": "DETAILS →" },
     "ex.highlights": { "fa": "نکات کلیدی", "en": "Highlights" },
-    "ex.milestone": { "fa": "نقطه عطف", "en": "Milestone" }
+    "ex.milestone": { "fa": "نقطه عطف", "en": "Milestone" },
+        "ce.marker": { "fa": "۰۵ — مدارک", "en": "05 — Certificates" },
+    "ce.t1": { "fa": "مهارت‌ها", "en": "Skills," },
+    "ce.t2": { "fa": "مستند،", "en": "documented," },
+    "ce.t3": { "fa": "قابل‌استعلام.", "en": "verifiable." },
+    "ce.text": {
+      "fa": "گواهی‌ها با نام، صادرکننده و لینک اعتبارسنجی. کروسل را بکشید تا همه را ببینید.",
+      "en": "Each certificate with its name, issuer and verification link. Drag the carousel to see them all."
+    },
+    "ce.hint": { "fa": "بکشید · لمس کنید · خودکار", "en": "Drag · Swipe · Auto-advance" },
+    "ce.verify": { "fa": "استعلام", "en": "VERIFY" },
+    "ce.year": { "fa": "سال", "en": "YEAR" }
   },
   "services": [
     {

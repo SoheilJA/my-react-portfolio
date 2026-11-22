@@ -1705,4 +1705,4 @@ html[lang=fa] .more-btn{font-family:'Vazirmatn Variable',sans-serif;font-size:14
 .proj:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .exp-grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .flip:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.flip:focus-visible .flip-in{transform:rotateY(180deg)}
+.flip:focus-visible .flip-in{transform:rotateY(180deg)}.c-track{touch-action:pan-y}
