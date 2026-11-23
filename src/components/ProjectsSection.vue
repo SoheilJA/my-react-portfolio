@@ -65,7 +65,7 @@ function setFilter(id) {
         </div>
       </div>
 
-      <div class="proj-grid">
+      <TransitionGroup name="proj" tag="div" class="proj-grid">
         <article
           v-for="(p, i) in list"
           :key="p.id"
@@ -110,7 +110,7 @@ function setFilter(id) {
             </span>
           </div>
         </article>
-      </div>
+      </TransitionGroup>
 
       <div v-if="hasMore" style="display: flex; justify-content: center; margin-top: 56px">
         <button class="more-btn" @click="showAll = !showAll">

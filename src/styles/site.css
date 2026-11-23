@@ -796,16 +796,20 @@ html[lang="fa"] .meta .v {
 
 /* Projects */
 .proj-grid {
+  --cols: 1;
+  position: relative;
   display: grid;
   gap: 24px;
 }
 @media (min-width: 768px) {
   .proj-grid {
+    --cols: 2;
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 1280px) {
   .proj-grid {
+    --cols: 3;
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -821,6 +825,24 @@ html[lang="fa"] .meta .v {
 }
 .proj.hide {
   display: none;
+}
+.proj-move,
+.proj-enter-active,
+.proj-leave-active {
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+}
+.proj-enter-from {
+  opacity: 0;
+  transform: translateY(26px) scale(0.97);
+}
+.proj-leave-to {
+  opacity: 0;
+}
+.proj-leave-active {
+  position: absolute;
+  width: calc((100% - (var(--cols) - 1) * 24px) / var(--cols));
 }
 .shot {
   position: relative;
