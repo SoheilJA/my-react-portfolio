@@ -940,6 +940,50 @@ html[lang="fa"] .proj-link {
 .proj-link:hover .i {
   transform: translate(3px, -3px);
 }
+.proj-mini {
+  display: none;
+}
+@media (max-width: 767px) {
+  .proj-grid {
+    gap: 12px;
+  }
+  .proj .shot,
+  .proj .proj-body {
+    display: none;
+  }
+  .proj-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+  }
+  .proj-mini .num {
+    flex: 0 0 auto;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    direction: ltr;
+  }
+  .proj-mini h3 {
+    flex: 1;
+    font-size: 19px;
+    line-height: 1.35;
+    margin: 0;
+  }
+  .proj-mini .type {
+    flex: 0 0 auto;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    padding: 4px 9px;
+    background: var(--accent);
+    color: #000;
+  }
+  .proj-mini .type.wp {
+    background: var(--silver);
+  }
+}
 
 /* Experience flip */
 .flip {

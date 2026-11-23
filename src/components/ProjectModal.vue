@@ -41,51 +41,76 @@ function leave(el, done) {
       >
         <div
             data-lenis-prevent
-            class="panel max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-line bg-surface"
+            class="panel relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-line bg-surface"
         >
-          <img
-              v-if="project.image"
-              :src="project.image"
-              :alt="project.title[locale]"
-              class="w-full object-cover"
-          />
-          <div
-              v-else
-              class="bg-grid flex aspect-video items-center justify-center font-display text-6xl font-bold text-outline"
-          >
-            {{ project.title.en.slice(0, 2) }}
+          <div class="relative">
+            <img
+                v-if="project.image"
+                :src="project.image"
+                :alt="project.title[locale]"
+                class="aspect-video w-full object-cover"
+            />
+            <div
+                v-else
+                class="bg-grid flex aspect-video items-center justify-center font-display text-6xl font-bold text-outline"
+            >
+              {{ project.title.en.slice(0, 2) }}
+            </div>
+
+            <button
+                class="absolute top-3 z-10 flex h-9 w-9 items-center justify-center border border-line bg-black/60 text-ink transition hover:border-accent hover:text-accent"
+                style="inset-inline-end: 12px"
+                aria-label="Close"
+                @click="emit('close')"
+            >
+              ✕
+            </button>
           </div>
 
-          <div class="p-6">
-            <h3 class="font-display text-3xl font-bold leading-[1.3] text-ink">
+          <div class="p-6 sm:p-8">
+            <span
+                class="tag type mb-4"
+                :class="{ wp: project.category === 'wordpress' }"
+                style="position: static; display: inline-block"
+            >
+              {{ project.category === 'code' ? $t('works.tab_code') : $t('works.tab_wp') }}
+            </span>
+
+            <h3 class="font-display text-2xl font-bold leading-[1.3] text-ink sm:text-3xl">
               {{ project.title[locale] }}
             </h3>
-            <p v-if="project.desc[locale]" class="mt-4 leading-7">
+
+            <p v-if="project.desc[locale]" class="mt-3 leading-7 text-dim">
               {{ project.desc[locale] }}
             </p>
 
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span
-                  v-for="t in project.tech"
-                  :key="t"
-                  class="label border border-line px-2 py-1"
-              >
-                {{ t }}
-              </span>
+            <div v-if="project.tech && project.tech.length" class="mt-6">
+              <div class="label mb-3 text-muted">{{ $t('pj.stack') }}</div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                    v-for="t in project.tech"
+                    :key="t"
+                    class="label border border-line px-2.5 py-1 text-dim"
+                >
+                  {{ t }}
+                </span>
+              </div>
             </div>
 
-            <div class="mt-6 flex gap-4">
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                   v-if="project.link"
                   :href="project.link"
                   target="_blank"
                   rel="noopener"
-                  class="bg-accent px-5 py-2.5 font-bold text-bg transition hover:bg-ink"
+                  class="flex flex-1 items-center justify-center gap-2 bg-accent px-5 py-3 font-bold text-bg transition hover:bg-ink"
               >
-                {{ $t('works.visit') }}
+                {{ $t('works.view') }}
+                <svg class="i h-4 w-4"><use href="#i-ext" /></svg>
               </a>
               <button
-                  class="border border-line px-5 py-2.5 text-ink transition hover:border-accent"
+                  class="border border-line px-5 py-3 text-ink transition hover:border-accent"
+                  :class="project.link ? 'sm:flex-none' : 'flex-1'"
                   @click="emit('close')"
               >
                 {{ $t('works.close') }}

@@ -125,8 +125,8 @@
       "en": "Web design|E-commerce|Corporate sites|Marketplaces|Online portfolios"
     },
     "works.view": {
-      "fa": "مشاهده پروژه",
-      "en": "View project"
+      "fa": "مشاهده نمونه کار",
+      "en": "View sample"
     },
     "about.label_base": {
       "fa": "مستقر در",
@@ -291,6 +291,10 @@
     "pj.details": {
       "fa": "جزئیات",
       "en": "Details"
+    },
+    "pj.stack": {
+      "fa": "تکنولوژی‌ها",
+      "en": "Stack"
     },
         "ex.marker": { "fa": "۰۴ — سوابق کاری", "en": "04 — Experience" },
     "ex.t1": { "fa": "مسیری که", "en": "The path I" },

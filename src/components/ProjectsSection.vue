@@ -76,6 +76,14 @@ function setFilter(id) {
           @click="selected = p"
           @keydown.enter="selected = p"
         >
+          <div class="proj-mini">
+            <span class="num">{{ pad(i + 1) }}</span>
+            <h3 class="display">{{ p.title[locale] }}</h3>
+            <span class="type" :class="{ wp: p.category === 'wordpress' }">
+              {{ p.category === 'code' ? $t('works.tab_code') : $t('works.tab_wp') }}
+            </span>
+          </div>
+
           <div class="shot">
             <img v-if="p.image" :src="p.image" :alt="p.title[locale]" loading="lazy" />
             <span class="tag idx">
