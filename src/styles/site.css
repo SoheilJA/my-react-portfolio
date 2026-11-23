@@ -1310,24 +1310,46 @@ html[lang="fa"] .c-top h3 {
   font-size: 14px;
   margin-bottom: 32px;
 }
-.contact-box {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(32px, 5vw, 56px);
+.contact-cta {
+  font-size: clamp(22px, 2.6vw, 34px);
+  margin-bottom: 14px;
 }
-.contact-box .frame {
-  width: 100%;
-  max-width: 640px;
+.contact-band {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-top: clamp(20px, 2.5vw, 32px);
+  border-top: 1px solid var(--border);
   text-align: center;
 }
-.contact-box .socials {
-  justify-content: center;
+.contact-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contact-main .note {
+  margin-top: 16px;
+}
+@media (min-width: 768px) {
+  .contact-band {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: start;
+  }
+  .contact-main {
+    align-items: flex-start;
+  }
+  .contact-main .note {
+    text-align: start;
+  }
 }
 .phone-link {
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 28px;
+  margin-bottom: 0;
   line-height: 1;
   direction: ltr;
 }
