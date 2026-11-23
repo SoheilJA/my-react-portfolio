@@ -325,14 +325,7 @@
       "fa": "نوع پروژه و یک توضیح کوتاه برایم بنویسید. سریع جواب می‌دهم.",
       "en": "Tell me the project type and a short note. I reply fast."
     },
-    "ct.btn": { "fa": "پیام به من", "en": "MESSAGE ME" },
-    "ct.call": { "fa": "تماس تلفنی", "en": "CALL ME" },
     "ct.note": { "fa": "پاسخگویی سریع · مشاوره اولیه رایگان", "en": "Fast reply · Free first consultation" },
-    "ct.loc_k": { "fa": "/ موقعیت", "en": "/ Location" },
-    "ct.loc_t": { "fa": "محل کار", "en": "BASED IN" },
-    "ct.langs": { "fa": "فارسی · English", "en": "Persian · English" },
-    "ct.con_k": { "fa": "/ ارتباط مستقیم", "en": "/ Direct Contact" },
-    "ct.con_t": { "fa": "راه‌های تماس", "en": "GET IN TOUCH" },
     "ft.text": {
       "fa": "برنامه‌نویس Django و طراح وب. وب‌سایت، مدیریت شبکه‌های اجتماعی، طراحی گرافیک و تصویربرداری.",
       "en": "Django developer and web designer. Websites, social media management, graphic design and videography."

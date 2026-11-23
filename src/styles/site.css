@@ -1310,6 +1310,50 @@ html[lang="fa"] .c-top h3 {
   font-size: 14px;
   margin-bottom: 32px;
 }
+.contact-box {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(32px, 5vw, 56px);
+}
+.contact-box .frame {
+  width: 100%;
+  max-width: 640px;
+  text-align: center;
+}
+.contact-box .socials {
+  justify-content: center;
+}
+.phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  line-height: 1;
+  direction: ltr;
+}
+.phone-link .i {
+  width: clamp(26px, 4vw, 40px);
+  height: clamp(26px, 4vw, 40px);
+  color: var(--accent);
+}
+.phone-link .num {
+  font-family: var(--f-display);
+  font-size: clamp(30px, 6vw, 64px);
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(255, 84, 0, 0.3);
+  transition:
+    color 0.3s,
+    text-shadow 0.3s;
+}
+.phone-link:hover .num {
+  color: var(--accent-bright);
+  text-shadow: 0 0 50px rgba(255, 84, 0, 0.5);
+}
+html[lang="fa"] .phone-link .num {
+  font-family: "Vazirmatn Variable", sans-serif;
+  font-weight: 900;
+  font-size: clamp(24px, 5vw, 52px);
+}
 .kicker {
   font-family: var(--f-mono);
   font-size: 11px;
