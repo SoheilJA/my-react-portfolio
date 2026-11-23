@@ -4,9 +4,11 @@ import { useI18n } from 'vue-i18n'
 import gsap from 'gsap'
 import { content } from '../data/store'
 import { useInView } from '../lib/useInView'
+import CertificateModal from './CertificateModal.vue'
 
 const { locale } = useI18n()
 const { el, seen } = useInView()
+const selected = ref(null)
 const viewport = ref(null)
 const track = ref(null)
 const idx = ref(0)
@@ -65,7 +67,9 @@ function onDown(e) {
   velocity = 0
   blockUntil = Infinity
   gsap.killTweensOf(track.value)
-  track.value.setPointerCapture?.(e.pointerId)
+  window.addEventListener('pointermove', onMove)
+  window.addEventListener('pointerup', onUp)
+  window.addEventListener('pointercancel', onUp)
 }
 
 function onMove(e) {
@@ -86,6 +90,9 @@ function onMove(e) {
 function onUp() {
   if (!dragging) return
   dragging = false
+  window.removeEventListener('pointermove', onMove)
+  window.removeEventListener('pointerup', onUp)
+  window.removeEventListener('pointercancel', onUp)
   const target = Math.min(0, gsap.getProperty(track.value, 'x') + velocity * 300)
   const i = Math.max(0, Math.min(count.value - 1, Math.round(Math.abs(target) / step)))
   idx.value = i
@@ -98,6 +105,10 @@ function onClickCapture(e) {
     e.preventDefault()
     e.stopPropagation()
   }
+}
+
+function onLeave() {
+  blockUntil = performance.now() + 1000
 }
 
 function remeasure() {
@@ -126,6 +137,9 @@ onUnmounted(() => {
   clearInterval(timer)
   ro?.disconnect()
   io?.disconnect()
+  window.removeEventListener('pointermove', onMove)
+  window.removeEventListener('pointerup', onUp)
+  window.removeEventListener('pointercancel', onUp)
   if (track.value) gsap.killTweensOf(track.value)
 })
 
@@ -162,14 +176,20 @@ watch([count, locale], remeasure)
         ref="track"
         class="c-track"
         @pointerdown="onDown"
-        @pointermove="onMove"
-        @pointerup="onUp"
-        @pointercancel="onUp"
         @click.capture="onClickCapture"
         @mouseenter="blockUntil = Infinity"
-        @mouseleave="blockUntil = performance.now() + 1000"
+        @mouseleave="onLeave"
       >
-        <article v-for="(c, i) in content.certificates" :key="c.id" class="c-card notch">
+        <article
+          v-for="(c, i) in content.certificates"
+          :key="c.id"
+          class="c-card notch"
+          tabindex="0"
+          role="button"
+          style="cursor: pointer"
+          @click="selected = c"
+          @keydown.enter="selected = c"
+        >
           <div class="c-img">
             <span class="ph">{{ pad(i + 1) }}</span>
             <img v-if="c.image" :src="c.image" :alt="c.title[locale]" loading="lazy" draggable="false" />
@@ -186,7 +206,14 @@ watch([count, locale], remeasure)
             <div class="c-foot">
               <span v-if="c.year">{{ $t('ce.year') }} {{ c.year }}</span>
               <span v-else></span>
-              <a v-if="c.link" :href="c.link" target="_blank" rel="noopener">
+              <a
+                v-if="c.link"
+                :href="c.link"
+                target="_blank"
+                rel="noopener"
+                draggable="false"
+                @click.stop
+              >
                 {{ $t('ce.verify') }}
                 <svg class="i"><use href="#i-ext" /></svg>
               </a>
@@ -215,5 +242,7 @@ watch([count, locale], remeasure)
         </div>
       </div>
     </div>
+
+    <CertificateModal :certificate="selected" @close="selected = null" />
   </section>
 </template>
