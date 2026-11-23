@@ -927,6 +927,21 @@
       ]
     }
   ],
+  "technologies": [
+    "Django",
+    "Python",
+    "Tailwind",
+    "JavaScript",
+    "HTML",
+    "CSS",
+    "PHP",
+    "Alpine.js",
+    "Laravel",
+    "Three.js",
+    "WordPress",
+    "Elementor",
+    "Woodmart"
+  ],
   "certificates": [
     {
       "id": 1,

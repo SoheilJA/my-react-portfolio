@@ -27,6 +27,7 @@ export const router = createRouter({
                         { path: 'texts', component: () => import('../admin/TextsPage.vue') },
                         { path: 'services', component: () => import('../admin/ServicesPage.vue') },
                         { path: 'projects', component: () => import('../admin/ProjectsPage.vue') },
+                        { path: 'technologies', component: () => import('../admin/TechnologiesPage.vue') },
                         { path: 'skills', component: () => import('../admin/SkillsPage.vue') },
                         { path: 'certificates', component: () => import('../admin/CertificatesPage.vue') },
                         { path: 'contact', component: () => import('../admin/ContactPage.vue') },

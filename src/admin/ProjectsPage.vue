@@ -9,7 +9,7 @@ import Button from "primevue/button";
 import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 import Textarea from "primevue/textarea";
-import AutoComplete from "primevue/autocomplete";
+import MultiSelect from "primevue/multiselect";
 import FloatLabel from "primevue/floatlabel";
 import Select from "primevue/select";
 import SelectButton from "primevue/selectbutton";
@@ -36,6 +36,10 @@ const list = computed(() =>
     (p) => filter.value === "all" || p.category === filter.value,
   ),
 );
+
+const techOptions = computed(() => [
+  ...new Set(content.technologies.map((t) => t.trim()).filter(Boolean)),
+]);
 
 const dialog = ref(false);
 const editingId = ref(null);
@@ -272,14 +276,16 @@ async function onUpload(e) {
 
       <div>
         <label class="mb-2 block text-sm opacity-70"
-          >تکنولوژی‌ها (بعد از هر مورد Enter بزنید)</label
+          >تکنولوژی‌ها (به ترتیب دلخواه انتخاب کنید)</label
         >
-        <AutoComplete
+        <MultiSelect
           v-model="form.tech"
-          multiple
+          :options="techOptions"
+          display="chip"
           fluid
-          :typeahead="false"
           dir="ltr"
+          placeholder="انتخاب تکنولوژی"
+          filter
         />
       </div>
 

@@ -8,6 +8,7 @@ const items = [
   { label: "متن‌ها", icon: "pi pi-align-right", route: "/admin/texts" },
   { label: "خدمات", icon: "pi pi-briefcase", route: "/admin/services" },
   { label: "نمونه‌کارها", icon: "pi pi-images", route: "/admin/projects" },
+  { label: "تکنولوژی‌ها", icon: "pi pi-list", route: "/admin/technologies" },
   { label: "مهارت‌ها", icon: "pi pi-bolt", route: "/admin/skills" },
   {
     label: "گواهی‌نامه‌ها",
