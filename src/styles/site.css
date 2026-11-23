@@ -538,7 +538,7 @@ h1.hero-title {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  padding: 14px 0;
+  padding: 10px 0;
   overflow: hidden;
   z-index: 10;
   direction: ltr;
@@ -549,7 +549,8 @@ h1.hero-title {
   will-change: transform;
   animation: marquee 55s linear infinite;
   font-family: var(--f-display);
-  font-size: clamp(20px, 3vw, 40px);
+  font-size: clamp(18px, 2.6vw, 32px);
+  line-height: 1;
   letter-spacing: 0.18em;
   color: var(--silver-dim);
 }
@@ -626,7 +627,7 @@ section.alt {
   }
 }
 .sec-title {
-  font-size: clamp(46px, 7vw, 112px);
+  font-size: clamp(34px, 4.8vw, 70px);
 }
 .sec-text {
   color: var(--fg-dim);
