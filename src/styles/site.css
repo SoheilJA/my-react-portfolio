@@ -286,10 +286,7 @@ html[lang="fa"] .btn-silver {
 /* Hero */
 #hero {
   position: relative;
-  height: 100vh;
-  min-height: 760px;
   width: 100%;
-  overflow: hidden;
 }
 #reel {
   position: absolute;

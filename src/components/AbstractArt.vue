@@ -42,11 +42,11 @@ onUnmounted(() => tween?.kill());
         cy="200"
         rx="170"
         ry="62"
-        stroke="#ff7138"
+        stroke="currentColor"
         :stroke-opacity="0.15 + i * 0.05"
         :transform="`rotate(${i * 15} 200 200)`"
       />
     </g>
-    <circle cx="200" cy="200" r="4" fill="#ff7138" />
+    <circle cx="200" cy="200" r="4" fill="currentColor" />
   </svg>
 </template>
