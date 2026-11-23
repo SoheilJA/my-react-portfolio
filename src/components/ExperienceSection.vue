@@ -22,7 +22,7 @@ function toggle(id, force = false) {
           <div class="marker"><span>{{ $t('ex.marker') }}</span></div>
           <h2 class="display sec-title">
             <span>{{ $t('ex.t1') }}</span> <span class="accent">{{ $t('ex.t2') }}</span><br />
-            <span>{{ $t('ex.t3') }}</span> <span class="stroke">{{ $t('ex.t4') }}</span>
+            <span>{{ $t('ex.t3') }}</span> <span>{{ $t('ex.t4') }}</span>
           </h2>
         </div>
         <div><p class="sec-text">{{ $t('ex.text') }}</p></div>

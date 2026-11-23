@@ -141,7 +141,7 @@ watch([count, locale], remeasure)
           <h2 class="display sec-title">
             <span>{{ $t('ce.t1') }}</span><br />
             <span class="accent">{{ $t('ce.t2') }}</span>
-            <span class="stroke">{{ $t('ce.t3') }}</span>
+            <span>{{ $t('ce.t3') }}</span>
           </h2>
         </div>
         <div>

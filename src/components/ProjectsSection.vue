@@ -46,7 +46,7 @@ function setFilter(id) {
           <h2 class="display sec-title">
             <span>{{ $t('pj.t1') }}</span><br />
             <span class="accent">{{ $t('pj.t2') }}</span>
-            <span class="stroke">{{ $t('pj.t3') }}</span>
+            <span>{{ $t('pj.t3') }}</span>
           </h2>
         </div>
         <div>

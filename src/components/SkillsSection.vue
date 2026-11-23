@@ -19,9 +19,9 @@ const pad = (n) => String(n).padStart(2, "0");
           <h2 class="display sec-title">
             <span>{{ $t("sk.t1") }}</span
             ><br />
-            <span class="stroke">{{ $t("sk.t2") }}</span
+            <span class="accent">{{ $t("sk.t2") }}</span
             ><br />
-            <span class="accent">{{ $t("sk.t3") }}</span>
+            <span>{{ $t("sk.t3") }}</span>
           </h2>
         </div>
         <div>

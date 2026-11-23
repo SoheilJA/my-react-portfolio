@@ -17,8 +17,8 @@ const iconFor = (n) => (/github/i.test(n) ? 'i-github' : 'i-globe')
           <div class="marker"><span>{{ $t('ct.marker') }}</span></div>
           <h2 class="display sec-title" style="font-size: clamp(46px, 8vw, 120px)">
             <span>{{ $t('ct.t1') }}</span><br />
-            <span class="stroke">{{ $t('ct.t2') }}</span>
-            <span class="accent">{{ $t('ct.t3') }}</span>
+            <span class="accent">{{ $t('ct.t2') }}</span>
+            <span>{{ $t('ct.t3') }}</span>
           </h2>
         </div>
       </div>
