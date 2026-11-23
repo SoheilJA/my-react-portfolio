@@ -12,7 +12,6 @@ import ExperienceSection from '../components/ExperienceSection.vue'
 import CertificatesSection from '../components/CertificatesSection.vue'
 import ContactSection from '../components/ContactSection.vue'
 import SiteFooter from '../components/SiteFooter.vue'
-import StickyCta from '../components/StickyCta.vue'
 </script>
 
 <template>
@@ -31,5 +30,4 @@ import StickyCta from '../components/StickyCta.vue'
     <ContactSection />
   </main>
   <SiteFooter />
-<StickyCta />
 </template>
