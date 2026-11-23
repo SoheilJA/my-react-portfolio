@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { content } from "../data/store";
 
 const root = ref(null);
@@ -29,6 +29,47 @@ const ticker = [
   "SHIP IT",
   "NO SHORTCUTS",
 ];
+
+const trackEl = ref(null);
+const tickerRepeat = ref(2);
+const tickerLoop = computed(() =>
+  Array.from({ length: tickerRepeat.value }, () => ticker).flat(),
+);
+
+async function fitTicker() {
+  const track = trackEl.value;
+  if (!track) return;
+  const viewport = document.documentElement.clientWidth;
+  const target = viewport + 240;
+  let guard = 0;
+  while (guard < 30) {
+    const half = track.firstElementChild;
+    const w = half ? half.getBoundingClientRect().width : 0;
+    if (w === 0 || w >= target) break;
+    tickerRepeat.value++;
+    await nextTick();
+    guard++;
+  }
+}
+
+let tickerRaf;
+function onTickerResize() {
+  cancelAnimationFrame(tickerRaf);
+  tickerRaf = requestAnimationFrame(() => {
+    tickerRepeat.value = 2;
+    nextTick().then(fitTicker);
+  });
+}
+
+onMounted(() => {
+  fitTicker();
+  document.fonts?.ready.then(() => fitTicker());
+  window.addEventListener("resize", onTickerResize);
+});
+onUnmounted(() => {
+  window.removeEventListener("resize", onTickerResize);
+  cancelAnimationFrame(tickerRaf);
+});
 
 let raf;
 let last = 0;
@@ -167,13 +208,17 @@ onUnmounted(() => {
     </div>
 
     <div class="ticker">
-      <div class="track-m">
-        <template v-for="n in 2" :key="n">
-          <template v-for="w in ticker" :key="n + w">
-            <span>{{ w }}</span
+      <div ref="trackEl" class="track-m">
+        <div
+          v-for="half in 2"
+          :key="half"
+          class="flex shrink-0 items-center"
+        >
+          <template v-for="(w, i) in tickerLoop" :key="half + '-' + i"
+            ><span>{{ w }}</span
             ><em>/</em>
           </template>
-        </template>
+        </div>
       </div>
     </div>
   </section>
