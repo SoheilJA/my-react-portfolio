@@ -182,7 +182,7 @@ onUnmounted(() => {
     aria-label="Intro"
   >
     <!-- پس‌زمینه -->
-    <div class="absolute inset-0 [background:radial-gradient(ellipse_at_50%_38%,rgba(255,84,0,.14),transparent_60%)]"></div>
+    <div class="absolute inset-0 [background:radial-gradient(ellipse_at_50%_38%,rgba(255,106,34,.14),transparent_60%)]"></div>
     <div class="absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.035)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,#000_25%,transparent_75%)]"></div>
     <div class="pointer-events-none absolute inset-0 [background:repeating-linear-gradient(0deg,transparent_0_3px,rgba(0,0,0,.18)_3px_4px)]"></div>
     <div class="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,.75))]"></div>
@@ -211,7 +211,7 @@ onUnmounted(() => {
         aria-hidden="true"
       >
         <span class="text-transparent [-webkit-text-stroke:1.5px_#3a3a3a]">SOHEIL AHMADI</span>
-        <span class="absolute inset-0 text-accent [clip-path:inset(0_calc(100%_-_var(--p,0)*100%)_0_0)] [text-shadow:0_0_50px_rgba(255,84,0,.5)]">SOHEIL AHMADI</span>
+        <span class="absolute inset-0 text-accent [clip-path:inset(0_calc(100%_-_var(--p,0)*100%)_0_0)] [text-shadow:0_0_50px_rgba(255,106,34,.5)]">SOHEIL AHMADI</span>
       </div>
 
       <div class="pl-meter mt-10 w-[min(560px,82vw)]" dir="ltr">
@@ -222,7 +222,7 @@ onUnmounted(() => {
             class="h-3 flex-1 transition-colors duration-150"
             :class="
               i < filled
-                ? 'bg-accent shadow-[0_0_8px_rgba(255,84,0,.6)]'
+                ? 'bg-accent shadow-[0_0_8px_rgba(255,106,34,.6)]'
                 : 'bg-white/10'
             "
           ></span>
