@@ -12,6 +12,7 @@ import FloatLabel from "primevue/floatlabel";
 import FileUpload from "primevue/fileupload";
 import { content, uploadImage } from "../data/store";
 import { resizeToDataUrl } from "../lib/image";
+import { saveNow } from "./useSaver";
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -44,13 +45,19 @@ function openEdit(row) {
   dialog.value = true;
 }
 
-function save() {
+async function save() {
   if (!form.value.title.fa.trim() || !form.value.title.en.trim()) {
-    toast.add({
-      severity: "warn",
-      summary: "عنوان فارسی و انگلیسی الزامی است",
-      life: 3000,
-    });
+    const ok = await saveNow();
+    toast.add(
+      ok
+        ? { severity: "success", summary: "ثبت و منتشر شد", life: 2500 }
+        : {
+            severity: "error",
+            summary: "ذخیره نشد",
+            detail: "دوباره وارد شوید و تلاش کنید",
+            life: 4000,
+          },
+    );
     return;
   }
   const i = content.certificates.findIndex((c) => c.id === editingId.value);

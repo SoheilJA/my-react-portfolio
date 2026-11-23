@@ -29,7 +29,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="sticky" :class="{ visible }" :inert="!visible">
+  <div class="cta-bar" :class="{ visible }" :inert="!visible">
     <div>
       <div class="wrap">
         <div class="left">

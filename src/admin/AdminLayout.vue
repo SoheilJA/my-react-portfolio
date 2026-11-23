@@ -1,43 +1,56 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";
 import Button from "primevue/button";
 import Drawer from "primevue/drawer";
+import Tag from "primevue/tag";
 import AdminMenu from "./AdminMenu.vue";
-import { saveContent } from "../data/store";
+import { content } from "../data/store";
+import { saveState, scheduleSave, saveNow } from "./useSaver";
 
 const router = useRouter();
 const toast = useToast();
 const drawer = ref(false);
-const saving = ref(false);
 
-async function save() {
-  saving.value = true;
-  try {
-    await saveContent();
-    toast.add({
-      severity: "success",
-      summary: "ذخیره شد",
-      detail: "تغییرات روی سایت اعمال شد",
-      life: 2500,
-    });
-  } catch {
+watch(content, () => scheduleSave(), { deep: true });
+
+watch(saveState, (s) => {
+  if (s === "error") {
     toast.add({
       severity: "error",
       summary: "ذخیره نشد",
       detail: "دوباره وارد شوید و تلاش کنید",
       life: 4000,
     });
-  } finally {
-    saving.value = false;
   }
+});
+
+const labels = {
+  dirty: { text: "تغییرات ذخیره‌نشده", severity: "warn" },
+  saving: { text: "در حال ذخیره...", severity: "info" },
+  saved: { text: "ذخیره شد", severity: "success" },
+  error: { text: "ذخیره نشد", severity: "danger" },
+};
+
+async function save() {
+  const ok = await saveNow(true);
+  if (ok) toast.add({ severity: "success", summary: "منتشر شد", life: 2000 });
 }
 
 function logout() {
   sessionStorage.removeItem("token");
   router.push("/admin/login");
 }
+
+function warnLeave(e) {
+  if (["dirty", "saving"].includes(saveState.value)) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+}
+onMounted(() => window.addEventListener("beforeunload", warnLeave));
+onUnmounted(() => window.removeEventListener("beforeunload", warnLeave));
 </script>
 
 <template>
@@ -81,10 +94,15 @@ function logout() {
             severity="secondary"
             text
           />
+          <Tag
+            v-if="labels[saveState]"
+            :value="labels[saveState].text"
+            :severity="labels[saveState].severity"
+          />
           <Button
             label="ذخیره و انتشار"
             icon="pi pi-save"
-            :loading="saving"
+            :loading="saveState === 'saving'"
             @click="save"
           />
           <Button
