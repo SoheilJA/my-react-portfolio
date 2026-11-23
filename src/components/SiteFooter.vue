@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { content } from '../data/store'
+import { socialIcon } from '../lib/socialIcon'
 
 const { locale } = useI18n()
 const pages = [
@@ -10,9 +11,7 @@ const pages = [
   { id: 'experience', key: 'nav.experience' },
   { id: 'certificates', key: 'nav.certificates' },
 ]
-const github = computed(() =>
-  content.contact.socials.find((s) => /github/i.test(s.name) && s.url)
-)
+const socials = computed(() => content.contact.socials.filter((s) => s.url))
 </script>
 
 <template>
@@ -31,17 +30,15 @@ const github = computed(() =>
           <p>{{ $t('ft.text') }}</p>
           <div class="socials">
             <a
-              v-if="github"
+              v-for="s in socials"
+              :key="s.id"
               class="soc"
-              :href="github.url"
+              :href="s.url"
               target="_blank"
               rel="noopener"
-              aria-label="GitHub"
+              :aria-label="s.name"
             >
-              <svg class="i"><use href="#i-github" /></svg>
-            </a>
-            <a class="soc" :href="'mailto:' + content.contact.email" aria-label="Email">
-              <svg class="i"><use href="#i-mail" /></svg>
+              <svg class="i"><use :href="'#' + socialIcon(s.name)" /></svg>
             </a>
           </div>
         </div>

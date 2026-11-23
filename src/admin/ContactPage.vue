@@ -25,19 +25,6 @@ function remove(i) {
       <template #content>
         <div class="flex flex-col gap-6 pt-2">
           <InputGroup>
-            <InputGroupAddon><i class="pi pi-envelope"></i></InputGroupAddon>
-            <FloatLabel variant="on">
-              <InputText
-                id="email"
-                v-model="content.contact.email"
-                dir="ltr"
-                fluid
-              />
-              <label for="email">ایمیل</label>
-            </FloatLabel>
-          </InputGroup>
-
-          <InputGroup>
             <InputGroupAddon><i class="pi pi-phone"></i></InputGroupAddon>
             <FloatLabel variant="on">
               <InputText

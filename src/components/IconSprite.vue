@@ -16,6 +16,18 @@
       <rect x="3" y="5" width="18" height="14" rx="1" />
       <path d="m3 7 9 6 9-6" />
     </symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24">
+      <path d="m21 3-9.5 18L9 14l-6-2.5z" />
+      <path d="M21 3 9 14" />
+    </symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24">
+      <path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.5A8.4 8.4 0 1 1 20.5 11.6z" />
+      <path d="M8.4 8.2c.2 2.8 2.4 5 5.2 5.2.5 0 .9-.4.9-.9 0-.3-.9-.8-1.2-.8-.3 0-.5.6-.9.5-.9-.3-1.6-1-1.9-1.9-.1-.4.5-.6.5-.9 0-.3-.5-1.2-.8-1.2-.5 0-.8.4-.8.9z" />
+    </symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="2.5" />
+      <path d="M7 10v7M7 7.2v.2M11 17v-4.5a2.2 2.2 0 0 1 4.4 0V17M11 10.5V12" />
+    </symbol>
     <symbol id="i-phone" viewBox="0 0 24 24">
       <path
         d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"

@@ -80,10 +80,6 @@
       "fa": "اگه برای ساخت وب‌سایت یا سامانه‌ای نیاز به همکاری دارید، پیامتون رو برام بفرستید.",
       "en": "If you need a website or web system built, send me a message."
     },
-    "contact.email": {
-      "fa": "ایمیل",
-      "en": "Email"
-    },
     "contact.phone": {
       "fa": "تلفن",
       "en": "Phone"
@@ -329,7 +325,7 @@
       "fa": "نوع پروژه و یک توضیح کوتاه برایم بنویسید. سریع جواب می‌دهم.",
       "en": "Tell me the project type and a short note. I reply fast."
     },
-    "ct.btn": { "fa": "ارسال ایمیل", "en": "SEND EMAIL" },
+    "ct.btn": { "fa": "پیام به من", "en": "MESSAGE ME" },
     "ct.call": { "fa": "تماس تلفنی", "en": "CALL ME" },
     "ct.note": { "fa": "پاسخگویی سریع · مشاوره اولیه رایگان", "en": "Fast reply · Free first consultation" },
     "ct.loc_k": { "fa": "/ موقعیت", "en": "/ Location" },
@@ -965,7 +961,6 @@
     }
   ],
   "contact": {
-    "email": "soheilahmadijalal.sj1378@gmail.com",
     "phone": "+989011016263",
     "socials": [
       {

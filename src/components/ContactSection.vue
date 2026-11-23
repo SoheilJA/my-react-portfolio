@@ -2,11 +2,21 @@
 import { computed } from 'vue'
 import { content } from '../data/store'
 import { useInView } from '../lib/useInView'
+import { socialIcon } from '../lib/socialIcon'
 
 const { el, seen } = useInView(0.1)
 const socials = computed(() => content.contact.socials.filter((s) => s.url))
 const tel = computed(() => 'tel:' + content.contact.phone.replace(/\s/g, ''))
-const iconFor = (n) => (/github/i.test(n) ? 'i-github' : 'i-globe')
+const primary = computed(
+  () =>
+    content.contact.socials.find(
+      (s) => /telegram|whatsapp/i.test(s.name) && s.url
+    ) || { name: '', url: tel.value }
+)
+const primaryHref = computed(() => primary.value.url || tel.value)
+const primaryIcon = computed(() =>
+  primary.value.name ? socialIcon(primary.value.name) : 'i-phone'
+)
 </script>
 
 <template>
@@ -30,9 +40,9 @@ const iconFor = (n) => (/github/i.test(n) ? 'i-github' : 'i-globe')
             <h3 class="display">{{ $t('ct.cta_t') }}</h3>
             <p class="lead">{{ $t('ct.cta_p') }}</p>
 
-            <a :href="'mailto:' + content.contact.email" class="cta pulse">
+            <a :href="primaryHref" class="cta pulse">
+              <svg class="i"><use :href="'#' + primaryIcon" /></svg>
               <span>{{ $t('ct.btn') }}</span>
-              <svg class="i flip-arrow"><use href="#i-arrow" /></svg>
             </a>
             <a :href="tel" class="cta-ghost">
               <svg class="i"><use href="#i-phone" /></svg>
@@ -63,10 +73,6 @@ const iconFor = (n) => (/github/i.test(n) ? 'i-github' : 'i-globe')
               <svg class="i"><use href="#i-phone" /></svg>
               <span>{{ content.contact.phone }}</span>
             </a>
-            <a class="row" :href="'mailto:' + content.contact.email">
-              <svg class="i"><use href="#i-mail" /></svg>
-              <span>{{ content.contact.email }}</span>
-            </a>
             <a
               v-for="s in socials"
               :key="s.id"
@@ -75,7 +81,7 @@ const iconFor = (n) => (/github/i.test(n) ? 'i-github' : 'i-globe')
               target="_blank"
               rel="noopener"
             >
-              <svg class="i"><use :href="'#' + iconFor(s.name)" /></svg>
+              <svg class="i"><use :href="'#' + socialIcon(s.name)" /></svg>
               <span>{{ s.name }}</span>
             </a>
           </div>
