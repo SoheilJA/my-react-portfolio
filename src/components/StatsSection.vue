@@ -11,17 +11,17 @@ const anim = reactive({});
 let io;
 
 const items = computed(() =>
-  (content.stats || []).map((s) => ({
-    ...s,
-    target:
-      s.auto === "certificates"
-        ? content.certificates.length
-        : s.auto === "services"
-          ? content.services.length
-          : s.auto === "projects"
-            ? content.projects.length
-            : s.value,
-  })),
+  (content.stats || []).map((s) => {
+    let target;
+    if (s.auto === "certificates") target = content.certificates.length;
+    else if (s.auto === "services") target = content.services.length;
+    else if (s.auto === "projects") target = content.projects.length;
+    else if (s.id === 2) target = content.projects.length;
+    else if (s.id === 3) target = content.certificates.length;
+    else if (s.id === 4) target = content.services.length;
+    else target = s.value;
+    return { ...s, target };
+  }),
 );
 
 const fmt = (n) =>

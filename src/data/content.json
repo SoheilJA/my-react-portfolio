@@ -1006,8 +1006,8 @@
     },
     {
       "id": 2,
-      "value": 30,
-      "suffix": "+",
+      "auto": "projects",
+      "suffix": "",
       "label": {
         "fa": "سایت تحویل‌شده",
         "en": "Sites delivered"
