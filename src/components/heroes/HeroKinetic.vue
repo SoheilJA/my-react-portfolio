@@ -46,11 +46,31 @@ const words = ['hero.l1', 'hero.l2', 'hero.l3b', 'hero.tagline']
   justify-content: space-between;
   padding-top: 120px;
   overflow: hidden;
-  background:
-    radial-gradient(70% 60% at 50% 38%, rgba(255, 106, 34, 0.08), transparent 65%),
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: auto, 80px 80px, 80px 80px;
+  background: radial-gradient(70% 60% at 50% 38%, rgba(255, 106, 34, 0.08), transparent 65%);
+}
+.hero-kin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: hkGrid 12s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes hkGrid {
+  to {
+    background-position: 0 -80px;
+  }
+}
+.hk-top,
+.hk-stage,
+.hk-foot,
+.hk-marquee {
+  position: relative;
+  z-index: 1;
 }
 .hk-top {
   display: flex;
@@ -85,8 +105,7 @@ const words = ['hero.l1', 'hero.l2', 'hero.l3b', 'hero.tagline']
 }
 .hk-outline {
   font-size: clamp(38px, 10vw, 150px);
-  color: transparent;
-  -webkit-text-stroke: 1px var(--silver-dim);
+  color: var(--fg);
   line-height: 0.95;
   animation: hkUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
@@ -190,6 +209,11 @@ const words = ['hero.l1', 'hero.l2', 'hero.l3b', 'hero.tagline']
 @keyframes hkBob {
   50% {
     transform: translateY(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-kin::before {
+    animation: none;
   }
 }
 @media (max-width: 767px) {
