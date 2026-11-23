@@ -62,6 +62,13 @@ body {
   overflow-x: clip;
 }
 
+html.modal-open {
+  overflow: hidden;
+}
+html.modal-open body {
+  overflow: hidden;
+}
+
 .fade-mask {
   -webkit-mask-image: radial-gradient(
     ellipse at 50% 40%,

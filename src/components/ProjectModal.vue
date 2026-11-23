@@ -1,9 +1,9 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import gsap from 'gsap'
 
-defineProps({ project: Object })
+const props = defineProps({ project: Object })
 const emit = defineEmits(['close'])
 const { locale } = useI18n()
 
@@ -13,6 +13,26 @@ function onEsc(e) {
 
 onMounted(() => window.addEventListener('keydown', onEsc))
 onUnmounted(() => window.removeEventListener('keydown', onEsc))
+
+let prevOverflow = ''
+watch(
+    () => props.project,
+    (p) => {
+      if (p) {
+        prevOverflow = document.body.style.overflow
+        document.documentElement.classList.add('modal-open')
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.documentElement.classList.remove('modal-open')
+        document.body.style.overflow = prevOverflow
+      }
+    }
+)
+
+onUnmounted(() => {
+  document.documentElement.classList.remove('modal-open')
+  document.body.style.overflow = prevOverflow
+})
 
 function enter(el, done) {
   gsap.from(el, { opacity: 0, duration: 0.3 })
@@ -36,14 +56,15 @@ function leave(el, done) {
     <Transition :css="false" @enter="enter" @leave="leave">
       <div
           v-if="project"
+          data-lenis-prevent
           class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
           @click.self="emit('close')"
       >
         <div
             data-lenis-prevent
-            class="panel relative max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-line bg-surface"
+            class="panel relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden border border-line bg-surface"
         >
-          <div class="relative">
+          <div class="relative shrink-0">
             <img
                 v-if="project.image"
                 :src="project.image"
@@ -58,7 +79,7 @@ function leave(el, done) {
             </div>
 
             <button
-                class="absolute top-3 z-10 flex h-9 w-9 items-center justify-center border border-line bg-black/60 text-ink transition hover:border-accent hover:text-accent"
+                class="absolute top-3 z-10 flex h-11 w-11 items-center justify-center border border-line bg-black/70 text-lg text-ink transition hover:border-accent hover:text-accent"
                 style="inset-inline-end: 12px"
                 aria-label="Close"
                 @click="emit('close')"
@@ -67,7 +88,7 @@ function leave(el, done) {
             </button>
           </div>
 
-          <div class="p-6 sm:p-8">
+          <div class="min-h-0 flex-1 overflow-y-auto p-6 sm:p-8" data-lenis-prevent>
             <span
                 class="tag type mb-4"
                 :class="{ wp: project.category === 'wordpress' }"
@@ -96,26 +117,29 @@ function leave(el, done) {
                 </span>
               </div>
             </div>
+          </div>
 
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a
-                  v-if="project.link"
-                  :href="project.link"
-                  target="_blank"
-                  rel="noopener"
-                  class="flex flex-1 items-center justify-center gap-2 bg-accent px-5 py-3 font-bold text-bg transition hover:bg-ink"
-              >
-                {{ $t('works.view') }}
-                <svg class="i h-4 w-4"><use href="#i-ext" /></svg>
-              </a>
-              <button
-                  class="border border-line px-5 py-3 text-ink transition hover:border-accent"
-                  :class="project.link ? 'sm:flex-none' : 'flex-1'"
-                  @click="emit('close')"
-              >
-                {{ $t('works.close') }}
-              </button>
-            </div>
+          <div
+              class="flex shrink-0 flex-col gap-3 border-t border-line bg-surface p-4 sm:flex-row sm:p-5"
+              data-lenis-prevent
+          >
+            <a
+                v-if="project.link"
+                :href="project.link"
+                target="_blank"
+                rel="noopener"
+                class="flex flex-1 items-center justify-center gap-2 bg-accent px-5 py-3 font-bold text-bg transition hover:bg-ink"
+            >
+              {{ $t('works.view') }}
+              <svg class="i h-4 w-4"><use href="#i-ext" /></svg>
+            </a>
+            <button
+                class="border border-line px-5 py-3 text-ink transition hover:border-accent"
+                :class="project.link ? 'sm:flex-none' : 'flex-1'"
+                @click="emit('close')"
+            >
+              {{ $t('works.close') }}
+            </button>
           </div>
         </div>
       </div>
