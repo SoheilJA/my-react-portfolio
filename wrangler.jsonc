@@ -1,18 +1,23 @@
 {
   "name": "soheil-portfolio",
-  "main": "worker/index.js",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-11-19",
+  "workers_dev": true,
+  "vars": {
+    "SITE_ORIGIN": "https://soheil-ja.ir",
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/img/*"],
+    "run_worker_first": ["/api/*"],
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "portfolio-db",
       "database_id": "26157186-15b6-499e-a2a3-2822cf517382",
+      "migrations_dir": "migrations",
     },
   ],
 }

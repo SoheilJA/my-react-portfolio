@@ -1,0 +1,1084 @@
+export type Language = 'en' | 'fa';
+
+export interface BilingualText {
+  en: string;
+  fa: string;
+}
+
+export interface PortfolioService {
+  id: number;
+  slug: string;
+  title: BilingualText;
+  desc: BilingualText;
+  deliverables: {
+    en: string[];
+    fa: string[];
+  };
+  stack: string[];
+  artVariant: 'backend' | 'ecommerce' | 'corporate' | 'marketplace' | 'portfolio';
+}
+
+export interface PortfolioProject {
+  id: number;
+  slug: string;
+  category: 'code' | 'wordpress';
+  featured: boolean;
+  image: string;
+  link?: string;
+  title: BilingualText;
+  summary: BilingualText;
+  architectureNote: BilingualText;
+  tech: string[];
+  year: string;
+  sector: BilingualText;
+}
+
+export interface PortfolioSkillGroup {
+  id: number;
+  title: BilingualText;
+  items: string[];
+}
+
+export interface PortfolioPath {
+  id: number;
+  title: BilingualText;
+  text: BilingualText;
+  stack: string;
+  artVariant: 'backend' | 'frontend' | 'wordpress';
+}
+
+export interface PortfolioExperience {
+  id: number;
+  period: string;
+  company: BilingualText;
+  role: BilingualText;
+  tag: BilingualText;
+  milestone: BilingualText;
+  stack: string;
+  points: {
+    en: string[];
+    fa: string[];
+  };
+}
+
+export interface PortfolioCertificate {
+  id: number;
+  title: BilingualText;
+  issuer: BilingualText;
+  link: string;
+  image: string;
+  credentialCode: string;
+  focus: BilingualText;
+}
+
+export interface PortfolioStat {
+  id: number;
+  value?: number;
+  auto?: 'projects' | 'certificates' | 'services';
+  suffix: string;
+  label: BilingualText;
+}
+
+export const ARTWORK_ASSETS = {
+  heroSpace: '/src/assets/images/hero_space_backdrop_1795473159357.jpg',
+  servicesGeometric: '/src/assets/images/services_geometric_artwork_1795473160693.jpg',
+  aboutAtelier: '/src/assets/images/about_atelier_artwork_1795473162714.jpg',
+  projectsBackdrop: '/src/assets/images/projects_showcase_backdrop_1795473161480.jpg',
+  contactPortal: '/src/assets/images/contact_portal_artwork_1795473162386.jpg',
+} as const;
+
+export const PORTFOLIO_PROFILE = {
+  name: {
+    en: 'Soheil Jalal-Ahmadi',
+    fa: 'سهیل جلال‌احمدی',
+  },
+  shortName: {
+    en: 'soheil',
+    fa: 'سهیل',
+  },
+  role: {
+    en: 'Web Designer & Developer',
+    fa: 'طراح و توسعه‌دهنده وب',
+  },
+  location: {
+    en: 'Mashhad, Iran',
+    fa: 'مشهد، ایران',
+  },
+  availability: {
+    en: 'Open for new projects',
+    fa: 'آماده پذیرش پروژه جدید',
+  },
+  email: 'soheilahmadijalal.sj1378@gmail.com',
+  phone: '+989011016263',
+  bio: {
+    en: "I'm Soheil Jalal-Ahmadi, a freelance web developer and designer based in Mashhad, Iran. I work with Django, Python, and Laravel on the backend, and HTML, Tailwind CSS, JavaScript, GSAP, and Three.js on the frontend. I take projects from architecture and visual design through deployment on cloud infrastructure. I hold the CS50x and CS50p certificates from Harvard University and the Django certificate from Maktabkhooneh. Outside of coding, I'm deeply interested in cinema, photography, and digital media.",
+    fa: 'من سهیل جلال‌احمدی، توسعه‌دهنده و طراح وب فریلنسر ساکن مشهد هستم. در بک‌اند با Django، Python و Laravel و در فرانت‌اند با HTML، Tailwind CSS، JavaScript، GSAP و Three.js کار می‌کنم. پروژه‌ها را از معماری و طراحی بصری تا استقرار روی زیرساخت ابری همراهی می‌کنم. دارای مدارک CS50x و CS50p از دانشگاه هاروارد و گواهی‌نامه Django از مکتب‌خونه هستم. خارج از دنیای کدنویسی به سینما، عکاسی و رسانه‌های دیجیتال علاقه دارم.',
+  },
+  extraCraft: {
+    en: 'Django developer and web designer. Websites, social media management, graphic design and videography.',
+    fa: 'برنامه‌نویس Django و طراح وب. طراحی وب‌سایت، مدیریت شبکه‌های اجتماعی، طراحی گرافیک و تصویربرداری.',
+  },
+};
+
+export const PORTFOLIO_STATS: PortfolioStat[] = [
+  {
+    id: 1,
+    value: 3,
+    suffix: '+',
+    label: { en: 'Years of experience', fa: 'سال تجربه' },
+  },
+  {
+    id: 2,
+    auto: 'projects',
+    suffix: '',
+    label: { en: 'Sites delivered', fa: 'سایت تحویل‌شده' },
+  },
+  {
+    id: 3,
+    auto: 'certificates',
+    suffix: '',
+    label: { en: 'Verifiable certificates', fa: 'مدرک قابل‌استعلام' },
+  },
+  {
+    id: 4,
+    auto: 'services',
+    suffix: '',
+    label: { en: 'Core services', fa: 'خدمت اصلی' },
+  },
+];
+
+export const PORTFOLIO_PATHS: PortfolioPath[] = [
+  {
+    id: 1,
+    title: { en: 'Backend Engineering', fa: 'برنامه‌نویسی بک‌اند' },
+    text: {
+      en: 'Full Django & Laravel websites: relational models, custom admin panels, multilingual content, deployed with Docker, Kubernetes and Runflare.',
+      fa: 'طراحی و توسعه سایت‌های کامل با Django و Laravel: مدل‌ها، پنل ادمین اختصاصی، ساختار چندزبانه و دیپلوی روی Docker، Kubernetes و Runflare.',
+    },
+    stack: 'Django · Python · Laravel · PHP',
+    artVariant: 'backend',
+  },
+  {
+    id: 2,
+    title: { en: 'Frontend & Motion', fa: 'فرانت‌اند و تعامل' },
+    text: {
+      en: 'Pixel-precise RTL/LTR interfaces in HTML, Tailwind CSS, Alpine.js and JavaScript, paired with GSAP choreography and Three.js scenes.',
+      fa: 'رابط‌های کاربری راست‌چین و چپ‌چین دقیق با HTML، Tailwind CSS و جاوااسکریپت، همراه با انیمیشن GSAP و صحنه‌های سه‌بعدی Three.js.',
+    },
+    stack: 'Tailwind · JS · GSAP · Three.js',
+    artVariant: 'frontend',
+  },
+  {
+    id: 3,
+    title: { en: 'WordPress Velocity', fa: 'طراحی وردپرس' },
+    text: {
+      en: '30+ production websites built with WordPress, Elementor and WoodMart — from corporate brands to full online stores with direct client delivery.',
+      fa: 'بیش از ۳۰ سایت عملیاتی با وردپرس، المنتور و وودمارت؛ از وب‌سایت شرکتی تا فروشگاه اینترنتی با ارتباط مستقیم و تحویل کامل به کارفرما.',
+    },
+    stack: 'WordPress · Elementor · WoodMart',
+    artVariant: 'wordpress',
+  },
+];
+
+export const PORTFOLIO_SERVICES: PortfolioService[] = [
+  {
+    id: 1,
+    slug: 'backend-django-laravel',
+    title: {
+      en: 'Backend Development with Django & Laravel',
+      fa: 'توسعه بک‌اند با Django و Laravel',
+    },
+    desc: {
+      en: 'Server-side logic, relational database architecture, REST APIs, and custom admin panels tailored to your project scale.',
+      fa: 'منطق سمت سرور، طراحی پایگاه داده، سرویس‌های API و پنل مدیریت اختصاصی متناسب با نیاز و مقیاس پروژه.',
+    },
+    deliverables: {
+      en: ['Database & ORM schema', 'Custom admin & role permissions', 'Docker & cloud deployment'],
+      fa: ['معماری پایگاه داده و ORM', 'پنل مدیریت اختصاصی و سطوح دسترسی', 'دیپلوی روی Docker و زیرساخت ابری'],
+    },
+    stack: ['Django', 'Python', 'Laravel', 'PHP', 'Docker'],
+    artVariant: 'backend',
+  },
+  {
+    id: 2,
+    slug: 'ecommerce-design',
+    title: {
+      en: 'E-Commerce Website Design',
+      fa: 'طراحی فروشگاه اینترنتی',
+    },
+    desc: {
+      en: 'Custom online store with product catalog, inventory workflows, order tracking, and Iranian payment gateway integration.',
+      fa: 'فروشگاه اختصاصی با پنل مدیریت کامل، مدیریت محصولات و سفارش‌ها، سبد خرید سریع و اتصال درگاه پرداخت.',
+    },
+    deliverables: {
+      en: ['Product filtering & checkout flow', 'Order & inventory management', 'Payment gateway integration'],
+      fa: ['فیلتر محصولات و فرآیند خرید سریع', 'مدیریت سفارش‌ها و موجودی انبار', 'اتصال درگاه پرداخت بانکی'],
+    },
+    stack: ['Django', 'WordPress', 'WoodMart', 'Tailwind'],
+    artVariant: 'ecommerce',
+  },
+  {
+    id: 3,
+    slug: 'corporate-website',
+    title: {
+      en: 'Corporate Website Design',
+      fa: 'طراحی وب‌سایت شرکتی',
+    },
+    desc: {
+      en: 'High-trust company and industrial brand websites engineered for clarity, speed, SEO, and lasting visual authority.',
+      fa: 'وب‌سایت حرفه‌ای برای شرکت‌ها، هلدینگ‌ها و برندها، هماهنگ با هویت سازمانی، سرعت بالا و سئوی استاندارد.',
+    },
+    deliverables: {
+      en: ['Brand-aligned visual system', 'Technical SEO & fast loading', 'Bilingual RTL/LTR support'],
+      fa: ['سیستم بصری منطبق با هویت برند', 'سئو فنی و سرعت بارگذاری بالا', 'پشتیبانی دوزبانه RTL و LTR'],
+    },
+    stack: ['WordPress', 'Elementor', 'Tailwind', 'GSAP'],
+    artVariant: 'corporate',
+  },
+  {
+    id: 4,
+    slug: 'multi-vendor-marketplace',
+    title: {
+      en: 'Multi-Vendor Marketplace',
+      fa: 'طراحی مارکت‌پلیس چندفروشندگی',
+    },
+    desc: {
+      en: 'A scalable marketplace where independent vendors register, publish listings, and operate under structured admin approval.',
+      fa: 'پلتفرمی که فروشندگان در آن ثبت‌نام می‌کنند، محصولاتشان را مدیریت می‌کنند و مدیر سیستم آن‌ها را تأیید و کنترل می‌کند.',
+    },
+    deliverables: {
+      en: ['Vendor onboarding & dashboards', 'Admin moderation & commissions', 'Unified multi-seller checkout'],
+      fa: ['پنل اختصاصی ثبت‌نام و مدیریت فروشندگان', 'تأیید مدیر و محاسبه کمیسیون', 'سبد خرید یکپارچه چندفروشندگی'],
+    },
+    stack: ['Django', 'Laravel', 'Python', 'PHP'],
+    artVariant: 'marketplace',
+  },
+  {
+    id: 5,
+    slug: 'portfolio-resume-website',
+    title: {
+      en: 'Portfolio & Resume Website',
+      fa: 'طراحی وب‌سایت شخصی و رزومه',
+    },
+    desc: {
+      en: 'Expressive multilingual personal websites built to showcase case studies, interactive visuals, skills, and verifiable credentials.',
+      fa: 'وب‌سایت شخصی چندزبانه با طراحی متمایز برای نمایش حرفه‌ای رزومه، نمونه‌کارها، مدارک و مهارت‌ها.',
+    },
+    deliverables: {
+      en: ['Custom interactive motion & 3D', 'Bilingual FA/EN switching', 'Case-study & credential showcase'],
+      fa: ['انیمیشن‌های تعاملی و گرافیک سفارشی', 'تغییر زبان دوزبانه فارسی و انگلیسی', 'نمایش ساختارمند پروژه‌ها و مدارک'],
+    },
+    stack: ['Django', 'Tailwind', 'GSAP', 'Three.js'],
+    artVariant: 'portfolio',
+  },
+];
+
+export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
+  {
+    id: 1795410275020,
+    slug: 'siyas',
+    category: 'code',
+    featured: true,
+    image: '/assets/portfolio/project-siyas.webp',
+    link: 'https://siyas-v2.soheilahmadijalal-sj1378.workers.dev/',
+    title: { en: 'Siyas', fa: 'سی‌یاس' },
+    summary: {
+      en: 'Interactive web experience combining a Laravel backend architecture with Three.js spatial visuals and Tailwind UI.',
+      fa: 'تجربه وب تعاملی با ترکیب معماری بک‌اند Laravel، صحنه‌های سه‌بعدی Three.js و رابط کاربری Tailwind.',
+    },
+    architectureNote: {
+      en: 'Built with Laravel server-side routing, Three.js interactive canvas scenes, and responsive Tailwind CSS layouts deployed on edge workers.',
+      fa: 'توسعه‌یافته با ساختار بک‌اند Laravel، رندر تعاملی سه‌بعدی Three.js و لایه‌های واکنش‌گرای Tailwind CSS.',
+    },
+    tech: ['Laravel', 'Three.js', 'Tailwind'],
+    year: '2026',
+    sector: { en: 'Interactive Web App', fa: 'اپلیکیشن وب تعاملی' },
+  },
+  {
+    id: 1,
+    slug: 'reza-hoseini-resume',
+    category: 'code',
+    featured: true,
+    image: '',
+    title: { en: "Reza Hoseini's Resume", fa: 'رزومه رضا حسینی' },
+    summary: {
+      en: 'Custom Django personal resume and portfolio platform with structured content management and Tailwind styling.',
+      fa: 'وب‌سایت شخصی و رزومه اختصاصی با Django، پنل مدیریت محتوا و طراحی مدرن Tailwind.',
+    },
+    architectureNote: {
+      en: 'Full Django MVT architecture with Python-driven dynamic sections, clean admin authoring, and crisp responsive typography.',
+      fa: 'معماری کامل Django و Python با بخش‌های پویا، مدیریت آسان محتوا از پنل ادمین و تایپوگرافی دقیق.',
+    },
+    tech: ['Django', 'Python', 'Tailwind'],
+    year: '2026',
+    sector: { en: 'Personal Portfolio', fa: 'رزومه شخصی' },
+  },
+  {
+    id: 2,
+    slug: 'pixoria',
+    category: 'code',
+    featured: true,
+    image: '',
+    title: { en: 'Pixoria', fa: 'پیکسوریا' },
+    summary: {
+      en: 'Digital creative platform engineered with Django, Python, Tailwind CSS, and interactive vanilla JavaScript workflows.',
+      fa: 'پلتفرم خلاقیت دیجیتال ساخته‌شده با Django، Python، Tailwind CSS و تعاملات اختصاصی JavaScript.',
+    },
+    architectureNote: {
+      en: 'Custom media-centric backend in Django paired with lightweight JavaScript state transitions and optimized asset delivery.',
+      fa: 'بک‌اند اختصاصی رسانه در Django همراه با تعاملات سریع جاوااسکریپت و بهینه‌سازی بارگذاری تصاویر.',
+    },
+    tech: ['Django', 'Python', 'Tailwind', 'JavaScript'],
+    year: '2026',
+    sector: { en: 'Creative Platform', fa: 'پلتفرم دیجیتال' },
+  },
+  {
+    id: 3,
+    slug: 'marjan-hosseinzadeh-resume',
+    category: 'code',
+    featured: true,
+    image: '',
+    title: { en: 'Marjan Hosseinzadeh Resume', fa: 'رزومه مرجان حسین‌زاده' },
+    summary: {
+      en: 'Lightweight bilingual-ready personal resume built with semantic HTML, CSS, PHP, and Alpine.js micro-interactions.',
+      fa: 'وب‌سایت رزومه شخصی سبک و سریع با HTML، CSS، PHP و تعاملات ظریف Alpine.js.',
+    },
+    architectureNote: {
+      en: 'Fast zero-bloat PHP template engine enhanced with reactive Alpine.js state toggles and accessible typography.',
+      fa: 'ساختار سبک و سریع PHP همراه با کنترل‌های واکنش‌گرای Alpine.js و چیدمان کاملاً خوانا.',
+    },
+    tech: ['HTML', 'CSS', 'PHP', 'Alpine.js'],
+    year: '2025',
+    sector: { en: 'Personal Portfolio', fa: 'رزومه شخصی' },
+  },
+  {
+    id: 4,
+    slug: 'derakht-e-toot',
+    category: 'code',
+    featured: true,
+    image: '',
+    title: { en: 'Derakht-e Toot', fa: 'درخت توت' },
+    summary: {
+      en: 'Expressive custom web platform built on Laravel and PHP with Tailwind CSS and immersive Three.js 3D storytelling.',
+      fa: 'پلتفرم وب اختصاصی ساخته‌شده با Laravel و PHP همراه با Tailwind CSS و صحنه‌پردازی سه‌بعدی Three.js.',
+    },
+    architectureNote: {
+      en: 'Combines Laravel server architecture with hardware-accelerated Three.js spatial visuals and fluid scroll pacing.',
+      fa: 'ترکیب معماری سرور Laravel با جلوه‌های فضایی Three.js و ریتم اسکرول روان.',
+    },
+    tech: ['Tailwind', 'PHP', 'Laravel', 'Three.js'],
+    year: '2025',
+    sector: { en: 'Brand Experience', fa: 'تجربه برند' },
+  },
+  {
+    id: 5,
+    slug: 'phazldaru-holding',
+    category: 'code',
+    featured: true,
+    image: '',
+    title: { en: 'Phazldaru Holding', fa: 'هلدینگ فضل‌دارو' },
+    summary: {
+      en: 'Enterprise pharmaceutical holding portal built with Django, Python, Tailwind CSS, and Three.js interactive graphics.',
+      fa: 'پورتال سازمانی هلدینگ دارویی فضل‌دارو توسعه‌یافته با Django، Python، Tailwind و گرافیک سه‌بعدی Three.js.',
+    },
+    architectureNote: {
+      en: 'Structured corporate Django backend managing subsidiaries and catalogs alongside a Three.js visual showcase.',
+      fa: 'بک‌اند سازمانی Django برای مدیریت زیرمجموعه‌ها و کاتالوگ محصولات در کنار نمایش سه‌بعدی Three.js.',
+    },
+    tech: ['Django', 'Python', 'Tailwind', 'Three.js'],
+    year: '2026',
+    sector: { en: 'Pharmaceutical Holding', fa: 'هلدینگ دارویی' },
+  },
+  {
+    id: 6,
+    slug: 'cocodood',
+    category: 'wordpress',
+    featured: true,
+    image: '',
+    title: { en: 'Cocodood', fa: 'Cocodood' },
+    summary: {
+      en: 'Modern online storefront designed with WordPress, Elementor, and WoodMart with streamlined product discovery.',
+      fa: 'فروشگاه آنلاین مدرن طراحی‌شده با وردپرس، المنتور و وودمارت با تمرکز بر نمایش جذاب محصولات.',
+    },
+    architectureNote: {
+      en: 'Custom WoodMart storefront configuration with tailored Elementor templates and mobile-first checkout.',
+      fa: 'پیکربندی اختصاصی وودمارت با قالب‌های المنتور و فرآیند خرید بهینه برای موبایل.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'E-Commerce', fa: 'فروشگاه اینترنتی' },
+  },
+  {
+    id: 7,
+    slug: 'yousefi-rice',
+    category: 'wordpress',
+    featured: true,
+    image: '',
+    title: { en: 'Yousefi Rice', fa: 'برنج یوسفی (Yousefi Rice)' },
+    summary: {
+      en: 'Direct-to-consumer agricultural & specialty food storefront built on WordPress, Elementor, and WoodMart.',
+      fa: 'فروشگاه اینترنتی تخصصی عرضه مستقیم برنج و محصولات غذایی با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Structured product grading pages, wholesale inquiry pathways, and fast RTL WooCommerce checkout.',
+      fa: 'صفحات معرفی درجه‌بندی محصول، مسیر ثبت سفارش عمده و خرید آنلاین سریع راست‌چین.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Food & Retail', fa: 'مواد غذایی' },
+  },
+  {
+    id: 8,
+    slug: 'valiasr-charity',
+    category: 'wordpress',
+    featured: true,
+    image: '',
+    title: { en: 'Valiasr Charity', fa: 'خیریه ولیعصر (Valiasr Charity)' },
+    summary: {
+      en: 'Transparent charity & donation portal built with WordPress, Elementor, and WoodMart for community campaigns.',
+      fa: 'پورتال اطلاع‌رسانی و مشارکت‌های مردمی خیریه ولیعصر طراحی‌شده با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Accessible campaign presentation, clear donation workflows, and structured news reporting.',
+      fa: 'ارائه شفاف پویش‌های حمایتی، مسیر پرداخت آنلاین کمک‌ها و بخش گزارش‌های خبری.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Non-Profit', fa: 'خیریه و نیکوکاری' },
+  },
+  {
+    id: 9,
+    slug: 'pershia-chic',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Pershia Chic', fa: 'Pershia Chic' },
+    summary: {
+      en: 'Fashion & lifestyle e-commerce experience powered by WordPress, Elementor, and WoodMart.',
+      fa: 'فروشگاه اینترنتی مد و پوشاک طراحی‌شده با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Visual lookbook layout, size & variant swatches, and responsive catalog filtering.',
+      fa: 'چیدمان لوک‌بوک بصری، انتخابگر رنگ و سایز و فیلترهای سریع کاتالوگ.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Fashion Retail', fa: 'مد و پوشاک' },
+  },
+  {
+    id: 10,
+    slug: 'persia-ozone',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Persia Ozone', fa: 'Persia Ozone' },
+    summary: {
+      en: 'Industrial technology and ozone equipment corporate site built with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت شرکتی تجهیزات صنعتی و سیستم‌های ازن ساخته‌شده با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Technical specification sheets, industrial equipment catalog, and B2B consultation forms.',
+      fa: 'نمایش مشخصات فنی دستگاه‌ها، کاتالوگ صنعتی و فرم مشاوره تخصصی B2B.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Industrial Tech', fa: 'تجهیزات صنعتی' },
+  },
+  {
+    id: 11,
+    slug: 'arnik-web',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Arnik Web', fa: 'آرنیک وب (Arnik Web)' },
+    summary: {
+      en: 'Main agency website designed solo for Arnik Web using WordPress, Elementor, and WoodMart.',
+      fa: 'طراحی کامل وب‌سایت اصلی آژانس آرنیک وب به‌صورت مستقل با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Agency service showcase, portfolio architecture, and conversion-focused inquiry funnels.',
+      fa: 'معرفی خدمات آژانس، ساختار نمونه‌کارها و قیف‌های دریافت سفارش پروژه.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Web Agency', fa: 'آژانس وب' },
+  },
+  {
+    id: 12,
+    slug: 'tak-omran',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Tak Omran', fa: 'تک عمران (Tak Omran)' },
+    summary: {
+      en: 'Construction and civil engineering corporate presence built with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت شرکتی حوزه ساخت‌وساز و عمران با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Project gallery showcase, engineering capabilities breakdown, and client contact portal.',
+      fa: 'گالری پروژه‌های عمرانی، معرفی توانمندی‌های مهندسی و پورتال ارتباط با کارفرما.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Construction', fa: 'عمران و ساختمان' },
+  },
+  {
+    id: 13,
+    slug: 'atilis',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Atilis', fa: 'آتیلیس (Atilis)' },
+    summary: {
+      en: 'Corporate digital studio site crafted with WordPress, Elementor, WoodMart, and custom CSS refinements.',
+      fa: 'وب‌سایت استودیو دیجیتال آتیلیس طراحی‌شده با وردپرس، المنتور، وودمارت و CSS اختصاصی.',
+    },
+    architectureNote: {
+      en: 'Custom CSS layout polish on top of Elementor & WoodMart for crisp typography and spacing.',
+      fa: 'بهینه‌سازی جزئیات تایپوگرافی و چیدمان با CSS اختصاصی بر بستر المنتور و وودمارت.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart', 'CSS'],
+    year: '2025',
+    sector: { en: 'Digital Agency', fa: 'استودیو دیجیتال' },
+  },
+  {
+    id: 14,
+    slug: 'shahre-behesht',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Shahre Behesht', fa: 'شهر بهشت (Shahre Behesht)' },
+    summary: {
+      en: 'Real estate and hospitality showcase developed with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت معرفی مجموعه اقامتی و ساختمانی شهر بهشت با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Visual property tours, amenity highlights, and direct inquiry scheduling.',
+      fa: 'نمایش تصویری فضاها، معرفی امکانات و مسیر رزرو یا استعلام مستقیم.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Real Estate', fa: 'املاک و گردشگری' },
+  },
+  {
+    id: 15,
+    slug: 'hayper-ahan',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Hayper Ahan', fa: 'هایپر آهن (Hayper Ahan)' },
+    summary: {
+      en: 'Steel & construction materials commerce portal structured with WordPress, Elementor, and WoodMart.',
+      fa: 'پورتال فروش و استعلام قیمت مقاطع فولادی و آهن‌آلات با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Structured product tables, category navigation for steel specs, and fast quote request flow.',
+      fa: 'جداول ساختارمند محصولات فولادی، دسته‌بندی تخصصی و فرم استعلام سریع قیمت.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Industrial Commerce', fa: 'بازرگانی آهن‌آلات' },
+  },
+  {
+    id: 16,
+    slug: 'jahan-taraz',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Jahan Taraz', fa: 'جهان تراز (Jahan Taraz)' },
+    summary: {
+      en: 'Financial & industrial weighing/accounting solutions corporate site on WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت شرکتی جهان تراز با طراحی ساختارمند وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Clean corporate hierarchy, service breakdown, and client trust documentation.',
+      fa: 'سلسله‌مراتب شرکتی منظم، معرفی خدمات تخصصی و بخش مستندات.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Corporate Services', fa: 'خدمات سازمانی' },
+  },
+  {
+    id: 17,
+    slug: 'sajjad-massage-services',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Sajjad Massage Services', fa: 'خدمات ماساژ سجاد' },
+    summary: {
+      en: 'Wellness & therapy booking website built with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت معرفی خدمات و رزرو نوبت ماساژ سجاد با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Service menu presentation, session duration breakdown, and direct appointment booking.',
+      fa: 'معرفی انواع خدمات درمانی، جزئیات جلسات و مسیر رزرو مستقیم وقت.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Wellness & Booking', fa: 'سلامت و رزرو' },
+  },
+  {
+    id: 18,
+    slug: 'chaapica',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Chaapica', fa: 'چاپیکا (Chaapica)' },
+    summary: {
+      en: 'Custom print & packaging ordering storefront powered by WordPress, Elementor, and WoodMart.',
+      fa: 'فروشگاه آنلاین خدمات چاپ و بسته‌بندی چاپیکا با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Configurable print product options, category discovery, and order workflow.',
+      fa: 'تنظیمات سفارشی محصولات چاپی، دسته‌بندی دقیق و فرآیند ثبت سفارش آنلاین.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Print & Packaging', fa: 'چاپ و بسته‌بندی' },
+  },
+  {
+    id: 19,
+    slug: 'hodge-and-waj-shoes',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Hodge and Waj Shoes', fa: 'کفش Hodge and Waj' },
+    summary: {
+      en: 'Footwear e-commerce store built with WordPress, Elementor, and WoodMart featuring clean variant browsing.',
+      fa: 'فروشگاه اینترنتی کفش Hodge and Waj با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'High-impact footwear gallery, size attributes, and mobile-optimized shopping cart.',
+      fa: 'گالری جذاب محصولات کفش، انتخابگر سایز و سبد خرید بهینه در موبایل.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Footwear Retail', fa: 'فروشگاه کفش' },
+  },
+  {
+    id: 20,
+    slug: 'havan-spice-factory',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Havan Spice Factory', fa: 'کارخانه ادویه هاون (Havan Spice)' },
+    summary: {
+      en: 'Manufacturer showcase & wholesale storefront for Havan Spice Factory on WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت معرفی کارخانه و فروشگاه محصولات ادویه هاون با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Production line overview, spice catalog, and B2B distribution inquiry channels.',
+      fa: 'معرفی خط تولید، کاتالوگ محصولات ادویه و مسیر ارتباط با نمایندگان فروش.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Food Manufacturing', fa: 'صنایع غذایی' },
+  },
+  {
+    id: 21,
+    slug: 'premium-lingerie-brand',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Premium Lingerie Brand', fa: 'برند تخصصی پوشاک (Premium Brand)' },
+    summary: {
+      en: 'Private-label fashion retail storefront developed with WordPress, Elementor, and WoodMart.',
+      fa: 'فروشگاه اختصاصی برند مد و پوشاک طراحی‌شده با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Refined editorial product cards, curated collections, and discreet checkout flow.',
+      fa: 'کارت‌های محصول مینیمال، کلکسیون‌های دسته‌بندی‌شده و تجربه خرید روان.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2025',
+    sector: { en: 'Apparel Retail', fa: 'پوشاک' },
+  },
+  {
+    id: 22,
+    slug: 'ainaz-beauty-salon',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Ainaz Beauty Salon', fa: 'سالن زیبایی آیناز' },
+    summary: {
+      en: 'Beauty studio portfolio and booking site built with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت معرفی خدمات و نوبت‌دهی سالن زیبایی آیناز با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Service showcase galleries, specialist profiles, and instant consultation request.',
+      fa: 'گالری خدمات زیبایی، معرفی متخصصان و فرم دریافت مشاوره و نوبت.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2024',
+    sector: { en: 'Beauty & Studio', fa: 'زیبایی و خدمات' },
+  },
+  {
+    id: 23,
+    slug: 'sony-mashhad',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Sony Mashhad', fa: 'سونی مشهد (Sony Mashhad)' },
+    summary: {
+      en: 'Consumer electronics & authorized retail storefront for Mashhad built with WordPress, Elementor, and WoodMart.',
+      fa: 'فروشگاه اینترنتی تجهیزات الکترونیک سونی مشهد با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Electronics spec comparison, warranty badge blocks, and high-speed catalog search.',
+      fa: 'مقایسه مشخصات فنی محصولات الکترونیکی، بخش گارانتی و جستجوی سریع کاتالوگ.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2024',
+    sector: { en: 'Consumer Electronics', fa: 'لوازم الکترونیک' },
+  },
+  {
+    id: 24,
+    slug: 'siamese-cat',
+    category: 'wordpress',
+    featured: false,
+    image: '',
+    title: { en: 'Siamese Cat', fa: 'Siamese Cat' },
+    summary: {
+      en: 'Pet care & specialty brand website crafted with WordPress, Elementor, and WoodMart.',
+      fa: 'وب‌سایت تخصصی معرفی و فروشگاه برند Siamese Cat با وردپرس، المنتور و وودمارت.',
+    },
+    architectureNote: {
+      en: 'Friendly brand presentation, breed/product guides, and direct owner contact.',
+      fa: 'معرفی برند، راهنمای محصولات تخصصی و مسیر ارتباط مستقیم با مشتریان.',
+    },
+    tech: ['WordPress', 'Elementor', 'Woodmart'],
+    year: '2024',
+    sector: { en: 'Pet & Lifestyle', fa: 'حیوانات خانگی' },
+  },
+];
+
+export const PORTFOLIO_SKILLS: PortfolioSkillGroup[] = [
+  {
+    id: 1,
+    title: { en: 'Languages', fa: 'زبان‌های برنامه‌نویسی' },
+    items: ['Python', 'PHP', 'JavaScript', 'HTML', 'CSS'],
+  },
+  {
+    id: 2,
+    title: { en: 'Backend & CMS', fa: 'بک‌اند و سیستم‌های مدیریت' },
+    items: ['Django', 'Laravel', 'WordPress', 'Flask'],
+  },
+  {
+    id: 3,
+    title: { en: 'Frontend & Motion', fa: 'فرانت‌اند و انیمیشن' },
+    items: ['Tailwind CSS', 'Alpine.js', 'HTMX', 'Three.js', 'GSAP'],
+  },
+  {
+    id: 4,
+    title: { en: 'WordPress & Deployment', fa: 'ابزار وردپرس و استقرار' },
+    items: ['Elementor', 'WoodMart', 'Docker', 'Kubernetes', 'Runflare'],
+  },
+];
+
+export const PORTFOLIO_TECHNOLOGIES: string[] = [
+  'Django',
+  'Python',
+  'Laravel',
+  'PHP',
+  'Tailwind CSS',
+  'JavaScript',
+  'Three.js',
+  'GSAP',
+  'WordPress',
+  'Elementor',
+  'WoodMart',
+  'Alpine.js',
+  'HTMX',
+  'Docker',
+  'Kubernetes',
+  'Runflare',
+];
+
+export const PORTFOLIO_EXPERIENCE: PortfolioExperience[] = [
+  {
+    id: 1,
+    period: 'JUN 2026 — NOW',
+    company: { en: 'Freelance', fa: 'فریلنس' },
+    role: { en: 'Django Developer & Designer', fa: 'توسعه‌دهنده Django و طراح وب' },
+    tag: { en: 'Independent', fa: 'مستقل' },
+    milestone: { en: 'Custom Full-Stack Builds', fa: 'پروژه‌های سفارشی' },
+    stack: 'Django · Tailwind · Docker',
+    points: {
+      en: [
+        'Direct client collaboration and full end-to-end project delivery',
+        'Custom Django architectures paired with bespoke Tailwind frontends',
+        'Production deployments on Runflare and containerized environments',
+      ],
+      fa: [
+        'کار مستقیم با کارفرما و تحویل کامل پروژه‌ها از صفر تا صد',
+        'معماری اختصاصی با Django و فرانت‌اند دقیق Tailwind',
+        'دیپلوی عملیاتی روی Runflare و زیرساخت کانتینر',
+      ],
+    },
+  },
+  {
+    id: 2,
+    period: 'APR 2025 — JUN 2026',
+    company: { en: 'Aatilis', fa: 'آتیلیس' },
+    role: { en: 'Website Designer (WordPress)', fa: 'طراح وب (وردپرس)' },
+    tag: { en: 'Full-Time', fa: 'تمام‌وقت' },
+    milestone: { en: 'Entry to Backend Engineering', fa: 'مسیر ورود به بک‌اند' },
+    stack: 'PHP → Python → Flask → Django',
+    points: {
+      en: [
+        'Delivered ~20 production websites for commercial clients',
+        'Expanded into PHP, Python, Flask, and Django engineering',
+        'Managed direct technical communication with business owners',
+      ],
+      fa: [
+        'طراحی و تحویل حدود ۲۰ وب‌سایت عملیاتی برای مشتریان',
+        'یادگیری و تسلط بر PHP، پایتون، Flask و Django',
+        'ارتباط مستقیم فنی و مشاوره با کارفرمایان',
+      ],
+    },
+  },
+  {
+    id: 3,
+    period: 'JAN 2025 — APR 2025',
+    company: { en: 'Arnik Web', fa: 'آرنیک وب' },
+    role: { en: 'Website Designer (WordPress)', fa: 'طراح وب (وردپرس)' },
+    tag: { en: 'Full-Time', fa: 'تمام‌وقت' },
+    milestone: { en: 'Frontend Coding Starts', fa: 'شروع کدنویسی فرانت' },
+    stack: 'WordPress · HTML · Tailwind',
+    points: {
+      en: [
+        'Designed and shipped the company main website solo',
+        'Delivered 5 client websites across diverse industries',
+        'Started hands-on frontend development with HTML, CSS and Tailwind',
+      ],
+      fa: [
+        'طراحی وب‌سایت اصلی شرکت به‌تنهایی',
+        'تحویل ۵ وب‌سایت مشتری در حوزه‌های مختلف',
+        'شروع کدنویسی فرانت‌اند با HTML، CSS و Tailwind',
+      ],
+    },
+  },
+  {
+    id: 4,
+    period: 'AUG 2023 — AUG 2024',
+    company: { en: 'Fajr Film', fa: 'فجر فیلم' },
+    role: { en: 'Website Designer (WordPress)', fa: 'طراح وب (وردپرس)' },
+    tag: { en: 'Intern → Employee', fa: 'کارآموز ← کارمند' },
+    milestone: { en: 'WordPress Foundations', fa: 'پایه‌های وردپرس' },
+    stack: 'WordPress · Elementor Pro',
+    points: {
+      en: [
+        'Completed 3-month internship and transitioned into full employment',
+        'Built 2 websites during internship and 3 more as staff designer',
+        'Collaborated closely with the studio graphic design team',
+      ],
+      fa: [
+        'گذراندن دوره کارآموزی ۳ ماهه و سپس استخدام رسمی',
+        'طراحی ۲ سایت در دوره کارآموزی و ۳ سایت پس از استخدام',
+        'همکاری نزدیک با تیم طراحی گرافیک و تولید محتوا',
+      ],
+    },
+  },
+];
+
+export const PORTFOLIO_CERTIFICATES: PortfolioCertificate[] = [
+  {
+    id: 1,
+    title: { en: 'CS50x: Introduction to Computer Science', fa: 'CS50x — مبانی علوم کامپیوتر' },
+    issuer: { en: 'Harvard University', fa: 'دانشگاه هاروارد' },
+    link: 'https://certificates.cs50.io/19015fc0-f3a2-4bfe-a5a7-2194565812aa',
+    image: '/assets/portfolio/cert-cs50x.webp',
+    credentialCode: 'CS50X-19015FC0',
+    focus: {
+      en: 'Algorithms, C, Python, SQL, and Web Application Architecture',
+      fa: 'الگوریتم‌ها، زبان C، پایتون، SQL و معماری وب',
+    },
+  },
+  {
+    id: 2,
+    title: { en: 'Django Web Development', fa: 'توسعه وب با Django' },
+    issuer: { en: 'Maktabkhooneh', fa: 'مکتب‌خونه' },
+    link: 'https://www.maktabkhooneh.org/',
+    image: '/assets/portfolio/cert-django.webp',
+    credentialCode: 'MK-DJANGO',
+    focus: {
+      en: 'Models, ORM, Authentication, Admin Systems, and Production Deployment',
+      fa: 'مدل‌ها، ORM، احراز هویت، پنل ادمین و استقرار عملیاتی',
+    },
+  },
+  {
+    id: 3,
+    title: { en: "CS50P: Introduction to Programming with Python", fa: 'CS50p — برنامه‌نویسی با پایتون' },
+    issuer: { en: 'Harvard University', fa: 'دانشگاه هاروارد' },
+    link: 'https://cs50.harvard.edu/certificates/f94bc54c-5d55-4419-b545-d82a9fb4b191',
+    image: '/assets/portfolio/cert-cs50p.webp',
+    credentialCode: 'CS50P-F94BC54C',
+    focus: {
+      en: 'Pythonic Design, Object-Oriented Programming, Testing, and File I/O',
+      fa: 'طراحی پایتونیک، برنامه‌نویسی شیءگرا، تست‌نویسی و مدیریت داده',
+    },
+  },
+];
+
+export interface PortfolioContent {
+  assets: typeof ARTWORK_ASSETS;
+  certificates: PortfolioCertificate[];
+  experience: PortfolioExperience[];
+  pageCopy: Record<string, BilingualText>;
+  paths: PortfolioPath[];
+  profile: typeof PORTFOLIO_PROFILE;
+  projects: PortfolioProject[];
+  services: PortfolioService[];
+  skills: PortfolioSkillGroup[];
+  stats: PortfolioStat[];
+  technologies: string[];
+}
+
+export const DEFAULT_PORTFOLIO_CONTENT: PortfolioContent = {
+  assets: ARTWORK_ASSETS,
+  certificates: PORTFOLIO_CERTIFICATES,
+  experience: PORTFOLIO_EXPERIENCE,
+  pageCopy: {
+    homeHeroHeading: {
+      en: 'Websites Built for Speed, Craft, &',
+      fa: 'طراحی و توسعه وب‌سایت‌هایی که',
+    },
+    homeHeroAccent: { en: 'Real Impact.', fa: 'درست' },
+    homeHeroSuffix: { en: '', fa: ' کار می‌کنند.' },
+    homeHeroDescription: {
+      en: 'I design and build modern digital experiences, custom Django & Laravel applications, interactive frontends, and high-converting WordPress platforms.',
+      fa: 'من سهیل جلال‌احمدی هستم؛ از معماری بک‌اند با Django و Laravel تا رابط‌های دقیق Tailwind، انیمیشن GSAP و سایت‌های سریع وردپرسی.',
+    },
+    homePathsHeading: {
+      en: 'Three Paths. One Standard.',
+      fa: 'سه مسیر. یک استاندارد: کیفیت بدون مصالحه.',
+    },
+    homePathsDescription: {
+      en: 'Every project picks the right engineering path: WordPress for launch velocity, Django & Laravel for full backend control, and custom frontend motion.',
+      fa: 'هر پروژه بر اساس هدف کارفرما مسیر مهندسی خودش را می‌گیرد: وردپرس برای سرعت اجرا، Django و Laravel برای کنترل کامل، و فرانت‌اند دقیق.',
+    },
+    homeCloudHeading: {
+      en: 'Cloud & Full Delivery',
+      fa: 'استقرار ابری و تحویل کامل',
+    },
+    homeCloudDescription: {
+      en: 'End-to-end delivery from architecture and UI design through Docker containers, Kubernetes, and Runflare cloud deployment.',
+      fa: 'همراهی پروژه از طراحی اولیه و دیتابیس تا کانتینرسازی Docker، Kubernetes و استقرار نهایی روی Runflare.',
+    },
+    homeDirectHeading: {
+      en: 'Direct Engineering, Zero Middlemen',
+      fa: 'ارتباط مستقیم، بدون واسطه',
+    },
+    homeDirectDescription: {
+      en: 'From enterprise portals and e-commerce stores to interactive 3D portfolios — every build ships with direct technical ownership.',
+      fa: 'از پروژه‌های سازمانی و فروشگاه‌های اینترنتی تا رزومه‌های تعاملی سه‌بعدی — هر سایت با مسئولیت کامل فنی و جزئیات دقیق ساخته می‌شود.',
+    },
+    homeServicesHeading: { en: 'Services built around your goals', fa: 'خدماتی برای رسیدن به هدف شما' },
+    homeServicesDescription: {
+      en: 'Five specialized services covering custom backends, e-commerce, corporate identity, marketplaces, and portfolios.',
+      fa: '۵ خدمت تخصصی از معماری بک‌اند اختصاصی تا فروشگاه آنلاین و پلتفرم‌های چندفروشندگی.',
+    },
+    homeProjectsHeading: { en: 'Selected work, shipped for real clients', fa: 'نمونه‌کارهای واقعی و تحویل‌شده' },
+    homeProjectsDescription: {
+      en: 'Real delivered work spanning custom Django & Laravel engineering and WordPress storefronts.',
+      fa: 'نمونه‌کارهای واقعی از سامانه‌های Django و Laravel تا فروشگاه‌ها و سایت‌های شرکتی وردپرس.',
+    },
+    homeStackHeading: {
+      en: 'Real Stack. Real Production.',
+      fa: 'ابزارهای واقعی. تحویل عملیاتی.',
+    },
+    homeStackDescription: {
+      en: 'Every framework and tool below has shipped inside real production client projects.',
+      fa: 'تکنولوژی‌هایی که در پروژه‌های واقعی مشتریان و سامانه‌های عملیاتی استفاده شده‌اند.',
+    },
+    homeExperienceHeading: {
+      en: 'The Path Built Step by Step',
+      fa: 'مسیری که قدم‌به‌قدم ساختم',
+    },
+    homeExperienceDescription: {
+      en: 'From a WordPress internship at Fajr Film to full-stack Django engineering.',
+      fa: 'از کارآموزی وردپرس در فجر فیلم تا برنامه‌نویسی Django و پروژه‌های مستقل.',
+    },
+    homeCertificatesHeading: {
+      en: 'Skills, Documented & Verifiable.',
+      fa: 'مهارت‌ها، مستند و قابل‌استعلام.',
+    },
+    homeCertificatesDescription: {
+      en: 'Official certificates from Harvard University (CS50x, CS50p) and Maktabkhooneh (Django).',
+      fa: 'مدارک رسمی از دانشگاه هاروارد (CS50x و CS50p) و مکتب‌خونه (Django).',
+    },
+    aboutHeroHeading: {
+      en: 'A Developer Who Stays Until Launch.',
+      fa: 'توسعه‌دهنده‌ای که پروژه را تا تحویل نهایی همراهی می‌کند.',
+    },
+    aboutSkillsHeading: {
+      en: 'Technical Capabilities',
+      fa: 'مهارت‌ها و تکنولوژی‌ها',
+    },
+    aboutSkillsDescription: {
+      en: 'Core languages, backend frameworks, frontend motion libraries, and deployment infrastructure.',
+      fa: 'ابزارها و فریم‌ورک‌هایی که به‌صورت روزمره در پروژه‌های بک‌اند، فرانت‌اند و وردپرس استفاده می‌کنم.',
+    },
+    aboutExperienceHeading: {
+      en: 'Experience & Progression',
+      fa: 'سوابق کاری و تجربه‌ها',
+    },
+    aboutCertificatesHeading: {
+      en: 'Certified Foundations',
+      fa: 'مدارک و آموزش تخصصی',
+    },
+    aboutCertificatesDescription: {
+      en: 'Verified credentials across computer science and Python/Django architecture:',
+      fa: 'دارای گواهی‌نامه‌های معتبر علوم کامپیوتر و توسعه وب:',
+    },
+    aboutBeyondHeading: {
+      en: 'Beyond Code',
+      fa: 'فراتر از کدنویسی',
+    },
+    aboutBeyondDescription: {
+      en: 'Interest in cinema, photography, videography, and graphic design shapes how I compose pacing, contrast, and visual storytelling on the web.',
+      fa: 'علاقه به سینما، عکاسی، تدوین، مدیریت شبکه‌های اجتماعی و طراحی گرافیک باعث شده نگاه بصری و کارگردانی فضا را وارد طراحی وب کنم.',
+    },
+    servicesHeading: {
+      en: 'What I Build, From Architecture to Launch.',
+      fa: 'از ایده تا سایت آماده، این‌ها را می‌سازم.',
+    },
+    servicesDescription: {
+      en: 'Every build is tailored to business goals — whether custom Django and Laravel engineering or rapid WordPress commerce.',
+      fa: 'هر پروژه بر اساس نیاز واقعی کسب‌وکار با بک‌اند اختصاصی Django و Laravel یا سیستم چابک وردپرس طراحی و پیاده‌سازی می‌شود.',
+    },
+    projectsHeading: { en: 'Built. Shipped. Live.', fa: 'نمونه‌کارهای واقعی، قابل‌بررسی.' },
+    projectsDescription: {
+      en: 'Complete archive of custom code builds (Django, Laravel, Three.js) and WordPress platforms. Filter by track or search any stack.',
+      fa: 'تمامی پروژه‌های توسعه اختصاصی (Django، Laravel، Three.js) و وب‌سایت‌های وردپرسی تحویل‌شده. بر اساس نوع یا تکنولوژی فیلتر کنید.',
+    },
+    certificatesHeading: {
+      en: 'Verified Engineering Foundations.',
+      fa: 'دانش مهندسی، تأییدشده.',
+    },
+    certificatesDescription: {
+      en: 'Official certificates from Harvard University and Maktabkhooneh covering computer science fundamentals, Python architecture, and production Django systems.',
+      fa: 'گواهی‌نامه‌های معتبر علوم کامپیوتر، برنامه‌نویسی پایتون و توسعه وب با Django از دانشگاه هاروارد و مکتب‌خونه.',
+    },
+    contactHeading: {
+      en: 'Let’s Build Your Next Launch.',
+      fa: 'آماده ساخت پروژه بعدی هستید؟',
+    },
+    contactDescription: {
+      en: 'Send a brief about your project scope using the form below, or reach out directly via email or phone. I collaborate directly from architecture to production launch.',
+      fa: 'فرم زیر را پر کنید یا مستقیم از طریق ایمیل و تلفن با من در ارتباط باشید. پس از بررسی نیاز شما، با پیشنهاد فنی و زمان‌بندی دقیق پاسخ می‌دهم.',
+    },
+    ctaHeading: { en: 'Got a project in mind?', fa: 'پروژه‌ای در ذهن دارید؟' },
+    ctaDescription: {
+      en: 'Tell me what you are building and a brief note on your goals. Fast response and a free initial consultation.',
+      fa: 'نوع پروژه و توضیح کوتاهی درباره هدف کسب‌وکارتان بفرستید. پاسخگویی سریع با مشاوره اولیه رایگان.',
+    },
+  },
+  paths: PORTFOLIO_PATHS,
+  profile: PORTFOLIO_PROFILE,
+  projects: PORTFOLIO_PROJECTS,
+  services: PORTFOLIO_SERVICES,
+  skills: PORTFOLIO_SKILLS,
+  stats: PORTFOLIO_STATS,
+  technologies: PORTFOLIO_TECHNOLOGIES,
+};

@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+:root {
+  --shadcn-background: oklch(0.145 0 0);
+  --shadcn-foreground: oklch(0.985 0 0);
+  --shadcn-card: oklch(0.19 0 0);
+  --shadcn-card-foreground: oklch(0.985 0 0);
+  --shadcn-popover: oklch(0.19 0 0);
+  --shadcn-popover-foreground: oklch(0.985 0 0);
+  --shadcn-primary: oklch(0.87 0.19 145);
+  --shadcn-primary-foreground: oklch(0.16 0.02 145);
+  --shadcn-secondary: oklch(0.26 0 0);
+  --shadcn-secondary-foreground: oklch(0.985 0 0);
+  --shadcn-muted: oklch(0.24 0 0);
+  --shadcn-muted-foreground: oklch(0.72 0 0);
+  --shadcn-accent: oklch(0.27 0 0);
+  --shadcn-accent-foreground: oklch(0.985 0 0);
+  --shadcn-destructive: oklch(0.58 0.22 27);
+  --shadcn-destructive-foreground: oklch(0.985 0 0);
+  --shadcn-border: oklch(1 0 0 / 12%);
+  --shadcn-input: oklch(1 0 0 / 16%);
+  --shadcn-ring: oklch(0.87 0.19 145);
+}
+
+@theme inline {
+  --color-background: var(--shadcn-background);
+  --color-foreground: var(--shadcn-foreground);
+  --color-card: var(--shadcn-card);
+  --color-card-foreground: var(--shadcn-card-foreground);
+  --color-popover: var(--shadcn-popover);
+  --color-popover-foreground: var(--shadcn-popover-foreground);
+  --color-primary: var(--shadcn-primary);
+  --color-primary-foreground: var(--shadcn-primary-foreground);
+  --color-secondary: var(--shadcn-secondary);
+  --color-secondary-foreground: var(--shadcn-secondary-foreground);
+  --color-muted: var(--shadcn-muted);
+  --color-muted-foreground: var(--shadcn-muted-foreground);
+  --color-accent: var(--shadcn-accent);
+  --color-accent-foreground: var(--shadcn-accent-foreground);
+  --color-destructive: var(--shadcn-destructive);
+  --color-destructive-foreground: var(--shadcn-destructive-foreground);
+  --color-border: var(--shadcn-border);
+  --color-input: var(--shadcn-input);
+  --color-ring: var(--shadcn-ring);
+}
+
+.admin-theme {
+  color-scheme: dark;
+}
+
+:root {
+  --background: #090E19;
+  --background-deep: #070E17;
+  --surface: #0B0F16;
+
+  --accent: #55FF8A;
+  --accent-foreground: #000000;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #898F9D;
+
+  --border: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  html {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: "IBM Plex Sans", "Vazirmatn", system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  html[lang="fa"] {
+    font-family: "Vazirmatn", "IBM Plex Sans", system-ui, sans-serif;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    overflow-x: clip;
+  }
+}
+
+.font-display {
+  font-family: "Mona Sans", "IBM Plex Sans", "Vazirmatn", sans-serif;
+  font-feature-settings: "ss01" on;
+}
+
+html[lang="fa"] .font-display {
+  font-family: "Vazirmatn", "Mona Sans", sans-serif;
+}
+
+.font-russo {
+  font-family: "Russo One", "Mona Sans", "Vazirmatn", sans-serif;
+}
+
+html[lang="fa"] .font-russo {
+  font-family: "Vazirmatn", sans-serif;
+  font-weight: 900;
+}
+
+.font-editorial-italic {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+html[lang="fa"] .font-editorial-italic {
+  font-family: "Vazirmatn", sans-serif;
+  font-style: normal;
+  color: var(--accent);
+}
+
+.font-mono-tech {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Windscribe-style marquee animation */
+@keyframes ws-marquee-ltr {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes ws-marquee-rtl {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-ws-marquee {
+  display: flex;
+  width: max-content;
+  animation: ws-marquee-ltr 34s linear infinite;
+}
+
+.animate-ws-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: ws-marquee-rtl 38s linear infinite;
+}
+
+.marquee-wrapper:hover .animate-ws-marquee,
+.marquee-wrapper:hover .animate-ws-marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* Perspective horizon grid lines for Windscribe space portals */
+.ws-grid-overlay {
+  background-image:
+    linear-gradient(to right, rgba(85, 255, 138, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(85, 255, 138, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.site-entry-preloader,
+.site-route-warp {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #050912;
+  color: #fff;
+}
+
+.site-entry-preloader.is-entering {
+  animation: site-loader-enter 0.35s ease-out both;
+}
+
+.site-entry-preloader.is-exiting {
+  animation: site-loader-exit 0.45s ease-in both;
+}
+
+.site-entry-glow,
+.site-entry-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site-entry-glow {
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(26, 83, 70, 0.3), transparent 44%),
+    radial-gradient(ellipse at bottom, rgba(23, 43, 78, 0.27), transparent 52%);
+}
+
+.site-entry-grid {
+  opacity: 0.3;
+  background-image:
+    linear-gradient(to right, rgba(85, 255, 138, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(85, 255, 138, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 72%);
+}
+
+.site-entry-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.site-portal-mark {
+  position: relative;
+  display: flex;
+  width: 10rem;
+  height: 10rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-portal-mark--compact {
+  width: 3rem;
+  height: 3rem;
+}
+
+.site-portal-ring,
+.site-portal-core {
+  position: absolute;
+  border-radius: 9999px;
+}
+
+.site-portal-ring--outer {
+  inset: 0.5rem;
+  border: 1px solid rgba(85, 255, 138, 0.25);
+  animation: site-portal-spin 8s linear infinite;
+}
+
+.site-portal-ring--inner {
+  inset: 1.25rem;
+  border: 1px dashed rgba(85, 255, 138, 0.65);
+  animation: site-portal-spin-reverse 12s linear infinite;
+}
+
+.site-portal-core {
+  inset: 2.25rem;
+  border: 1px solid rgba(85, 255, 138, 0.28);
+  background: rgba(85, 255, 138, 0.06);
+  box-shadow: 0 0 44px rgba(85, 255, 138, 0.24);
+  animation: site-portal-pulse 2.4s ease-in-out infinite;
+}
+
+.site-portal-mark--compact .site-portal-ring--outer {
+  inset: 0.125rem;
+  animation-duration: 5s;
+}
+
+.site-portal-mark--compact .site-portal-ring--inner {
+  inset: 0.5rem;
+  animation-duration: 7s;
+}
+
+.site-portal-mark--compact .site-portal-core {
+  inset: 1rem;
+}
+
+.site-portal-logo {
+  position: relative;
+  z-index: 1;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.site-portal-logo--compact {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.site-portal-beacon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #55ff8a;
+  box-shadow: 0 0 16px #55ff8a;
+  transform: translate(50%, -50%);
+}
+
+.site-entry-caption {
+  margin-top: 1.75rem;
+  color: #aeb7c8;
+  font-size: 0.875rem;
+}
+
+.site-entry-progress {
+  width: 13rem;
+  height: 1px;
+  margin-top: 2rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.site-entry-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #55ff8a;
+  box-shadow: 0 0 14px #55ff8a;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: site-progress 1.25s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.site-entry-status {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.28em;
+}
+
+.site-route-warp {
+  z-index: 90;
+  flex-direction: column;
+  background: rgba(7, 11, 19, 0.9);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+.site-route-warp.is-entering {
+  animation: site-warp-enter 0.22s ease-out both;
+}
+
+.site-route-warp.is-exiting {
+  animation: site-warp-exit 0.22s ease-in both;
+}
+
+.site-route-caption {
+  position: absolute;
+  top: calc(50% + 3.65rem);
+  color: rgba(85, 255, 138, 0.78);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.25em;
+}
+
+.site-route-progress {
+  position: absolute;
+  top: calc(50% + 5.1rem);
+  width: 8rem;
+  height: 1px;
+  background: rgba(85, 255, 138, 0.75);
+  box-shadow: 0 0 12px #55ff8a;
+  transform-origin: center;
+  animation: site-warp-progress 0.5s ease-in-out both;
+}
+
+@keyframes site-portal-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes site-portal-spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes site-portal-pulse {
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+
+
+@keyframes site-progress {
+  to { transform: scaleX(1); }
+}
+
+@keyframes site-loader-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes site-loader-exit {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes site-warp-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes site-warp-exit {
+  to { opacity: 0; }
+}
+
+@keyframes site-warp-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ws-marquee,
+  .animate-ws-marquee-reverse,
+  .site-portal-ring--outer,
+  .site-portal-ring--inner,
+  .site-portal-core,
+  .site-entry-progress span,
+  .site-route-progress {
+    animation: none;
+  }
+
+  .site-entry-progress span {
+    transform: scaleX(1);
+  }
+}
