@@ -7,14 +7,16 @@ import {
 interface PortfolioContentContextValue {
   content: PortfolioContent;
   error: string | null;
+  isContentInitialized: boolean | null;
   isLoading: boolean;
   reload: () => Promise<void>;
+  setIsContentInitialized: React.Dispatch<React.SetStateAction<boolean | null>>;
   setContent: React.Dispatch<React.SetStateAction<PortfolioContent>>;
 }
 
 const PortfolioContentContext = createContext<PortfolioContentContextValue | null>(null);
 
-function isPortfolioContent(value: unknown): value is PortfolioContent {
+export function isPortfolioContent(value: unknown): value is PortfolioContent {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
   const document = value as Record<string, unknown>;
   return (
@@ -38,12 +40,27 @@ function isPortfolioContent(value: unknown): value is PortfolioContent {
 export function PortfolioContentProvider({ children }: { children: React.ReactNode }) {
   const [content, setContent] = useState<PortfolioContent>(DEFAULT_PORTFOLIO_CONTENT);
   const [error, setError] = useState<string | null>(null);
+  const [isContentInitialized, setIsContentInitialized] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const reload = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch('/api/content', { credentials: 'same-origin' });
+      if (response.status === 404) {
+        const result = (await response.json().catch(() => null)) as
+          | { initialized?: unknown; error?: unknown }
+          | null;
+        if (result?.initialized === false) {
+          setIsContentInitialized(false);
+          setError(
+            typeof result.error === 'string'
+              ? result.error
+              : 'Site content has not been imported yet.',
+          );
+          return;
+        }
+      }
       if (!response.ok) {
         const result = (await response.json().catch(() => null)) as
           | { error?: string }
@@ -55,6 +72,7 @@ export function PortfolioContentProvider({ children }: { children: React.ReactNo
         throw new Error('The server returned an invalid portfolio content document.');
       }
       setContent(result);
+      setIsContentInitialized(true);
       setError(null);
     } catch (loadError) {
       const message =
@@ -71,8 +89,16 @@ export function PortfolioContentProvider({ children }: { children: React.ReactNo
   }, [reload]);
 
   const value = useMemo(
-    () => ({ content, error, isLoading, reload, setContent }),
-    [content, error, isLoading, reload],
+    () => ({
+      content,
+      error,
+      isContentInitialized,
+      isLoading,
+      reload,
+      setContent,
+      setIsContentInitialized,
+    }),
+    [content, error, isContentInitialized, isLoading, reload],
   );
 
   return (

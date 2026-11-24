@@ -1,5 +1,3 @@
-import { DEFAULT_PORTFOLIO_CONTENT } from '../src/data/portfolioData';
-
 interface D1Statement {
   bind(...values: (string | number)[]): D1Statement;
   first<T>(): Promise<T | null>;
@@ -124,55 +122,16 @@ function isSameOrigin(request: Request, configuredOrigin: string | undefined): b
   );
 }
 
-async function ensureContent(db: D1Database): Promise<string> {
+async function readContent(db: D1Database): Promise<string | null> {
   const row = await db
     .prepare('SELECT document FROM site_content WHERE id = 1')
     .first<{ document: string }>();
-  if (row) {
-    const stored: unknown = JSON.parse(row.document);
-    if (!stored || typeof stored !== 'object' || Array.isArray(stored)) {
-      throw new Error('Stored site content is not a JSON object.');
-    }
-    const storedContent = stored as Record<string, unknown>;
-    const storedCopy =
-      storedContent.pageCopy &&
-      typeof storedContent.pageCopy === 'object' &&
-      !Array.isArray(storedContent.pageCopy)
-        ? storedContent.pageCopy
-        : {};
-    const normalized = {
-      ...DEFAULT_PORTFOLIO_CONTENT,
-      ...storedContent,
-      pageCopy: {
-        ...DEFAULT_PORTFOLIO_CONTENT.pageCopy,
-        ...storedCopy,
-      },
-    };
-    if (!isContentDocument(normalized)) {
-      throw new Error('Stored site content is missing required sections.');
-    }
-    const document = JSON.stringify(normalized);
-    if (document !== row.document) {
-      await db
-        .prepare('UPDATE site_content SET document = ?, updated_at = CURRENT_TIMESTAMP WHERE id = 1')
-        .bind(document)
-        .run();
-    }
-    return document;
+  if (!row) return null;
+  const stored: unknown = JSON.parse(row.document);
+  if (!isContentDocument(stored)) {
+    throw new Error('Stored site content is missing required sections.');
   }
-
-  const document = JSON.stringify(DEFAULT_PORTFOLIO_CONTENT);
-  await db
-    .prepare(
-      'INSERT INTO site_content (id, document) VALUES (1, ?) ON CONFLICT(id) DO NOTHING',
-    )
-    .bind(document)
-    .run();
-  const inserted = await db
-    .prepare('SELECT document FROM site_content WHERE id = 1')
-    .first<{ document: string }>();
-  if (!inserted) throw new Error('Could not initialize site content in D1.');
-  return inserted.document;
+  return row.document;
 }
 
 function isContentDocument(value: unknown): value is Record<string, unknown> {
@@ -201,7 +160,13 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
 
   if (pathname === '/api/content' && request.method === 'GET') {
     try {
-      const document = await ensureContent(env.DB);
+      const document = await readContent(env.DB);
+      if (!document) {
+        return jsonResponse(
+          { initialized: false, error: 'Site content has not been imported yet.' },
+          404,
+        );
+      }
       return new Response(document, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

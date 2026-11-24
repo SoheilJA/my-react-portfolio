@@ -17,13 +17,17 @@ import {
   Save,
   Settings2,
   Sparkles,
+  Upload,
   UserRound,
   Wrench,
   X,
 } from 'lucide-react';
 import { DEFAULT_PORTFOLIO_CONTENT, PortfolioContent } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
-import { usePortfolioContent } from '../context/PortfolioContentContext';
+import {
+  isPortfolioContent,
+  usePortfolioContent,
+} from '../context/PortfolioContentContext';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import {
@@ -36,6 +40,7 @@ import {
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { cn } from '../lib/utils';
+import { convertImageToWebp } from '../utils/imageCompression';
 
 type JsonValue =
   | string
@@ -122,6 +127,194 @@ function itemLabel(value: JsonValue, index: number, title: string) {
   return `${title} ${index + 1}`;
 }
 
+interface UploadedImage {
+  url: string;
+  originalSize: number;
+  webpSize: number;
+}
+
+function fieldHelp(path: (string | number)[]): string | null {
+  const section = path[0];
+  const key = String(path[path.length - 1]);
+  const helpBySection: Partial<Record<SectionKey, Record<string, string>>> = {
+    projects: {
+      id: 'شناسهٔ داخلی پروژه است و به‌صورت خودکار ساخته می‌شود؛ نیازی به تغییرش نیست.',
+      slug: 'شناسهٔ کوتاه انگلیسی برای آدرس پروژه؛ فقط حروف کوچک، عدد و خط تیره. مثال: online-store',
+      category: 'code برای پروژه‌های برنامه‌نویسی و wordpress برای سایت‌های وردپرسی.',
+      featured: 'با فعال‌کردن این گزینه، پروژه در بخش نمونه‌کارهای منتخب صفحهٔ اصلی نمایش داده می‌شود.',
+      image: 'تصویر شاخصی که روی کارت و صفحهٔ پروژه نمایش داده می‌شود؛ URL بدهید یا تصویر را بارگذاری کنید.',
+      link: 'نشانی کامل سایت یا دموی پروژه با https://؛ اگر عمومی نیست، خالی بگذارید.',
+      title: 'نام کوتاه و نمایشی نمونه‌کار را به فارسی و معادل انگلیسی آن بنویسید.',
+      summary: 'معرفی ۱ تا ۲ جمله‌ای برای کارت پروژه؛ مسئله یا نتیجهٔ اصلی پروژه را توضیح دهید.',
+      architectureNote: 'شرح جزئیات پیاده‌سازی برای صفحهٔ پروژه: معماری، امکانات مهم و دلیل انتخاب فناوری‌ها.',
+      tech: 'هر فناوری را جداگانه اضافه کنید؛ مثال: Django، React، PostgreSQL.',
+      year: 'سال انجام یا تحویل پروژه؛ مثال: 2026.',
+      sector: 'زمینهٔ فعالیت پروژه؛ مثال: فروشگاهی، آموزش، سلامت یا مالی؛ فارسی و انگلیسی.',
+    },
+    certificates: {
+      title: 'نام رسمی مدرک یا دوره را به فارسی و انگلیسی وارد کنید.',
+      issuer: 'نام دانشگاه، شرکت یا پلتفرم صادرکننده؛ مثال: Harvard University.',
+      link: 'لینک عمومی برای مشاهده یا استعلام مدرک.',
+      image: 'تصویر مدرک برای نمایش در سایت؛ URL بدهید یا تصویر را بارگذاری کنید.',
+      credentialCode: 'کد روی مدرک یا شناسهٔ استعلام؛ اگر ندارد خالی بگذارید.',
+      focus: 'موضوعات یا مهارت‌هایی که مدرک پوشش می‌دهد؛ فارسی و انگلیسی.',
+    },
+    services: {
+      title: 'نام خدمت قابل ارائه را به فارسی و انگلیسی وارد کنید.',
+      desc: 'توضیح کوتاه دربارهٔ خدمت و ارزشی که برای مشتری ایجاد می‌کند؛ فارسی و انگلیسی.',
+      deliverables: 'مواردی که مشتری در پایان این خدمت تحویل می‌گیرد؛ هر مورد را جداگانه اضافه کنید.',
+      stack: 'فناوری‌ها و ابزارهای مورد استفاده در این خدمت.',
+    },
+  };
+  return helpBySection[section as SectionKey]?.[key] ?? null;
+}
+
+function fieldPlaceholder(path: (string | number)[], language: 'fa' | 'en'): string | undefined {
+  if (path[0] === 'projects') {
+    const examples: Record<string, { fa: string; en: string }> = {
+      title: { fa: 'مثال: فروشگاه آنلاین', en: 'Example: Online Store' },
+      summary: {
+        fa: 'مثال: طراحی فروشگاه اینترنتی با پرداخت آنلاین.',
+        en: 'Example: An online store with a streamlined checkout.',
+      },
+      architectureNote: {
+        fa: 'معماری، امکانات فنی و تصمیم‌های مهم پیاده‌سازی را توضیح دهید.',
+        en: 'Describe the architecture, key features, and implementation decisions.',
+      },
+      sector: { fa: 'مثال: فروشگاهی', en: 'Example: E-commerce' },
+    };
+    return examples[String(path[path.length - 1])]?.[language];
+  }
+  if (path[0] === 'certificates') {
+    if (path[path.length - 1] === 'title') {
+      return language === 'fa'
+        ? 'مثال: مبانی علوم کامپیوتر'
+        : 'Example: Introduction to Computer Science';
+    }
+    if (path[path.length - 1] === 'issuer') {
+      return language === 'fa'
+        ? 'مثال: دانشگاه هاروارد'
+        : 'Example: Harvard University';
+    }
+  }
+  return undefined;
+}
+
+function PortfolioImageField({
+  label,
+  value,
+  path,
+  onChange,
+  onUploadImage,
+}: {
+  label: string;
+  value: string;
+  path: (string | number)[];
+  onChange: (path: (string | number)[], value: JsonValue) => void;
+  onUploadImage: (file: File) => Promise<UploadedImage>;
+}) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const [uploadStatus, setUploadStatus] = useState('');
+  const canUploadLocally =
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1');
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadError('');
+    setUploadStatus('');
+    try {
+      const uploaded = await onUploadImage(file);
+      onChange(path, uploaded.url);
+      const sizeInKb = Math.max(1, Math.round(uploaded.webpSize / 1024));
+      const reduction = Math.round(
+        (1 - uploaded.webpSize / uploaded.originalSize) * 100,
+      );
+      setUploadStatus(
+        `WebP با حجم ${sizeInKb} کیلوبایت در public${uploaded.url} ذخیره شد${reduction > 0 ? ` (${reduction}٪ کاهش حجم)` : ''}. فایل را deploy کنید؛ سپس همین مسیر را در پنل آنلاین برای پروژه ثبت و ذخیره کنید.`,
+      );
+    } catch (error) {
+      setUploadError(
+        error instanceof Error ? error.message : 'بارگذاری تصویر انجام نشد.',
+      );
+    } finally {
+      input.value = '';
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="grid gap-2 text-sm font-medium">
+      <label className="grid gap-2">
+        {label}
+        <Input
+          placeholder={
+            path[0] === 'projects'
+              ? path[path.length - 1] === 'image'
+                ? 'https://example.com/image.webp'
+                : 'https://example.com'
+              : undefined
+          }
+          value={value}
+          onChange={(event) => onChange(path, event.target.value)}
+        />
+      </label>
+      {fieldHelp(path) && (
+        <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
+      )}
+      {canUploadLocally ? (
+        <div className="flex flex-wrap items-center gap-3">
+        <label
+          className={cn(
+            'inline-flex cursor-pointer items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent',
+            isUploading && 'pointer-events-none opacity-60',
+          )}
+        >
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            aria-label={`بارگذاری WebP برای ${label}`}
+            className="sr-only"
+            disabled={isUploading}
+            onChange={(event) => void handleFileChange(event)}
+          />
+          {isUploading
+            ? <LoaderCircle className="h-4 w-4 animate-spin" />
+            : <Upload className="h-4 w-4" />}
+          {isUploading ? 'در حال تبدیل و بارگذاری…' : 'انتخاب تصویر و بارگذاری WebP'}
+        </label>
+        <span className="text-xs text-muted-foreground">
+          JPG، PNG یا WebP؛ حداکثر ۲۰ مگابایت
+        </span>
+        </div>
+      ) : (
+        <p className="rounded-md border border-dashed p-3 text-xs leading-6 text-muted-foreground">
+          برای بارگذاری، پنل را روی همین رایانه با <code dir="ltr">npm run dev</code> باز کنید. تصویر WebP در پوشهٔ public ذخیره می‌شود؛ پس از deploy، مسیر تصویر را در همین فیلد وارد و ذخیره کنید.
+        </p>
+      )}
+      {value && (
+        <img
+          src={value}
+          alt={`پیش‌نمایش ${label}`}
+          className="max-h-40 w-fit max-w-full rounded-md border object-contain"
+        />
+      )}
+      {uploadError && (
+        <p role="alert" className="text-sm text-destructive">{uploadError}</p>
+      )}
+      {uploadStatus && (
+        <p role="status" className="text-sm text-primary">{uploadStatus}</p>
+      )}
+    </div>
+  );
+}
+
 function fieldTitle(key: string) {
   const labels: Record<string, string> = {
     en: 'English',
@@ -171,17 +364,40 @@ function fieldTitle(key: string) {
     .replace(/^./, (letter) => letter.toUpperCase());
 }
 
+function contextualFieldTitle(key: string, path: (string | number)[]) {
+  const labelsBySection: Partial<Record<SectionKey, Record<string, string>>> = {
+    projects: {
+      title: 'عنوان نمونه‌کار',
+      summary: 'معرفی کوتاه پروژه',
+      architectureNote: 'جزئیات فنی پروژه',
+      sector: 'حوزهٔ فعالیت پروژه',
+    },
+    certificates: {
+      title: 'نام مدرک',
+      issuer: 'صادرکنندهٔ مدرک',
+      focus: 'موضوع مدرک',
+    },
+    services: {
+      title: 'نام خدمت',
+      desc: 'معرفی خدمت',
+    },
+  };
+  return labelsBySection[path[0] as SectionKey]?.[key] ?? fieldTitle(key);
+}
+
 function JsonEditor({
   label,
   value,
   path,
   onChange,
+  onUploadImage,
   newItemTemplate,
 }: {
   label: string;
   value: JsonValue;
   path: (string | number)[];
   onChange: (path: (string | number)[], value: JsonValue) => void;
+  onUploadImage: (file: File) => Promise<UploadedImage>;
   newItemTemplate?: JsonValue;
 }) {
   if (Array.isArray(value)) {
@@ -229,6 +445,7 @@ function JsonEditor({
                     value={item}
                     path={itemPath}
                     onChange={onChange}
+                    onUploadImage={onUploadImage}
                   />
                   <Button type="button" variant="destructive" size="sm" onClick={remove}>
                     <X className="h-4 w-4" />
@@ -268,33 +485,47 @@ function JsonEditor({
       typeof value.fa === 'string'
     ) {
       return (
-        <div className="grid gap-4 md:grid-cols-2">
-          {(['fa', 'en'] as const).map((language) => {
-            const translated = value[language];
-            if (typeof translated !== 'string') return null;
-            return (
-              <label key={language} className="grid gap-2 text-sm font-medium">
-                {language === 'fa' ? 'فارسی' : 'English'}
-                {translated.length > 100 ? (
-                  <Textarea
-                    dir={language === 'fa' ? 'rtl' : 'ltr'}
-                    value={translated}
-                    onChange={(event) =>
-                      onChange([...path, language], event.target.value)
-                    }
-                  />
-                ) : (
-                  <Input
-                    dir={language === 'fa' ? 'rtl' : 'ltr'}
-                    value={translated}
-                    onChange={(event) =>
-                      onChange([...path, language], event.target.value)
-                    }
-                  />
-                )}
-              </label>
-            );
-          })}
+        <div className="grid gap-3">
+          {(fieldHelp(path) || (label !== 'فارسی' && label !== 'English')) && (
+            <div className="rounded-md bg-muted/50 px-3 py-2 md:col-span-2">
+              <p className="text-sm font-semibold">{label}</p>
+              {fieldHelp(path) && (
+                <p className="mt-1 text-xs leading-6 text-muted-foreground">
+                  {fieldHelp(path)}
+                </p>
+              )}
+            </div>
+          )}
+          <div className="grid gap-4 md:grid-cols-2">
+            {(['fa', 'en'] as const).map((language) => {
+              const translated = value[language];
+              if (typeof translated !== 'string') return null;
+              return (
+                <label key={language} className="grid gap-2 text-sm font-medium">
+                  {language === 'fa' ? 'فارسی' : 'English'}
+                  {translated.length > 100 ? (
+                    <Textarea
+                      dir={language === 'fa' ? 'rtl' : 'ltr'}
+                      placeholder={fieldPlaceholder(path, language)}
+                      value={translated}
+                      onChange={(event) =>
+                        onChange([...path, language], event.target.value)
+                      }
+                    />
+                  ) : (
+                    <Input
+                      dir={language === 'fa' ? 'rtl' : 'ltr'}
+                      placeholder={fieldPlaceholder(path, language)}
+                      value={translated}
+                      onChange={(event) =>
+                        onChange([...path, language], event.target.value)
+                      }
+                    />
+                  )}
+                </label>
+              );
+            })}
+          </div>
         </div>
       );
     }
@@ -310,10 +541,11 @@ function JsonEditor({
             )}
           >
             <JsonEditor
-              label={fieldTitle(key)}
+              label={contextualFieldTitle(key, [...path, key])}
               value={child}
               path={[...path, key]}
               onChange={onChange}
+              onUploadImage={onUploadImage}
               newItemTemplate={
                 path.length === 0 && Array.isArray(DEFAULT_PORTFOLIO_CONTENT[key as SectionKey])
                   ? ((DEFAULT_PORTFOLIO_CONTENT[key as SectionKey] as unknown as JsonValue[])[0] ?? '')
@@ -328,15 +560,20 @@ function JsonEditor({
 
   if (typeof value === 'boolean') {
     return (
-      <label className="flex min-h-10 items-center gap-3 text-sm text-foreground">
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={(event) => onChange(path, event.target.checked)}
-          className="h-4 w-4 accent-primary"
-        />
-        {label}
-      </label>
+      <div className="grid gap-1">
+        <label className="flex min-h-10 items-center gap-3 text-sm text-foreground">
+          <input
+            type="checkbox"
+            checked={value}
+            onChange={(event) => onChange(path, event.target.checked)}
+            className="h-4 w-4 accent-primary"
+          />
+          {label}
+        </label>
+        {fieldHelp(path) && (
+          <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
+        )}
+      </div>
     );
   }
 
@@ -349,44 +586,72 @@ function JsonEditor({
 
   if (options) {
     return (
-      <label className="grid gap-2 text-sm font-medium">
-        {label}
-        <select
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          value={typeof value === 'string' ? value : ''}
-          onChange={(event) => onChange(path, event.target.value)}
-        >
-          <option value="">انتخاب کنید</option>
-          {options.map((option) => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
-      </label>
+      <div className="grid gap-2">
+        <label className="grid gap-2 text-sm font-medium">
+          {label}
+          <select
+            className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            value={typeof value === 'string' ? value : ''}
+            onChange={(event) => onChange(path, event.target.value)}
+          >
+            <option value="">انتخاب کنید</option>
+            {options.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        </label>
+        {fieldHelp(path) && (
+          <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
+        )}
+      </div>
+    );
+  }
+
+  if (
+    typeof value === 'string' &&
+    path[path.length - 1] === 'image' &&
+    (path[0] === 'projects' || path[0] === 'certificates')
+  ) {
+    return (
+      <PortfolioImageField
+        label={label}
+        value={value}
+        path={path}
+        onChange={onChange}
+        onUploadImage={onUploadImage}
+      />
     );
   }
 
   const text = value === null ? '' : String(value);
   return (
-    <label className="grid gap-2 text-sm font-medium">
-      {label}
-      {text.length > 100 || path[path.length - 1] === 'bio' ? (
-        <Textarea
-          value={text}
-          onChange={(event) => onChange(path, event.target.value)}
-        />
-      ) : (
-        <Input
-          type={typeof value === 'number' ? 'number' : 'text'}
-          value={text}
-          onChange={(event) =>
-            onChange(
-              path,
-              typeof value === 'number' ? Number(event.target.value) : event.target.value,
-            )
-          }
-        />
+    <div className="grid gap-2">
+      <label className="grid gap-2 text-sm font-medium">
+        {label}
+        {text.length > 100 || path[path.length - 1] === 'bio' ? (
+          <Textarea
+            placeholder={fieldPlaceholder(path, 'fa')}
+            value={text}
+            onChange={(event) => onChange(path, event.target.value)}
+          />
+        ) : (
+          <Input
+            type={typeof value === 'number' ? 'number' : 'text'}
+            placeholder={fieldPlaceholder(path, 'fa')}
+            value={text}
+            onChange={(event) =>
+              onChange(
+                path,
+                typeof value === 'number' ? Number(event.target.value) : event.target.value,
+              )
+            }
+          />
+        )}
+      </label>
+      {fieldHelp(path) && (
+        <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
       )}
-    </label>
+    </div>
   );
 }
 
@@ -461,7 +726,15 @@ function LoginScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
 }
 
 export function AdminPage() {
-  const { content, setContent, error: contentError, isLoading, reload } = usePortfolioContent();
+  const {
+    content,
+    setContent,
+    error: contentError,
+    isContentInitialized,
+    isLoading,
+    reload,
+    setIsContentInitialized,
+  } = usePortfolioContent();
   const { lang } = useLanguage();
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [activeSection, setActiveSection] = useState<SectionKey>('profile');
@@ -471,6 +744,8 @@ export function AdminPage() {
   const [saveMessage, setSaveMessage] = useState('');
   const [saveHasError, setSaveHasError] = useState(false);
   const [authError, setAuthError] = useState('');
+  const [importError, setImportError] = useState('');
+  const [importFileName, setImportFileName] = useState('');
 
   useEffect(() => {
     let active = true;
@@ -509,6 +784,38 @@ export function AdminPage() {
     [content],
   );
 
+  const importContentFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    setImportError('');
+    setSaveMessage('');
+    setImportFileName('');
+    setDraft(content);
+    setIsDirty(false);
+    try {
+      if (file.size > 1_000_000) {
+        throw new Error('حجم فایل JSON نباید بیشتر از ۱ مگابایت باشد.');
+      }
+      const imported: unknown = JSON.parse(await file.text());
+      if (!isPortfolioContent(imported)) {
+        throw new Error('ساختار JSON با محتوای کامل سایت مطابقت ندارد.');
+      }
+      setDraft(imported);
+      setIsDirty(true);
+      setImportFileName(file.name);
+      setSaveHasError(false);
+      setSaveMessage('فایل JSON معتبر است؛ برای ثبت محتوا در D1 روی ذخیره بزنید.');
+    } catch (error) {
+      setImportError(
+        error instanceof Error ? error.message : 'خواندن فایل JSON انجام نشد.',
+      );
+    } finally {
+      input.value = '';
+    }
+  };
+
   if (authenticated === null) {
     return (
       <main className="admin-theme flex min-h-screen items-center justify-center bg-background text-foreground" dir="rtl">
@@ -546,7 +853,9 @@ export function AdminPage() {
         throw new Error(result.error || 'ذخیرهٔ محتوا انجام نشد.');
       }
       setContent(draft);
+      setIsContentInitialized(true);
       setIsDirty(false);
+      if (!isContentInitialized) await reload();
       setSaveMessage('تغییرات با موفقیت در D1 ذخیره شد.');
       window.setTimeout(() => setSaveMessage(''), 4000);
     } catch (saveError) {
@@ -576,6 +885,119 @@ export function AdminPage() {
     setDraft((current) => replaceAtPath(current, path, value));
     setIsDirty(true);
   };
+
+  const uploadImage = async (file: File): Promise<UploadedImage> => {
+    const webp = await convertImageToWebp(file);
+    const response = await fetch('/api/uploads', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'image/webp' },
+      body: webp,
+    });
+
+    let result: unknown;
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error('پاسخ سرور برای بارگذاری تصویر قابل خواندن نیست.');
+    }
+    if (!isRecord(result)) {
+      throw new Error('پاسخ سرور برای بارگذاری تصویر معتبر نیست.');
+    }
+    if (!response.ok || typeof result.url !== 'string') {
+      throw new Error(
+        typeof result.error === 'string' ? result.error : 'بارگذاری تصویر انجام نشد.',
+      );
+    }
+
+    return {
+      url: result.url,
+      originalSize: file.size,
+      webpSize: webp.size,
+    };
+  };
+
+  if (isLoading || isContentInitialized === null) {
+    return (
+      <main
+        className="admin-theme flex min-h-screen items-center justify-center bg-background px-4 text-foreground"
+        dir="rtl"
+      >
+        <div className="grid justify-items-center gap-4 text-center">
+          {isLoading && <LoaderCircle className="h-7 w-7 animate-spin text-primary" />}
+          {!isLoading && (
+            <>
+              <p role="alert" className="text-sm text-destructive">
+                {contentError || 'وضعیت محتوای D1 مشخص نیست.'}
+              </p>
+              <Button type="button" variant="outline" onClick={() => void reload()}>
+                تلاش دوباره
+              </Button>
+            </>
+          )}
+        </div>
+      </main>
+    );
+  }
+
+  if (isContentInitialized === false) {
+    return (
+      <main
+        className="admin-theme flex min-h-screen items-center justify-center bg-background px-4 py-10 text-foreground"
+        dir="rtl"
+      >
+        <Card className="w-full max-w-2xl border-border/70 bg-card">
+          <CardHeader>
+            <CardTitle>واردکردن محتوای سایت</CardTitle>
+            <CardDescription>
+              دیتابیس خالی است. فایل JSON پشتیبان سایت را انتخاب کنید؛ پس از بررسی، ذخیره آن را در D1 انجام می‌دهد.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <label className="grid gap-2 text-sm font-medium">
+              فایل محتوای JSON
+              <Input
+                type="file"
+                accept=".json,application/json"
+                onChange={(event) => void importContentFile(event)}
+              />
+            </label>
+            {importFileName && (
+              <p role="status" className="text-sm text-muted-foreground">
+                فایل آمادهٔ ذخیره: {importFileName}
+              </p>
+            )}
+            {importError && (
+              <p role="alert" className="text-sm text-destructive">{importError}</p>
+            )}
+            {saveMessage && (
+              <p
+                role="status"
+                className={cn(
+                  'text-sm',
+                  saveHasError ? 'text-destructive' : 'text-primary',
+                )}
+              >
+                {saveMessage}
+              </p>
+            )}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <Button type="button" variant="ghost" onClick={logout}>
+                <LogOut className="h-4 w-4" />
+                خروج
+              </Button>
+              <Button type="button" onClick={save} disabled={!isDirty || isSaving}>
+                {isSaving
+                  ? <LoaderCircle className="h-4 w-4 animate-spin" />
+                  : <Save className="h-4 w-4" />}
+                ذخیرهٔ محتوا در D1
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    );
+  }
 
   return (
     <div className="admin-theme min-h-screen bg-background text-foreground" dir="rtl">
@@ -706,6 +1128,7 @@ export function AdminPage() {
                   value={draft[activeSection] as unknown as JsonValue}
                   path={[activeSection]}
                   onChange={changeField}
+                  onUploadImage={uploadImage}
                   newItemTemplate={
                     Array.isArray(DEFAULT_PORTFOLIO_CONTENT[activeSection])
                       ? ((DEFAULT_PORTFOLIO_CONTENT[activeSection] as unknown as JsonValue[])[0] ?? '')

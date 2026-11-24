@@ -25,7 +25,10 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { CertificatesPage } from './pages/CertificatesPage';
 import { ContactPage } from './pages/ContactPage';
-import { PortfolioContentProvider } from './context/PortfolioContentContext';
+import {
+  PortfolioContentProvider,
+  usePortfolioContent,
+} from './context/PortfolioContentContext';
 import { AdminPage } from './pages/AdminPage';
 import { LocalizedLink } from './components/LocalizedLink';
 import { SiteLoadingEffects } from './components/SiteLoadingEffects';
@@ -101,6 +104,64 @@ function HomeRedirect() {
   return <Navigate to={`/${lang}`} replace />;
 }
 
+function PublicContentBoundary() {
+  const { error, isContentInitialized, isLoading, reload } = usePortfolioContent();
+  const { lang } = useLanguage();
+
+  if (isLoading) {
+    return (
+      <main
+        role="status"
+        className="flex min-h-screen items-center justify-center bg-[#090E19] text-white"
+      >
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-[#55FF8A] border-t-transparent" />
+      </main>
+    );
+  }
+
+  if (isContentInitialized !== true) {
+    const isPersian = lang === 'fa';
+    const isUninitialized = isContentInitialized === false;
+    return (
+      <main
+        className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#090E19] px-5 text-center text-white"
+        dir={isPersian ? 'rtl' : 'ltr'}
+      >
+        <h1 className="text-2xl font-bold">
+          {isUninitialized
+            ? isPersian ? 'محتوای سایت هنوز وارد نشده است' : 'Site content has not been imported'
+            : isPersian ? 'دریافت محتوای سایت ممکن نیست' : 'Site content is unavailable'}
+        </h1>
+        <p className="max-w-xl text-sm text-[#AEB7C8]">
+          {isUninitialized
+            ? isPersian
+              ? 'برای نمایش سایت، فایل JSON محتوا را از پنل مدیریت وارد و ذخیره کنید.'
+              : 'Import and save the site content JSON from the admin panel to display the site.'
+            : error}
+        </p>
+        {isUninitialized ? (
+          <a
+            href="/admin"
+            className="rounded-full bg-[#55FF8A] px-5 py-3 text-sm font-bold text-black"
+          >
+            {isPersian ? 'رفتن به پنل مدیریت' : 'Open admin panel'}
+          </a>
+        ) : (
+          <button
+            type="button"
+            onClick={() => void reload()}
+            className="rounded-full border border-white/20 px-5 py-3 text-sm font-bold"
+          >
+            {isPersian ? 'تلاش دوباره' : 'Try again'}
+          </button>
+        )}
+      </main>
+    );
+  }
+
+  return <Outlet />;
+}
+
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
@@ -110,19 +171,21 @@ export default function App() {
             <Routes>
               <Route path="/admin/*" element={<AdminPage />} />
               <Route path="/" element={<HomeRedirect />} />
-              <Route path="/:lang" element={<LanguageShell />}>
-                <Route element={<PortfolioLayout />}>
-                  <Route index element={<HomePage />} />
-                  <Route path="about" element={<AboutPage />} />
-                  <Route path="services" element={<ServicesPage />} />
-                  <Route path="projects" element={<ProjectsPage />} />
-                  <Route path="projects/:slug" element={<ProjectDetailPage />} />
-                  <Route path="certificates" element={<CertificatesPage />} />
-                  <Route path="contact" element={<ContactPage />} />
+              <Route element={<PublicContentBoundary />}>
+                <Route path="/:lang" element={<LanguageShell />}>
+                  <Route element={<PortfolioLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="about" element={<AboutPage />} />
+                    <Route path="services" element={<ServicesPage />} />
+                    <Route path="projects" element={<ProjectsPage />} />
+                    <Route path="projects/:slug" element={<ProjectDetailPage />} />
+                    <Route path="certificates" element={<CertificatesPage />} />
+                    <Route path="contact" element={<ContactPage />} />
+                  </Route>
+                  <Route path="*" element={<NotFoundPage />} />
                 </Route>
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<HomeRedirect />} />
               </Route>
-              <Route path="*" element={<HomeRedirect />} />
             </Routes>
             <SiteLoadingEffects />
           </BrowserRouter>
