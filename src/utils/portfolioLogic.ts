@@ -18,15 +18,21 @@ export interface ContactValidationResult {
   errors: Partial<Record<keyof ContactFormInput, string>>;
 }
 
+export function sortProjectsByNewest(
+  projects: readonly PortfolioProject[],
+): PortfolioProject[] {
+  return [...projects].sort((left, right) => right.id - left.id);
+}
+
 export function filterProjects(
-  projects: PortfolioProject[],
+  projects: readonly PortfolioProject[],
   category: ProjectCategoryFilter,
   query = '',
   lang: Language = 'en'
 ): PortfolioProject[] {
   const normalizedQuery = query.trim().toLowerCase();
 
-  return projects.filter((project) => {
+  return sortProjectsByNewest(projects).filter((project) => {
     const matchesCategory = category === 'all' || project.category === category;
     if (!matchesCategory) return false;
     if (!normalizedQuery) return true;
@@ -56,15 +62,16 @@ export function getProjectBySlug(
 }
 
 export function getAdjacentProjects(
-  projects: PortfolioProject[],
+  projects: readonly PortfolioProject[],
   slug: string
 ): { prev: PortfolioProject | null; next: PortfolioProject | null } {
-  const index = projects.findIndex((p) => p.slug === slug);
+  const newestFirst = sortProjectsByNewest(projects);
+  const index = newestFirst.findIndex((p) => p.slug === slug);
   if (index === -1) {
     return { prev: null, next: null };
   }
-  const prev = index > 0 ? projects[index - 1] : projects[projects.length - 1];
-  const next = index < projects.length - 1 ? projects[index + 1] : projects[0];
+  const prev = index > 0 ? newestFirst[index - 1] : newestFirst[newestFirst.length - 1];
+  const next = index < newestFirst.length - 1 ? newestFirst[index + 1] : newestFirst[0];
   return { prev, next };
 }
 

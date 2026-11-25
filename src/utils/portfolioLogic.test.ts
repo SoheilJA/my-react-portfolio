@@ -11,6 +11,7 @@ import {
   formatStatValue,
   getAdjacentProjects,
   getProjectBySlug,
+  sortProjectsByNewest,
   toPersianDigits,
   validateContactForm,
 } from './portfolioLogic';
@@ -30,6 +31,27 @@ test('filterProjects filters by category and search query accurately', () => {
   const djangoSearch = filterProjects(PORTFOLIO_PROJECTS, 'all', 'django', 'en');
   assert.ok(djangoSearch.some((p) => p.slug === 'pixoria'));
   assert.ok(djangoSearch.some((p) => p.slug === 'phazldaru-holding'));
+});
+
+test('projects are ordered newest first without mutating the source array', () => {
+  const projects = [
+    { ...PORTFOLIO_PROJECTS[0], id: 1, slug: 'oldest' },
+    { ...PORTFOLIO_PROJECTS[0], id: 3, slug: 'newest' },
+    { ...PORTFOLIO_PROJECTS[0], id: 2, slug: 'middle' },
+  ];
+
+  assert.deepEqual(
+    sortProjectsByNewest(projects).map((project) => project.slug),
+    ['newest', 'middle', 'oldest'],
+  );
+  assert.deepEqual(
+    filterProjects(projects, 'all').map((project) => project.slug),
+    ['newest', 'middle', 'oldest'],
+  );
+  const adjacent = getAdjacentProjects(projects, 'middle');
+  assert.equal(adjacent.prev?.slug, 'newest');
+  assert.equal(adjacent.next?.slug, 'oldest');
+  assert.equal(projects[0].slug, 'oldest');
 });
 
 test('getProjectBySlug and getAdjacentProjects resolve real projects cleanly', () => {

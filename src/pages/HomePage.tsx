@@ -3,11 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, ExternalLink } from 
 import { LocalizedLink as Link } from '../components/LocalizedLink';
 import { useLanguage } from '../context/LanguageContext';
 import { usePortfolioContent } from '../context/PortfolioContentContext';
-import {
-  filterProjects,
-  formatStatValue,
-  ProjectCategoryFilter,
-} from '../utils/portfolioLogic';
+import { formatStatValue, sortProjectsByNewest } from '../utils/portfolioLogic';
 import {
   FourPointStarField,
   InteractiveHeroConsole,
@@ -33,7 +29,6 @@ export function HomePage() {
     technologies: PORTFOLIO_TECHNOLOGIES,
     pageCopy,
   } = content;
-  const [projectFilter, setProjectFilter] = useState<ProjectCategoryFilter>('all');
   const [activeExpId, setActiveExpId] = useState<number>(1);
   const revealRef = useGsapSectionReveal([lang]);
 
@@ -43,15 +38,12 @@ export function HomePage() {
     services: PORTFOLIO_SERVICES.length,
   };
 
-  const filteredProjects = filterProjects(PORTFOLIO_PROJECTS, projectFilter, '', lang);
-  const showcaseRows = filteredProjects.slice(0, 4);
-  const secondaryCards = filteredProjects.slice(4, 7);
-
   const marqueeRowOne = [...PORTFOLIO_TECHNOLOGIES, ...PORTFOLIO_TECHNOLOGIES];
   const marqueeRowTwo = [
     ...PORTFOLIO_TECHNOLOGIES.slice().reverse(),
     ...PORTFOLIO_TECHNOLOGIES.slice().reverse(),
   ];
+  const latestProjects = sortProjectsByNewest(PORTFOLIO_PROJECTS).slice(0, 4);
 
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
@@ -292,171 +284,51 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 5. SELECTED WORK — ALTERNATING FEATURE ROWS + COMPACT GALLERY (Windscribe "More Than Just a VPN" Pattern) */}
-      <section className="relative bg-[#090E19] py-20 md:py-28 border-t border-white/10 overflow-hidden" data-reveal>
-        <img
-          loading="lazy"
-          decoding="async"
-          src={ARTWORK_ASSETS.projectsBackdrop}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35"
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#090E19] via-[#090E19]/75 to-[#090E19]"
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 mx-auto max-w-[1280px] px-5 md:px-8">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-display text-3xl md:text-5xl font-black tracking-tight text-white [text-wrap:balance]">
-              {t(pageCopy.homeProjectsHeading)}
-            </h2>
-            <p className="mt-3 text-base text-[#898F9D]">
-              {t(pageCopy.homeProjectsDescription)}
-            </p>
-
-            {/* Interactive Category Filter Tabs */}
-            <div
-              className="mt-7 inline-flex items-center gap-1 rounded-xl border border-white/12 bg-[#0B0F16] p-1.5"
-              role="group"
-              aria-label={lang === 'fa' ? 'فیلتر نوع پروژه' : 'Filter projects by type'}
-            >
-              {(
-                [
-                  { id: 'all', en: `All (${PORTFOLIO_PROJECTS.length})`, fa: `همه (${PORTFOLIO_PROJECTS.length})` },
-                  { id: 'code', en: 'Development', fa: 'برنامه‌نویسی' },
-                  { id: 'wordpress', en: 'WordPress', fa: 'وردپرس' },
-                ] as const
-              ).map((tab) => {
-                const active = projectFilter === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setProjectFilter(tab.id)}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                      active
-                        ? 'bg-[#55FF8A] text-black'
-                        : 'text-[#898F9D] hover:text-white'
-                    }`}
-                  >
-                    {lang === 'fa' ? tab.fa : tab.en}
-                  </button>
-                );
-              })}
+      {/* 5. LATEST PROJECTS */}
+      <section className="bg-[#090E19] py-20 md:py-28 border-t border-white/10" data-reveal>
+        <div className="mx-auto max-w-[1280px] px-5 md:px-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="font-mono-tech text-xs uppercase tracking-[0.2em] text-[#55FF8A]">
+                {lang === 'fa' ? 'آخرین به‌روزرسانی‌ها' : 'LATEST SHIPMENTS'}
+              </p>
+              <h2 className="mt-3 font-display text-3xl md:text-5xl font-black tracking-tight text-white [text-wrap:balance]">
+                {lang === 'fa' ? 'تازه‌ترین نمونه‌کارها' : 'Latest projects'}
+              </h2>
+              <p className="mt-3 max-w-xl text-base text-[#898F9D]">
+                {lang === 'fa'
+                  ? 'جدیدترین پروژه‌های اضافه‌شده، از همهٔ دسته‌بندی‌ها.'
+                  : 'The newest additions across every project category.'}
+              </p>
             </div>
-          </div>
 
-          {/* Alternating Deep Project Rows */}
-          <div className="mt-16 space-y-16 md:space-y-24">
-            {showcaseRows.map((project, idx) => {
-              const reversed = idx % 2 === 1;
-              return (
-                <div
-                  key={project.id}
-                  className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12"
-                >
-                  <div
-                    className={`lg:col-span-5 ${
-                      reversed ? 'lg:order-2' : 'lg:order-1'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 font-mono-tech text-xs text-[#55FF8A]">
-                      <span>{t(project.sector)}</span>
-                      <span aria-hidden="true">·</span>
-                      <span>{project.year}</span>
-                    </div>
-                    <h3 className="mt-2 font-display text-2xl md:text-4xl font-extrabold tracking-tight text-white">
-                      {t(project.title)}
-                    </h3>
-                    <p className="mt-3.5 text-base text-[#898F9D] leading-relaxed">
-                      {t(project.summary)}
-                    </p>
-                    <div className="mt-4 font-mono-tech text-xs text-[#C2C8D4]">
-                      {project.tech.join(' · ')}
-                    </div>
-
-                    <div className="mt-7 flex flex-wrap items-center gap-3">
-                      <Link
-                        to={`/projects/${project.slug}`}
-                        className="inline-flex items-center gap-2 rounded-full bg-[#102928] border border-[#55FF8A]/35 px-6 py-3 text-xs font-bold text-[#55FF8A] hover:bg-[#55FF8A] hover:text-black transition-all whitespace-nowrap"
-                      >
-                        <span>{lang === 'fa' ? 'مشاهده جزئیات' : 'Explore Case'}</span>
-                        <ChevronRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
-                      </Link>
-                      {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#0B0F16] px-5 py-3 text-xs font-semibold text-white hover:border-[#55FF8A] hover:text-[#55FF8A] transition-colors whitespace-nowrap"
-                        >
-                          <span>{lang === 'fa' ? 'مشاهده سایت' : 'Live Site'}</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-
-                  <div
-                    className={`lg:col-span-7 ${
-                      reversed ? 'lg:order-1' : 'lg:order-2'
-                    }`}
-                  >
-                    <Link
-                      to={`/projects/${project.slug}`}
-                      className="block group focus-visible:outline-2 focus-visible:outline-[#55FF8A] rounded-2xl"
-                    >
-                      <div className="transition-transform duration-300 group-hover:-translate-y-1">
-                        <ProjectVisualFrame project={project} lang={lang} />
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Secondary 3-Card Row + Full Archive CTA */}
-          {secondaryCards.length > 0 && (
-            <div className="mt-20 grid grid-cols-1 gap-6 md:grid-cols-3">
-              {secondaryCards.map((project) => (
-                <Link
-                  key={project.id}
-                  to={`/projects/${project.slug}`}
-                  className="group rounded-2xl border border-white/12 bg-[#0B0F16] p-5 hover:border-[#55FF8A]/45 transition-colors flex flex-col justify-between"
-                >
-                  <div>
-                    <ProjectVisualFrame project={project} lang={lang} compact />
-                    <div className="mt-4 font-mono-tech text-xs text-[#55FF8A]">
-                      {project.tech.join(' · ')}
-                    </div>
-                    <h4 className="mt-1.5 font-display text-lg font-bold text-white group-hover:text-[#55FF8A] transition-colors">
-                      {t(project.title)}
-                    </h4>
-                  </div>
-                  <div className="mt-3 text-xs font-semibold text-[#C2C8D4] flex items-center gap-1">
-                    <span>{lang === 'fa' ? 'بررسی پروژه' : 'Inspect project'}</span>
-                    <ChevronRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-12 text-center">
             <Link
               to="/projects"
-              className="inline-flex items-center gap-2 rounded-full bg-[#55FF8A] px-8 py-4 text-sm font-extrabold uppercase tracking-wider text-black hover:bg-[#6EFF9B] transition-all whitespace-nowrap"
+              className="inline-flex items-center gap-2 self-start rounded-full border border-[#55FF8A]/35 px-5 py-3 text-xs font-bold text-[#55FF8A] transition-colors hover:bg-[#55FF8A] hover:text-black md:self-auto"
             >
-              <span>
-                {lang === 'fa'
-                  ? `مشاهده همه ${PORTFOLIO_PROJECTS.length} پروژه`
-                  : `VIEW ALL ${PORTFOLIO_PROJECTS.length} PROJECTS`}
-              </span>
-              <ArrowIcon className="w-4 h-4" />
+              <span>{lang === 'fa' ? 'همهٔ نمونه‌کارها' : 'ALL PROJECTS'}</span>
+              <ArrowIcon className="h-4 w-4" />
             </Link>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+            {latestProjects.map((project) => (
+              <article key={project.id} className="group min-w-0">
+                <Link to={`/projects/${project.slug}`} className="block">
+                  <ProjectVisualFrame project={project} lang={lang} compact />
+                  <div className="mt-4 flex items-center justify-between gap-3 font-mono-tech text-xs">
+                    <span className="truncate text-[#55FF8A]">{t(project.sector)}</span>
+                    <span className="shrink-0 text-[#898F9D]">{project.year}</span>
+                  </div>
+                  <h3 className="mt-2 font-display text-lg font-bold text-white transition-colors group-hover:text-[#55FF8A]">
+                    {t(project.title)}
+                  </h3>
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#898F9D]">
+                    {t(project.summary)}
+                  </p>
+                </Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>

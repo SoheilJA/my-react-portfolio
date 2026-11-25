@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { BrandLogoMark } from './WindscribeArtwork';
 import { LocalizedLink as Link } from './LocalizedLink';
 import { usePortfolioContent } from '../context/PortfolioContentContext';
+import { sortProjectsByNewest } from '../utils/portfolioLogic';
 
 export function Footer() {
   const { lang, setLang, t } = useLanguage();
@@ -22,7 +23,7 @@ export function Footer() {
     { to: '/contact', label: lang === 'fa' ? 'تماس و شروع همکاری' : 'Contact' },
   ];
 
-  const featuredProjects = PORTFOLIO_PROJECTS.slice(0, 6);
+  const featuredProjects = sortProjectsByNewest(PORTFOLIO_PROJECTS).slice(0, 6);
 
   const changeLanguage = (next: 'en' | 'fa') => {
     setLang(next);
