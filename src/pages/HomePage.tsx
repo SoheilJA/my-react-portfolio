@@ -12,7 +12,6 @@ import {
   ServiceBentoArt,
 } from '../components/WindscribeArtwork';
 import { SpacePortalCTA } from '../components/SpacePortalCTA';
-import { useGsapSectionReveal } from '../hooks/useSmoothScrollAndGsap';
 
 export function HomePage() {
   const { lang, isRtl, t } = useLanguage();
@@ -30,7 +29,6 @@ export function HomePage() {
     pageCopy,
   } = content;
   const [activeExpId, setActiveExpId] = useState<number>(1);
-  const revealRef = useGsapSectionReveal([lang]);
 
   const counts = {
     projects: PORTFOLIO_PROJECTS.length,
@@ -48,7 +46,7 @@ export function HomePage() {
   const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
 
   return (
-    <div ref={revealRef} className="relative overflow-x-clip">
+    <div className="relative overflow-x-clip">
       {/* 1. WINDSCRIBE-STYLE SPACE HERO */}
       <section className="relative min-h-[760px] flex flex-col justify-between pt-14 pb-16 md:pt-20 md:pb-20 overflow-hidden bg-[#090E19]">
         {/* Generated Space Planets & Perspective Horizon Grid Artwork */}
@@ -133,7 +131,7 @@ export function HomePage() {
       </section>
 
       {/* 3. WHY WORK WITH ME — 4-COLUMN STRIP + DUAL-MASCOT BANNER (Windscribe "Why Windscribe" Pattern) */}
-      <section className="relative bg-[#090E19] py-20 md:py-28 overflow-hidden" data-reveal>
+      <section className="relative bg-[#090E19] py-20 md:py-28 overflow-hidden">
         <FourPointStarField />
         <div className="relative z-10 mx-auto max-w-[1280px] px-5 md:px-8">
           <div className="text-center max-w-2xl mx-auto">
@@ -209,7 +207,7 @@ export function HomePage() {
       </section>
 
       {/* 4. SERVICES & SOLUTIONS BENTO GRID (Windscribe "Solution to All Your Problems" Pattern) */}
-      <section className="relative bg-[#070E17] py-20 md:py-28 border-t border-white/10 overflow-hidden" data-reveal>
+      <section className="relative bg-[#070E17] py-20 md:py-28 border-t border-white/10 overflow-hidden">
         <img
           loading="lazy"
           decoding="async"
@@ -285,7 +283,7 @@ export function HomePage() {
       </section>
 
       {/* 5. LATEST PROJECTS */}
-      <section className="bg-[#090E19] py-20 md:py-28 border-t border-white/10" data-reveal>
+      <section className="bg-[#090E19] py-20 md:py-28 border-t border-white/10">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
@@ -311,7 +309,7 @@ export function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
             {latestProjects.map((project) => (
               <article key={project.id} className="group min-w-0">
                 <Link to={`/projects/${project.slug}`} className="block">
@@ -334,7 +332,7 @@ export function HomePage() {
       </section>
 
       {/* 6. TECH STACK MARQUEE + CAREER EXPERIENCE TIMELINE (Windscribe "Real Servers" Marquee Pattern) */}
-      <section className="bg-[#070E17] py-20 md:py-24 border-t border-white/10 overflow-hidden" data-reveal>
+      <section className="bg-[#070E17] py-20 md:py-24 border-t border-white/10 overflow-hidden">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8 text-center">
           <h2 className="font-display text-3xl md:text-5xl font-black tracking-tight text-white [text-wrap:balance]">
             {t(pageCopy.homeStackHeading)}
@@ -435,7 +433,7 @@ export function HomePage() {
       </section>
 
       {/* 7. VERIFIABLE CERTIFICATES GALLERY PREVIEW */}
-      <section className="bg-[#090E19] py-20 md:py-24 border-t border-white/10" data-reveal>
+      <section className="bg-[#090E19] py-20 md:py-24 border-t border-white/10">
         <div className="mx-auto max-w-[1280px] px-5 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>

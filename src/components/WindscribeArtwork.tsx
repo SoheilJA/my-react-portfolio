@@ -235,10 +235,10 @@ export function ServiceBentoArt({
   switch (variant) {
     case 'backend':
       return (
-        <svg viewBox="0 0 320 170" className="w-full h-44" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 320 170" className="service-art service-art--backend w-full h-44" fill="none" aria-hidden="true">
           <rect x="28" y="22" width="264" height="126" rx="14" fill="#070E17" stroke="#22D3EE" strokeOpacity="0.35" strokeWidth="2" />
           <rect x="44" y="38" width="98" height="38" rx="8" fill="#0E2033" stroke="#55FF8A" strokeWidth="2" />
-          <circle cx="62" cy="57" r="6" fill="#55FF8A" />
+          <circle className="service-art-pulse" cx="62" cy="57" r="6" fill="#55FF8A" />
           <rect x="76" y="51" width="50" height="5" rx="2.5" fill="#FFFFFF" fillOpacity="0.85" />
           <rect x="76" y="61" width="34" height="4" rx="2" fill="#898F9D" />
 
@@ -246,9 +246,9 @@ export function ServiceBentoArt({
           <rect x="192" y="50" width="54" height="5" rx="2.5" fill="#22D3EE" />
           <rect x="192" y="60" width="68" height="4" rx="2" fill="#898F9D" />
 
-          <path d="M142 57 H178" stroke="#55FF8A" strokeWidth="2.5" strokeDasharray="4 4" />
-          <path d="M93 76 V96 H227 V76" stroke="#55FF8A" strokeOpacity="0.6" strokeWidth="2" />
-          <rect x="86" y="96" width="148" height="36" rx="8" fill="#102926" stroke="#55FF8A" strokeWidth="2" />
+          <path className="service-art-flow" d="M142 57 H178" stroke="#55FF8A" strokeWidth="2.5" strokeDasharray="4 4" />
+          <path className="service-art-flow" d="M93 76 V96 H227 V76" stroke="#55FF8A" strokeOpacity="0.6" strokeWidth="2" />
+          <rect className="service-art-pulse" x="86" y="96" width="148" height="36" rx="8" fill="#102926" stroke="#55FF8A" strokeWidth="2" />
           <text x="160" y="118" textAnchor="middle" fill="#55FF8A" fontSize="11" fontFamily="IBM Plex Mono, monospace" fontWeight="600">
             DJANGO / LARAVEL
           </text>
@@ -257,27 +257,27 @@ export function ServiceBentoArt({
 
     case 'ecommerce':
       return (
-        <svg viewBox="0 0 320 170" className="w-full h-44" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 320 170" className="service-art service-art--ecommerce w-full h-44" fill="none" aria-hidden="true">
           <rect x="34" y="20" width="252" height="130" rx="14" fill="#070E17" stroke="white" strokeOpacity="0.14" strokeWidth="2" />
           <rect x="52" y="38" width="124" height="94" rx="10" fill="#0F192B" stroke="#55FF8A" strokeOpacity="0.6" strokeWidth="2" />
           <rect x="64" y="50" width="100" height="44" rx="6" fill="#132B33" />
-          <path d="M84 72 L100 58 L114 70 L128 56 L144 76" stroke="#55FF8A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path className="service-art-flow" d="M84 72 L100 58 L114 70 L128 56 L144 76" stroke="#55FF8A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           <rect x="64" y="104" width="60" height="6" rx="3" fill="#FFFFFF" />
           <rect x="64" y="116" width="38" height="5" rx="2.5" fill="#898F9D" />
 
-          <rect x="192" y="38" width="78" height="42" rx="8" fill="#112926" stroke="#55FF8A" strokeWidth="2" />
+          <rect className="service-art-pulse" x="192" y="38" width="78" height="42" rx="8" fill="#112926" stroke="#55FF8A" strokeWidth="2" />
           <text x="231" y="63" textAnchor="middle" fill="#55FF8A" fontSize="12" fontFamily="IBM Plex Mono, monospace" fontWeight="700">
             CHECKOUT
           </text>
           <rect x="192" y="90" width="78" height="42" rx="8" fill="#0F172A" stroke="#22D3EE" strokeOpacity="0.6" strokeWidth="2" />
-          <circle cx="212" cy="111" r="8" fill="#22D3EE" fillOpacity="0.25" stroke="#22D3EE" strokeWidth="2" />
+          <circle className="service-art-pulse" cx="212" cy="111" r="8" fill="#22D3EE" fillOpacity="0.25" stroke="#22D3EE" strokeWidth="2" />
           <rect x="228" y="107" width="30" height="8" rx="3" fill="#FFFFFF" fillOpacity="0.8" />
         </svg>
       );
 
     case 'corporate':
       return (
-        <svg viewBox="0 0 320 170" className="w-full h-44" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 320 170" className="service-art service-art--corporate w-full h-44" fill="none" aria-hidden="true">
           <rect x="30" y="24" width="260" height="122" rx="12" fill="#070E17" stroke="white" strokeOpacity="0.16" strokeWidth="2" />
           <circle cx="48" cy="40" r="4" fill="#55FF8A" />
           <circle cx="62" cy="40" r="4" fill="#22D3EE" />
@@ -287,18 +287,18 @@ export function ServiceBentoArt({
           <rect x="48" y="70" width="110" height="14" rx="4" fill="#FFFFFF" />
           <rect x="48" y="92" width="90" height="7" rx="3" fill="#898F9D" />
           <rect x="48" y="105" width="72" height="7" rx="3" fill="#898F9D" fillOpacity="0.6" />
-          <rect x="48" y="122" width="64" height="14" rx="7" fill="#55FF8A" />
+          <rect className="service-art-pulse" x="48" y="122" width="64" height="14" rx="7" fill="#55FF8A" />
 
-          <polygon points="225,68 265,91 265,128 225,140 185,128 185,91" fill="#0D2330" stroke="#55FF8A" strokeWidth="2" />
-          <polygon points="225,80 250,95 250,119 225,128 200,119 200,95" fill="#123438" stroke="#22D3EE" strokeWidth="1.5" />
+          <polygon className="service-art-hex-outer" points="225,68 265,91 265,128 225,140 185,128 185,91" fill="#0D2330" stroke="#55FF8A" strokeWidth="2" />
+          <polygon className="service-art-hex-inner" points="225,80 250,95 250,119 225,128 200,119 200,95" fill="#123438" stroke="#22D3EE" strokeWidth="1.5" />
         </svg>
       );
 
     case 'marketplace':
       return (
-        <svg viewBox="0 0 320 170" className="w-full h-44" fill="none" aria-hidden="true">
-          <circle cx="160" cy="85" r="56" stroke="#55FF8A" strokeOpacity="0.25" strokeWidth="2" strokeDasharray="5 5" />
-          <rect x="122" y="64" width="76" height="42" rx="10" fill="#102826" stroke="#55FF8A" strokeWidth="2.5" />
+        <svg viewBox="0 0 320 170" className="service-art service-art--marketplace w-full h-44" fill="none" aria-hidden="true">
+          <circle className="service-art-orbit" cx="160" cy="85" r="56" stroke="#55FF8A" strokeOpacity="0.25" strokeWidth="2" strokeDasharray="5 5" />
+          <rect className="service-art-pulse" x="122" y="64" width="76" height="42" rx="10" fill="#102826" stroke="#55FF8A" strokeWidth="2.5" />
           <text x="160" y="89" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontFamily="IBM Plex Mono, monospace" fontWeight="700">
             HUB CORE
           </text>
@@ -308,21 +308,21 @@ export function ServiceBentoArt({
           <rect x="30" y="108" width="66" height="32" rx="8" fill="#0E1726" stroke="#55FF8A" strokeWidth="2" />
           <rect x="224" y="108" width="66" height="32" rx="8" fill="#0E1726" stroke="#55FF8A" strokeWidth="2" />
 
-          <path d="M96 46 L124 72 M224 46 L196 72 M96 124 L124 98 M224 124 L196 98" stroke="#55FF8A" strokeWidth="2" />
+          <path className="service-art-flow" d="M96 46 L124 72 M224 46 L196 72 M96 124 L124 98 M224 124 L196 98" stroke="#55FF8A" strokeWidth="2" />
         </svg>
       );
 
     case 'portfolio':
     default:
       return (
-        <svg viewBox="0 0 320 170" className="w-full h-44" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 320 170" className="service-art service-art--portfolio w-full h-44" fill="none" aria-hidden="true">
           <rect x="42" y="24" width="236" height="122" rx="14" fill="#070E17" stroke="#55FF8A" strokeOpacity="0.45" strokeWidth="2" />
-          <circle cx="222" cy="85" r="32" fill="#0D292C" stroke="#55FF8A" strokeWidth="2.5" />
-          <ellipse cx="222" cy="85" rx="48" ry="13" transform="rotate(-18 222 85)" stroke="#22D3EE" strokeWidth="2" />
+          <circle className="service-art-pulse" cx="222" cy="85" r="32" fill="#0D292C" stroke="#55FF8A" strokeWidth="2.5" />
+          <ellipse className="service-art-orbit" cx="222" cy="85" rx="48" ry="13" transform="rotate(-18 222 85)" stroke="#22D3EE" strokeWidth="2" />
           <rect x="64" y="50" width="92" height="12" rx="4" fill="#FFFFFF" />
           <rect x="64" y="72" width="76" height="8" rx="3" fill="#55FF8A" />
           <rect x="64" y="92" width="84" height="6" rx="3" fill="#898F9D" />
-          <rect x="64" y="112" width="58" height="16" rx="8" fill="#55FF8A" />
+          <rect className="service-art-pulse" x="64" y="112" width="58" height="16" rx="8" fill="#55FF8A" />
         </svg>
       );
   }

@@ -67,12 +67,12 @@
   html {
     background-color: var(--background);
     color: var(--text-primary);
-    font-family: "IBM Plex Sans", "Vazirmatn", system-ui, sans-serif;
+    font-family: "IBM Plex Sans Variable", "Vazirmatn Variable", system-ui, sans-serif;
     scroll-behavior: smooth;
   }
 
   html[lang="fa"] {
-    font-family: "Vazirmatn", "IBM Plex Sans", system-ui, sans-serif;
+    font-family: "Vazirmatn Variable", "IBM Plex Sans Variable", system-ui, sans-serif;
   }
 
   body {
@@ -83,20 +83,20 @@
 }
 
 .font-display {
-  font-family: "Mona Sans", "IBM Plex Sans", "Vazirmatn", sans-serif;
+  font-family: "Mona Sans Variable", "IBM Plex Sans Variable", "Vazirmatn Variable", sans-serif;
   font-feature-settings: "ss01" on;
 }
 
 html[lang="fa"] .font-display {
-  font-family: "Vazirmatn", "Mona Sans", sans-serif;
+  font-family: "Vazirmatn Variable", "Mona Sans Variable", sans-serif;
 }
 
 .font-russo {
-  font-family: "Russo One", "Mona Sans", "Vazirmatn", sans-serif;
+  font-family: "Russo One", "Mona Sans Variable", "Vazirmatn Variable", sans-serif;
 }
 
 html[lang="fa"] .font-russo {
-  font-family: "Vazirmatn", sans-serif;
+  font-family: "Vazirmatn Variable", sans-serif;
   font-weight: 900;
 }
 
@@ -107,7 +107,7 @@ html[lang="fa"] .font-russo {
 }
 
 html[lang="fa"] .font-editorial-italic {
-  font-family: "Vazirmatn", sans-serif;
+  font-family: "Vazirmatn Variable", sans-serif;
   font-style: normal;
   color: var(--accent);
 }
@@ -139,17 +139,84 @@ html[lang="fa"] .font-editorial-italic {
   display: flex;
   width: max-content;
   animation: ws-marquee-ltr 34s linear infinite;
+  animation-play-state: paused;
 }
 
 .animate-ws-marquee-reverse {
   display: flex;
   width: max-content;
   animation: ws-marquee-rtl 38s linear infinite;
+  animation-play-state: paused;
 }
 
 .marquee-wrapper:hover .animate-ws-marquee,
 .marquee-wrapper:hover .animate-ws-marquee-reverse {
   animation-play-state: paused;
+}
+
+@keyframes service-art-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes service-art-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes service-art-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+@keyframes service-art-orbit {
+  to { transform: rotate(360deg); }
+}
+
+.service-art {
+  transform-origin: center;
+  animation: service-art-float 4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.service-art-pulse,
+.service-art-flow,
+.service-art-orbit,
+.service-art-hex-outer,
+.service-art-hex-inner {
+  animation-play-state: paused;
+}
+
+.service-art--ecommerce { animation-delay: -1.2s; }
+.service-art--corporate { animation-delay: -2.4s; }
+.service-art--marketplace { animation-delay: -3.1s; }
+.service-art--portfolio { animation-delay: -0.7s; }
+
+.service-art-pulse {
+  animation: service-art-pulse 2.6s ease-in-out infinite;
+}
+
+.service-art-flow {
+  stroke-dasharray: 5 7;
+  animation: service-art-flow 2.4s linear infinite;
+}
+
+.service-art-orbit,
+.service-art-hex-outer,
+.service-art-hex-inner {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.service-art-orbit {
+  animation: service-art-orbit 18s linear infinite;
+}
+
+.service-art-hex-outer {
+  animation: service-art-orbit 32s linear infinite;
+}
+
+.service-art-hex-inner {
+  animation: service-art-orbit 24s linear infinite reverse;
 }
 
 /* Perspective horizon grid lines for Windscribe space portals */
@@ -250,6 +317,26 @@ html[lang="fa"] .font-editorial-italic {
   background: rgba(85, 255, 138, 0.06);
   box-shadow: 0 0 44px rgba(85, 255, 138, 0.24);
   animation: site-portal-pulse 2.4s ease-in-out infinite;
+}
+
+.site-motion-ready .animate-ws-marquee,
+.site-motion-ready .animate-ws-marquee-reverse,
+.site-motion-ready .service-art,
+.site-motion-ready .service-art-pulse,
+.site-motion-ready .service-art-flow,
+.site-motion-ready .service-art-orbit,
+.site-motion-ready .service-art-hex-outer,
+.site-motion-ready .service-art-hex-inner,
+.site-motion-ready .site-portal-ring--outer,
+.site-motion-ready .site-portal-ring--inner,
+.site-motion-ready .site-portal-core,
+.site-entry-preloader .site-portal-ring--outer,
+.site-entry-preloader .site-portal-ring--inner,
+.site-entry-preloader .site-portal-core,
+.site-route-warp .site-portal-ring--outer,
+.site-route-warp .site-portal-ring--inner,
+.site-route-warp .site-portal-core {
+  animation-play-state: running;
 }
 
 .site-portal-mark--compact .site-portal-ring--outer {
@@ -407,7 +494,13 @@ html[lang="fa"] .font-editorial-italic {
   .site-portal-ring--inner,
   .site-portal-core,
   .site-entry-progress span,
-  .site-route-progress {
+  .site-route-progress,
+  .service-art,
+  .service-art-pulse,
+  .service-art-flow,
+  .service-art-orbit,
+  .service-art-hex-outer,
+  .service-art-hex-inner {
     animation: none;
   }
 

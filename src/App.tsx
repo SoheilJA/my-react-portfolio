@@ -15,7 +15,7 @@ import {
 } from 'react-router-dom';
 import { MotionConfig } from 'motion/react';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
-import { useSmoothScroll } from './hooks/useSmoothScrollAndGsap';
+import { useGsapPageMotion, useSmoothScroll } from './hooks/useSmoothScrollAndGsap';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -177,10 +177,12 @@ function NotFoundPage() {
 }
 
 function PortfolioLayout() {
+  const { pathname } = useLocation();
   useSmoothScroll();
+  const pageMotionRef = useGsapPageMotion(pathname);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090E19] text-white selection:bg-[#55FF8A] selection:text-black">
+    <div ref={pageMotionRef} className="min-h-screen flex flex-col bg-[#090E19] text-white selection:bg-[#55FF8A] selection:text-black">
       <RouteEffects />
       <Navbar />
       <main className="flex-1">
