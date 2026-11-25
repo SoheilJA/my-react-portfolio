@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
-import { ChevronRight, ExternalLink, Search } from 'lucide-react';
-import { LocalizedLink as Link } from '../components/LocalizedLink';
+import React, { useEffect, useState } from 'react';
+import { ExternalLink, Search } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { usePortfolioContent } from '../context/PortfolioContentContext';
 import { filterProjects } from '../utils/portfolioLogic';
+import { PortfolioProject } from '../data/portfolioData';
+import { ProjectPreviewDialog } from '../components/ProjectPreviewDialog';
 import { ProjectVisualFrame } from '../components/WindscribeArtwork';
 import { SpacePortalCTA } from '../components/SpacePortalCTA';
 
 export function ProjectsPage() {
-  const { lang, isRtl, t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { content } = usePortfolioContent();
   const { assets: ARTWORK_ASSETS, projects: PORTFOLIO_PROJECTS } = content;
+  const { slug } = useParams<{ slug?: string }>();
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
+  const [activeProject, setActiveProject] = useState<PortfolioProject | null>(null);
 
   const filtered = filterProjects(PORTFOLIO_PROJECTS, query, lang);
+
+  useEffect(() => {
+    if (!slug) return;
+    setActiveProject(
+      PORTFOLIO_PROJECTS.find((project) => project.slug === slug) ?? null,
+    );
+  }, [PORTFOLIO_PROJECTS, slug]);
+
+  const closeProject = () => {
+    setActiveProject(null);
+    if (slug) navigate(`/${lang}/projects`, { replace: true });
+  };
 
   return (
     <div className="bg-[#090E19]">
@@ -96,46 +113,59 @@ export function ProjectsPage() {
               {filtered.map((project) => (
                 <article
                   key={project.id}
-                  className="group rounded-2xl border border-white/12 bg-[#0B0F16] p-5 flex flex-col justify-between hover:border-[#55FF8A]/50 transition-colors"
+                  className="project-card group"
                 >
-                  <div>
-                    <Link to={`/projects/${project.slug}`} className="block">
+                  <div className="project-card__content flex h-full flex-col justify-between p-4 sm:p-5">
+                    <button
+                      type="button"
+                      onClick={() => setActiveProject(project)}
+                      aria-label={
+                        lang === 'fa'
+                          ? `مشاهدهٔ جزئیات ${t(project.title)}`
+                          : `View ${t(project.title)} project details`
+                      }
+                      className="project-card__open block w-full text-start focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
+                    >
                       <ProjectVisualFrame project={project} lang={lang} compact />
-                    </Link>
 
-                    <div className="mt-5 flex items-center justify-between gap-2 font-mono-tech text-xs text-[#55FF8A]">
-                      <span>{project.tech.join(' · ')}</span>
-                    </div>
+                      <div className="mt-5 flex flex-wrap gap-2">
+                        {project.tech.slice(0, 4).map((technology) => (
+                          <span
+                            key={technology}
+                            className="border border-cyan-300/20 bg-cyan-300/5 px-2 py-1 font-mono-tech text-[10px] text-cyan-100"
+                          >
+                            {technology}
+                          </span>
+                        ))}
+                      </div>
 
-                    <h2 className="mt-1.5 font-display text-xl font-bold text-white group-hover:text-[#55FF8A] transition-colors">
-                      <Link to={`/projects/${project.slug}`}>{t(project.title)}</Link>
-                    </h2>
+                      <h2 className="mt-3 font-display text-xl font-bold text-white transition-colors group-hover:text-cyan-200">
+                        {t(project.title)}
+                      </h2>
 
-                    <p className="mt-2 text-sm text-[#898F9D] leading-relaxed">
-                      {t(project.summary)}
-                    </p>
-                  </div>
+                      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[#AEB7C8]">
+                        {t(project.summary)}
+                      </p>
 
-                  <div className="mt-5 pt-4 border-t border-white/10">
-                    <div className="flex items-center justify-between gap-3">
-                      <Link
-                        to={`/projects/${project.slug}`}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[#102928] px-4 py-2 text-xs font-bold text-[#55FF8A] hover:bg-[#55FF8A] hover:text-black transition-colors whitespace-nowrap"
-                      >
-                        <span>{lang === 'fa' ? 'جزئیات پروژه' : 'Details'}</span>
-                        <ChevronRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
-                      </Link>
-                      {project.link && (
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#C2C8D4] hover:text-[#55FF8A] transition-colors whitespace-nowrap"
-                        >
-                          <span>{lang === 'fa' ? 'مشاهده سایت' : 'Live'}</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
-                      )}
+                      <span className="mt-5 inline-flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.18em] text-cyan-200">
+                        {lang === 'fa' ? 'نمایش جزئیات پروژه' : 'OPEN PROJECT FILE'}
+                      </span>
+                    </button>
+
+                    <div className="mt-5 border-t border-white/10 pt-4">
+                      <div className="flex items-center justify-end gap-3">
+                        {project.link && (
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold text-[#C2C8D4] transition-colors hover:text-[#55FF8A]"
+                          >
+                            <span>{lang === 'fa' ? 'مشاهده سایت' : 'Live'}</span>
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -144,6 +174,15 @@ export function ProjectsPage() {
           )}
         </div>
       </section>
+
+      {activeProject && (
+        <ProjectPreviewDialog
+          key={activeProject.id}
+          project={activeProject}
+          lang={lang}
+          onClose={closeProject}
+        />
+      )}
 
       <SpacePortalCTA />
     </div>

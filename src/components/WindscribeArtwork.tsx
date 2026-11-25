@@ -342,7 +342,7 @@ export function ProjectVisualFrame({
   if (project.image && !imgFailed) {
     return (
       <div
-        className={`relative flex flex-col rounded-2xl border-2 border-[#02050A] bg-[#0B1324] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] ${
+        className={`project-screen-frame relative flex flex-col border-2 border-[#02050A] bg-[#0B1324] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] ${
           compact ? 'aspect-[16/10]' : 'aspect-[16/10]'
         }`}
       >
@@ -375,7 +375,7 @@ export function ProjectVisualFrame({
 
   return (
     <div
-      className={`relative rounded-2xl border-2 border-[#02050A] bg-[#070E17] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] flex flex-col ${
+      className={`project-screen-frame relative border-2 border-[#02050A] bg-[#070E17] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] flex flex-col ${
         compact ? 'aspect-[16/10]' : 'aspect-[16/10]'
       }`}
     >

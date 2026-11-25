@@ -22,7 +22,6 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { ProjectsPage } from './pages/ProjectsPage';
-import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { CertificatesPage } from './pages/CertificatesPage';
 import { ContactPage } from './pages/ContactPage';
 import {
@@ -280,7 +279,7 @@ export default function App() {
                     <Route path="about" element={<AboutPage />} />
                     <Route path="services" element={<ServicesPage />} />
                     <Route path="projects" element={<ProjectsPage />} />
-                    <Route path="projects/:slug" element={<ProjectDetailPage />} />
+                    <Route path="projects/:slug" element={<ProjectsPage />} />
                     <Route path="certificates" element={<CertificatesPage />} />
                     <Route path="contact" element={<ContactPage />} />
                   </Route>

@@ -3,7 +3,9 @@ import { ArrowLeft, ArrowRight, CheckCircle2, ChevronRight, ExternalLink } from 
 import { LocalizedLink as Link } from '../components/LocalizedLink';
 import { useLanguage } from '../context/LanguageContext';
 import { usePortfolioContent } from '../context/PortfolioContentContext';
+import { PortfolioProject } from '../data/portfolioData';
 import { formatStatValue, sortProjectsByNewest } from '../utils/portfolioLogic';
+import { ProjectPreviewDialog } from '../components/ProjectPreviewDialog';
 import {
   FourPointStarField,
   InteractiveHeroConsole,
@@ -29,6 +31,7 @@ export function HomePage() {
     pageCopy,
   } = content;
   const [activeExpId, setActiveExpId] = useState<number>(1);
+  const [activeProject, setActiveProject] = useState<PortfolioProject | null>(null);
 
   const counts = {
     projects: PORTFOLIO_PROJECTS.length,
@@ -311,20 +314,39 @@ export function HomePage() {
 
           <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
             {latestProjects.map((project) => (
-              <article key={project.id} className="group min-w-0">
-                <Link to={`/projects/${project.slug}`} className="block">
-                  <ProjectVisualFrame project={project} lang={lang} compact />
-                  <h3 className="mt-2 font-display text-lg font-bold text-white transition-colors group-hover:text-[#55FF8A]">
-                    {t(project.title)}
-                  </h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#898F9D]">
-                    {t(project.summary)}
-                  </p>
-                </Link>
+              <article key={project.id} className="project-card group min-w-0">
+                <div className="project-card__content h-full p-4">
+                  <button
+                    type="button"
+                    onClick={() => setActiveProject(project)}
+                    aria-label={
+                      lang === 'fa'
+                        ? `مشاهدهٔ جزئیات ${t(project.title)}`
+                        : `View ${t(project.title)} project details`
+                    }
+                    className="project-card__open block w-full text-start focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300"
+                  >
+                    <ProjectVisualFrame project={project} lang={lang} compact />
+                    <h3 className="mt-2 font-display text-lg font-bold text-white transition-colors group-hover:text-[#55FF8A]">
+                      {t(project.title)}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#898F9D]">
+                      {t(project.summary)}
+                    </p>
+                  </button>
+                </div>
               </article>
             ))}
           </div>
         </div>
+        {activeProject && (
+          <ProjectPreviewDialog
+            key={activeProject.id}
+            project={activeProject}
+            lang={lang}
+            onClose={() => setActiveProject(null)}
+          />
+        )}
       </section>
 
       {/* 6. TECH STACK MARQUEE + CAREER EXPERIENCE TIMELINE (Windscribe "Real Servers" Marquee Pattern) */}
