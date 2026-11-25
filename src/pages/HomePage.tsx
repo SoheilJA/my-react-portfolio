@@ -314,10 +314,6 @@ export function HomePage() {
               <article key={project.id} className="group min-w-0">
                 <Link to={`/projects/${project.slug}`} className="block">
                   <ProjectVisualFrame project={project} lang={lang} compact />
-                  <div className="mt-4 flex items-center justify-between gap-3 font-mono-tech text-xs">
-                    <span className="truncate text-[#55FF8A]">{t(project.sector)}</span>
-                    <span className="shrink-0 text-[#898F9D]">{project.year}</span>
-                  </div>
                   <h3 className="mt-2 font-display text-lg font-bold text-white transition-colors group-hover:text-[#55FF8A]">
                     {t(project.title)}
                   </h3>

@@ -5,6 +5,7 @@ import {
   PORTFOLIO_PROJECTS,
   PORTFOLIO_SERVICES,
   PORTFOLIO_STATS,
+  createProjectSlug,
 } from '../data/portfolioData';
 import {
   filterProjects,
@@ -16,21 +17,28 @@ import {
   validateContactForm,
 } from './portfolioLogic';
 
-test('filterProjects filters by category and search query accurately', () => {
-  const all = filterProjects(PORTFOLIO_PROJECTS, 'all', '', 'en');
+test('filterProjects searches project titles, descriptions, and technologies', () => {
+  const all = filterProjects(PORTFOLIO_PROJECTS, '', 'en');
   assert.equal(all.length, PORTFOLIO_PROJECTS.length);
 
-  const codeOnly = filterProjects(PORTFOLIO_PROJECTS, 'code', '', 'en');
-  assert.ok(codeOnly.length > 0);
-  assert.ok(codeOnly.every((p) => p.category === 'code'));
-
-  const wpOnly = filterProjects(PORTFOLIO_PROJECTS, 'wordpress', '', 'en');
-  assert.ok(wpOnly.length > 0);
-  assert.ok(wpOnly.every((p) => p.category === 'wordpress'));
-
-  const djangoSearch = filterProjects(PORTFOLIO_PROJECTS, 'all', 'django', 'en');
+  const djangoSearch = filterProjects(PORTFOLIO_PROJECTS, 'django', 'en');
   assert.ok(djangoSearch.some((p) => p.slug === 'pixoria'));
   assert.ok(djangoSearch.some((p) => p.slug === 'phazldaru-holding'));
+});
+
+test('createProjectSlug builds URL-safe English and Persian title slugs', () => {
+  assert.equal(createProjectSlug('  My Great Project!  '), 'my-great-project');
+  assert.equal(createProjectSlug('نمونه‌کار من'), 'نمونه-کار-من');
+});
+
+test('default projects use their English titles as slugs and keep only project fields', () => {
+  for (const project of PORTFOLIO_PROJECTS) {
+    assert.equal(project.slug, createProjectSlug(project.title.en));
+    assert.deepEqual(
+      Object.keys(project).sort(),
+      ['id', 'image', 'link', 'slug', 'summary', 'tech', 'title'].sort(),
+    );
+  }
 });
 
 test('projects are ordered newest first without mutating the source array', () => {
@@ -45,7 +53,7 @@ test('projects are ordered newest first without mutating the source array', () =
     ['newest', 'middle', 'oldest'],
   );
   assert.deepEqual(
-    filterProjects(projects, 'all').map((project) => project.slug),
+    filterProjects(projects).map((project) => project.slug),
     ['newest', 'middle', 'oldest'],
   );
   const adjacent = getAdjacentProjects(projects, 'middle');

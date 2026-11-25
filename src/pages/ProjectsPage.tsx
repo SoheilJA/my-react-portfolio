@@ -3,7 +3,7 @@ import { ChevronRight, ExternalLink, Search } from 'lucide-react';
 import { LocalizedLink as Link } from '../components/LocalizedLink';
 import { useLanguage } from '../context/LanguageContext';
 import { usePortfolioContent } from '../context/PortfolioContentContext';
-import { filterProjects, ProjectCategoryFilter } from '../utils/portfolioLogic';
+import { filterProjects } from '../utils/portfolioLogic';
 import { ProjectVisualFrame } from '../components/WindscribeArtwork';
 import { SpacePortalCTA } from '../components/SpacePortalCTA';
 
@@ -11,10 +11,9 @@ export function ProjectsPage() {
   const { lang, isRtl, t } = useLanguage();
   const { content } = usePortfolioContent();
   const { assets: ARTWORK_ASSETS, projects: PORTFOLIO_PROJECTS } = content;
-  const [category, setCategory] = useState<ProjectCategoryFilter>('all');
   const [query, setQuery] = useState('');
 
-  const filtered = filterProjects(PORTFOLIO_PROJECTS, category, query, lang);
+  const filtered = filterProjects(PORTFOLIO_PROJECTS, query, lang);
 
   return (
     <div className="bg-[#090E19]">
@@ -49,45 +48,7 @@ export function ProjectsPage() {
           </div>
 
           {/* Filter & Search Bar */}
-          <div className="mt-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div
-              className="inline-flex items-center gap-1 rounded-xl border border-white/12 bg-[#0B0F16] p-1.5 self-start"
-              role="group"
-              aria-label={lang === 'fa' ? 'فیلتر پروژه‌ها' : 'Filter projects'}
-            >
-              {(
-                [
-                  { id: 'all', en: `All (${PORTFOLIO_PROJECTS.length})`, fa: `همه (${PORTFOLIO_PROJECTS.length})` },
-                  {
-                    id: 'code',
-                    en: `Development (${PORTFOLIO_PROJECTS.filter((p) => p.category === 'code').length})`,
-                    fa: `برنامه‌نویسی (${PORTFOLIO_PROJECTS.filter((p) => p.category === 'code').length})`,
-                  },
-                  {
-                    id: 'wordpress',
-                    en: `WordPress (${PORTFOLIO_PROJECTS.filter((p) => p.category === 'wordpress').length})`,
-                    fa: `وردپرس (${PORTFOLIO_PROJECTS.filter((p) => p.category === 'wordpress').length})`,
-                  },
-                ] as const
-              ).map((tab) => {
-                const active = category === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setCategory(tab.id)}
-                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer whitespace-nowrap ${
-                      active
-                        ? 'bg-[#55FF8A] text-black'
-                        : 'text-[#898F9D] hover:text-white'
-                    }`}
-                  >
-                    {lang === 'fa' ? tab.fa : tab.en}
-                  </button>
-                );
-              })}
-            </div>
-
+          <div className="mt-10 flex justify-end">
             <div className="relative w-full md:w-80">
               <Search className="w-4 h-4 text-[#898F9D] absolute top-1/2 -translate-y-1/2 start-3.5 pointer-events-none" />
               <label htmlFor="project-search" className="sr-only">
@@ -123,7 +84,6 @@ export function ProjectsPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setCategory('all');
                   setQuery('');
                 }}
                 className="mt-4 rounded-full bg-[#55FF8A] px-6 py-2.5 text-xs font-extrabold uppercase tracking-wider text-black cursor-pointer"
@@ -144,8 +104,7 @@ export function ProjectsPage() {
                     </Link>
 
                     <div className="mt-5 flex items-center justify-between gap-2 font-mono-tech text-xs text-[#55FF8A]">
-                      <span>{t(project.sector)}</span>
-                      <span className="text-[#898F9D]">{project.year}</span>
+                      <span>{project.tech.join(' · ')}</span>
                     </div>
 
                     <h2 className="mt-1.5 font-display text-xl font-bold text-white group-hover:text-[#55FF8A] transition-colors">
@@ -158,9 +117,6 @@ export function ProjectsPage() {
                   </div>
 
                   <div className="mt-5 pt-4 border-t border-white/10">
-                    <div className="font-mono-tech text-xs text-[#C2C8D4] mb-4">
-                      {project.tech.join(' · ')}
-                    </div>
                     <div className="flex items-center justify-between gap-3">
                       <Link
                         to={`/projects/${project.slug}`}

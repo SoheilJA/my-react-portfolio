@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useMemo, useState } from 'react';
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowUpRight,
   Award,
@@ -22,7 +22,11 @@ import {
   Wrench,
   X,
 } from 'lucide-react';
-import { DEFAULT_PORTFOLIO_CONTENT, PortfolioContent } from '../data/portfolioData';
+import {
+  createProjectSlug,
+  DEFAULT_PORTFOLIO_CONTENT,
+  PortfolioContent,
+} from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 import {
   isPortfolioContent,
@@ -127,6 +131,21 @@ function itemLabel(value: JsonValue, index: number, title: string) {
   return `${title} ${index + 1}`;
 }
 
+function itemSearchText(value: JsonValue, index: number, title: string) {
+  const terms = [itemLabel(value, index, title)];
+  if (isRecord(value)) {
+    if (typeof value.slug === 'string') terms.push(value.slug);
+    if (isRecord(value.title)) {
+      terms.push(
+        ...Object.values(value.title).filter(
+          (field): field is string => typeof field === 'string',
+        ),
+      );
+    }
+  }
+  return terms.join(' ').toLocaleLowerCase();
+}
+
 interface UploadedImage {
   url: string;
   originalSize: number;
@@ -138,18 +157,11 @@ function fieldHelp(path: (string | number)[]): string | null {
   const key = String(path[path.length - 1]);
   const helpBySection: Partial<Record<SectionKey, Record<string, string>>> = {
     projects: {
-      id: 'شناسهٔ داخلی پروژه است و به‌صورت خودکار ساخته می‌شود؛ نیازی به تغییرش نیست.',
-      slug: 'شناسهٔ کوتاه انگلیسی برای آدرس پروژه؛ فقط حروف کوچک، عدد و خط تیره. مثال: online-store',
-      category: 'code برای پروژه‌های برنامه‌نویسی و wordpress برای سایت‌های وردپرسی.',
-      featured: 'با فعال‌کردن این گزینه، پروژه در بخش نمونه‌کارهای منتخب صفحهٔ اصلی نمایش داده می‌شود.',
-      image: 'تصویر شاخصی که روی کارت و صفحهٔ پروژه نمایش داده می‌شود؛ URL بدهید یا تصویر را بارگذاری کنید.',
-      link: 'نشانی کامل سایت یا دموی پروژه با https://؛ اگر عمومی نیست، خالی بگذارید.',
-      title: 'نام کوتاه و نمایشی نمونه‌کار را به فارسی و معادل انگلیسی آن بنویسید.',
-      summary: 'معرفی ۱ تا ۲ جمله‌ای برای کارت پروژه؛ مسئله یا نتیجهٔ اصلی پروژه را توضیح دهید.',
-      architectureNote: 'شرح جزئیات پیاده‌سازی برای صفحهٔ پروژه: معماری، امکانات مهم و دلیل انتخاب فناوری‌ها.',
-      tech: 'هر فناوری را جداگانه اضافه کنید؛ مثال: Django، React، PostgreSQL.',
-      year: 'سال انجام یا تحویل پروژه؛ مثال: 2026.',
-      sector: 'زمینهٔ فعالیت پروژه؛ مثال: فروشگاهی، آموزش، سلامت یا مالی؛ فارسی و انگلیسی.',
+      image: 'تصویر نمونه‌کار را بارگذاری کنید.',
+      link: 'نشانی کامل سایت یا دموی پروژه با https://؛ برای نمایش لینک بازدید.',
+      title: 'عنوان نمونه‌کار را به فارسی و انگلیسی وارد کنید؛ نامک از عنوان انگلیسی ساخته می‌شود.',
+      summary: 'توضیحات نمونه‌کار را به فارسی و انگلیسی وارد کنید.',
+      tech: 'فناوری‌های استفاده‌شده را جداگانه اضافه کنید.',
     },
     certificates: {
       title: 'نام رسمی مدرک یا دوره را به فارسی و انگلیسی وارد کنید.',
@@ -177,11 +189,7 @@ function fieldPlaceholder(path: (string | number)[], language: 'fa' | 'en'): str
         fa: 'مثال: طراحی فروشگاه اینترنتی با پرداخت آنلاین.',
         en: 'Example: An online store with a streamlined checkout.',
       },
-      architectureNote: {
-        fa: 'معماری، امکانات فنی و تصمیم‌های مهم پیاده‌سازی را توضیح دهید.',
-        en: 'Describe the architecture, key features, and implementation decisions.',
-      },
-      sector: { fa: 'مثال: فروشگاهی', en: 'Example: E-commerce' },
+      link: { fa: 'https://example.com', en: 'https://example.com' },
     };
     return examples[String(path[path.length - 1])]?.[language];
   }
@@ -247,20 +255,17 @@ function PortfolioImageField({
 
   return (
     <div className="grid gap-2 text-sm font-medium">
-      <label className="grid gap-2">
-        {label}
-        <Input
-          placeholder={
-            path[0] === 'projects'
-              ? path[path.length - 1] === 'image'
-                ? 'https://example.com/image.webp'
-                : 'https://example.com'
-              : undefined
-          }
-          value={value}
-          onChange={(event) => onChange(path, event.target.value)}
-        />
-      </label>
+      {path[0] === 'projects' ? (
+        <p className="text-sm font-medium">{label}</p>
+      ) : (
+        <label className="grid gap-2">
+          {label}
+          <Input
+            value={value}
+            onChange={(event) => onChange(path, event.target.value)}
+          />
+        </label>
+      )}
       {fieldHelp(path) && (
         <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
       )}
@@ -326,13 +331,9 @@ function fieldTitle(key: string) {
     architectureNote: 'توضیح فنی',
     sector: 'حوزه',
     link: 'لینک',
-    image: 'آدرس تصویر',
-    year: 'سال',
+    image: 'تصویر',
     tech: 'فناوری‌ها',
     stack: 'تکنولوژی‌ها',
-    slug: 'شناسهٔ آدرس',
-    category: 'دسته‌بندی',
-    featured: 'پروژهٔ منتخب',
     deliverables: 'موارد تحویل',
     artVariant: 'نوع تصویرسازی',
     period: 'دوره',
@@ -360,9 +361,10 @@ function contextualFieldTitle(key: string, path: (string | number)[]) {
   const labelsBySection: Partial<Record<SectionKey, Record<string, string>>> = {
     projects: {
       title: 'عنوان نمونه‌کار',
-      summary: 'معرفی کوتاه پروژه',
-      architectureNote: 'جزئیات فنی پروژه',
-      sector: 'حوزهٔ فعالیت پروژه',
+      summary: 'توضیحات نمونه‌کار',
+      link: 'آدرس سایت نمونه‌کار',
+      image: 'تصویر نمونه‌کار',
+      tech: 'فناوری‌های استفاده‌شده',
     },
     certificates: {
       title: 'نام مدرک',
@@ -392,9 +394,37 @@ function JsonEditor({
   onUploadImage: (file: File) => Promise<UploadedImage>;
   newItemTemplate?: JsonValue;
 }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [pendingScrollIndex, setPendingScrollIndex] = useState<number | null>(null);
+  const addedItemRef = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    setSearchQuery('');
+  }, [path[0]]);
+
+  useEffect(() => {
+    if (pendingScrollIndex === null || !addedItemRef.current) return;
+    addedItemRef.current.open = true;
+    addedItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setPendingScrollIndex(null);
+  }, [pendingScrollIndex, value]);
+
   if (Array.isArray(value)) {
     const template = value[0] ?? newItemTemplate ?? '';
-    const objectItems = value.some((item) => isRecord(item) || Array.isArray(item));
+    const objectItems =
+      value.some((item) => isRecord(item) || Array.isArray(item)) ||
+      isRecord(template) ||
+      Array.isArray(template);
+    const searchableCollection =
+      path.length === 1 && (path[0] === 'projects' || path[0] === 'services');
+    const filteredItems = value
+      .map((item, index) => ({ item, index }))
+      .filter(
+        ({ item, index }) =>
+          !searchableCollection ||
+          !searchQuery.trim() ||
+          itemSearchText(item, index, label).includes(searchQuery.trim().toLocaleLowerCase()),
+      );
     return (
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-3">
@@ -403,25 +433,44 @@ function JsonEditor({
             type="button"
             variant="outline"
             size="sm"
-            onClick={() =>
-              onChange(path, [...value, emptyLike(template)])
-            }
+            onClick={() => {
+              setSearchQuery('');
+              setPendingScrollIndex(objectItems ? value.length : null);
+              onChange(path, [...value, emptyLike(template)]);
+            }}
           >
             <Plus className="h-4 w-4" />
             افزودن مورد
           </Button>
         </div>
+        {searchableCollection && value.length > 0 && (
+          <Input
+            aria-label={`جستجو در ${label}`}
+            placeholder="جستجو بر اساس عنوان، شناسهٔ آدرس یا شمارهٔ مورد…"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+        )}
         {value.length === 0 && (
           <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
             هنوز موردی ثبت نشده است.
           </p>
         )}
-        {value.map((item, index) => {
+        {searchableCollection && searchQuery.trim() && filteredItems.length === 0 && (
+          <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
+            موردی با این عبارت پیدا نشد.
+          </p>
+        )}
+        {filteredItems.map(({ item, index }) => {
           const itemPath = [...path, index];
           const remove = () => onChange(path, value.filter((_, itemIndex) => itemIndex !== index));
           if (objectItems && isRecord(item)) {
             return (
-              <details key={index} className="group rounded-lg border bg-background">
+              <details
+                key={index}
+                ref={pendingScrollIndex === index ? addedItemRef : undefined}
+                className="group rounded-lg border bg-background"
+              >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4">
                   <span className="min-w-0 truncate text-sm font-medium">
                     {itemLabel(item, index, label)}
@@ -470,7 +519,14 @@ function JsonEditor({
   }
 
   if (isRecord(value)) {
-    const entries = Object.entries(value);
+    const isProject = path[0] === 'projects' && path.length === 2;
+    const entries = isProject
+      ? Object.entries(value).filter(([key]) =>
+          ['image', 'title', 'summary', 'tech', 'link'].includes(key),
+        )
+      : Object.entries(value);
+    if (isProject && typeof value.image !== 'string') entries.unshift(['image', '']);
+    if (isProject && typeof value.link !== 'string') entries.push(['link', '']);
     if (
       entries.length === 2 &&
       typeof value.en === 'string' &&
@@ -495,7 +551,8 @@ function JsonEditor({
               return (
                 <label key={language} className="grid gap-2 text-sm font-medium">
                   {language === 'fa' ? 'فارسی' : 'English'}
-                  {translated.length > 100 ? (
+                  {translated.length > 100 ||
+                  (path[0] === 'projects' && path[path.length - 1] === 'summary') ? (
                     <Textarea
                       dir={language === 'fa' ? 'rtl' : 'ltr'}
                       placeholder={fieldPlaceholder(path, language)}
@@ -570,11 +627,9 @@ function JsonEditor({
   }
 
   const options =
-    path[path.length - 1] === 'category'
-      ? ['code', 'wordpress']
-      : path[path.length - 1] === 'artVariant'
-        ? ['backend', 'ecommerce', 'corporate', 'marketplace', 'portfolio', 'frontend', 'wordpress']
-        : null;
+    path[path.length - 1] === 'artVariant'
+      ? ['backend', 'ecommerce', 'corporate', 'marketplace', 'portfolio', 'frontend', 'wordpress']
+      : null;
 
   if (options) {
     return (
@@ -628,7 +683,13 @@ function JsonEditor({
           />
         ) : (
           <Input
-            type={typeof value === 'number' ? 'number' : 'text'}
+            type={
+              typeof value === 'number'
+                ? 'number'
+                : path[0] === 'projects' && path[path.length - 1] === 'link'
+                  ? 'url'
+                  : 'text'
+            }
             placeholder={fieldPlaceholder(path, 'fa')}
             value={text}
             onChange={(event) =>
@@ -833,21 +894,76 @@ export function AdminPage() {
   }
 
   const save = async () => {
+    const incompleteProjectIndex = draft.projects.findIndex(
+      (project) =>
+        !project.title.fa.trim() ||
+        !project.title.en.trim() ||
+        !project.summary.fa.trim() ||
+        !project.summary.en.trim() ||
+        !project.tech.some((technology) => technology.trim()) ||
+        !createProjectSlug(project.title.en),
+    );
+    const incompleteServiceIndex = draft.services.findIndex(
+      (service) =>
+        !service.slug.trim() ||
+        (!service.title.fa.trim() && !service.title.en.trim()),
+    );
+    const duplicateProjectSlug = draft.projects.some((project, index) =>
+      draft.projects.some(
+        (other, otherIndex) =>
+          index !== otherIndex &&
+          createProjectSlug(project.title.en) === createProjectSlug(other.title.en),
+      ),
+    );
+
+    if (incompleteProjectIndex >= 0 || duplicateProjectSlug) {
+      setActiveSection('projects');
+      setSaveHasError(true);
+      setSaveMessage(duplicateProjectSlug
+        ? 'عنوان انگلیسی نمونه‌کارها باید یکتا باشد تا نامک تکراری ساخته نشود.'
+        : `نمونه‌کار شمارهٔ ${incompleteProjectIndex + 1} ناقص است؛ عنوان و توضیحات فارسی و انگلیسی و حداقل یک فناوری را وارد کنید یا مورد را حذف کنید.`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (incompleteServiceIndex >= 0) {
+      setActiveSection('services');
+      setSaveHasError(true);
+      setSaveMessage(
+        `خدمت شمارهٔ ${incompleteServiceIndex + 1} ناقص است؛ عنوان و شناسهٔ آدرس را وارد کنید یا مورد را حذف کنید.`,
+      );
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setIsSaving(true);
     setSaveMessage('');
     setSaveHasError(false);
+    const contentToSave: PortfolioContent = {
+      ...draft,
+      projects: draft.projects.map((project) => ({
+        id: project.id,
+        slug: createProjectSlug(project.title.en),
+        image: project.image,
+        link: project.link?.trim() ?? '',
+        title: project.title,
+        summary: project.summary,
+        tech: project.tech.filter((technology) => technology.trim()),
+      })),
+    };
     try {
       const response = await fetch('/api/content', {
         method: 'PUT',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(draft),
+        body: JSON.stringify(contentToSave),
       });
       const result = (await response.json()) as { saved?: boolean; error?: string };
       if (!response.ok || !result.saved) {
         throw new Error(result.error || 'ذخیرهٔ محتوا انجام نشد.');
       }
-      setContent(draft);
+      setContent(contentToSave);
+      setDraft(contentToSave);
       setIsContentInitialized(true);
       setIsDirty(false);
       if (!isContentInitialized) await reload();
@@ -877,7 +993,31 @@ export function AdminPage() {
   };
 
   const changeField = (path: (string | number)[], value: JsonValue) => {
-    setDraft((current) => replaceAtPath(current, path, value));
+    setDraft((current) => {
+      const updated = replaceAtPath(current, path, value);
+      const [section, index, field, language] = path;
+      if (section !== 'projects' || typeof index !== 'number') {
+        return updated;
+      }
+      const project = updated.projects[index];
+      if (field === 'title' && language === 'en') {
+        return replaceAtPath(
+          updated,
+          ['projects', index, 'slug'],
+          createProjectSlug(project.title.en),
+        );
+      }
+      if (field === 'title') return updated;
+
+      if (!project.slug && project.title.en.trim()) {
+        return replaceAtPath(
+          updated,
+          ['projects', index, 'slug'],
+          createProjectSlug(project.title.en),
+        );
+      }
+      return updated;
+    });
     setIsDirty(true);
   };
 

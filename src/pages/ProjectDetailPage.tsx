@@ -55,15 +55,7 @@ export function ProjectDetailPage() {
 
           <div className="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-7">
-              <div className="flex items-center gap-2.5 font-mono-tech text-xs text-[#55FF8A]">
-                <span>{project.category === 'code' ? (lang === 'fa' ? 'برنامه‌نویسی اختصاصی' : 'Custom Development') : 'WordPress'}</span>
-                <span aria-hidden="true">·</span>
-                <span>{t(project.sector)}</span>
-                <span aria-hidden="true">·</span>
-                <span>{project.year}</span>
-              </div>
-
-              <h1 className="mt-3 font-display text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+              <h1 className="font-display text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
                 {t(project.title)}
               </h1>
 
@@ -80,15 +72,6 @@ export function ProjectDetailPage() {
                 <div className="mt-1.5 font-mono-tech text-sm font-semibold text-[#55FF8A]">
                   {project.tech.join(' · ')}
                 </div>
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-                <div className="font-mono-tech text-[11px] uppercase tracking-wider text-[#898F9D]">
-                  {lang === 'fa' ? 'معماری و اجرا' : 'Architecture Notes'}
-                </div>
-                <p className="mt-1.5 text-sm text-[#C2C8D4] leading-relaxed">
-                  {t(project.architectureNote)}
-                </p>
               </div>
 
               <div className="pt-2 flex flex-wrap gap-3">

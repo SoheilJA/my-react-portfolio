@@ -21,16 +21,20 @@ export interface PortfolioService {
 export interface PortfolioProject {
   id: number;
   slug: string;
-  category: 'code' | 'wordpress';
-  featured: boolean;
   image: string;
-  link?: string;
+  link: string;
   title: BilingualText;
   summary: BilingualText;
-  architectureNote: BilingualText;
   tech: string[];
-  year: string;
-  sector: BilingualText;
+}
+
+export function createProjectSlug(title: string): string {
+  return title
+    .normalize('NFKC')
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export interface PortfolioSkillGroup {
@@ -273,12 +277,11 @@ export const PORTFOLIO_SERVICES: PortfolioService[] = [
   },
 ];
 
-export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
+const LEGACY_PORTFOLIO_PROJECTS = [
   {
     id: 1795410275020,
     slug: 'siyas',
     category: 'code',
-    featured: true,
     image: '/assets/portfolio/project-siyas.webp',
     link: 'https://siyas-v2.soheilahmadijalal-sj1378.workers.dev/',
     title: { en: 'Siyas', fa: 'سی‌یاس' },
@@ -298,8 +301,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 1,
     slug: 'reza-hoseini-resume',
     category: 'code',
-    featured: true,
     image: '',
+    link: '',
     title: { en: "Reza Hoseini's Resume", fa: 'رزومه رضا حسینی' },
     summary: {
       en: 'Custom Django personal resume and portfolio platform with structured content management and Tailwind styling.',
@@ -317,8 +320,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 2,
     slug: 'pixoria',
     category: 'code',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Pixoria', fa: 'پیکسوریا' },
     summary: {
       en: 'Digital creative platform engineered with Django, Python, Tailwind CSS, and interactive vanilla JavaScript workflows.',
@@ -336,8 +339,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 3,
     slug: 'marjan-hosseinzadeh-resume',
     category: 'code',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Marjan Hosseinzadeh Resume', fa: 'رزومه مرجان حسین‌زاده' },
     summary: {
       en: 'Lightweight bilingual-ready personal resume built with semantic HTML, CSS, PHP, and Alpine.js micro-interactions.',
@@ -355,8 +358,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 4,
     slug: 'derakht-e-toot',
     category: 'code',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Derakht-e Toot', fa: 'درخت توت' },
     summary: {
       en: 'Expressive custom web platform built on Laravel and PHP with Tailwind CSS and immersive Three.js 3D storytelling.',
@@ -374,8 +377,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 5,
     slug: 'phazldaru-holding',
     category: 'code',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Phazldaru Holding', fa: 'هلدینگ فضل‌دارو' },
     summary: {
       en: 'Enterprise pharmaceutical holding portal built with Django, Python, Tailwind CSS, and Three.js interactive graphics.',
@@ -393,8 +396,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 6,
     slug: 'cocodood',
     category: 'wordpress',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Cocodood', fa: 'Cocodood' },
     summary: {
       en: 'Modern online storefront designed with WordPress, Elementor, and WoodMart with streamlined product discovery.',
@@ -412,8 +415,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 7,
     slug: 'yousefi-rice',
     category: 'wordpress',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Yousefi Rice', fa: 'برنج یوسفی (Yousefi Rice)' },
     summary: {
       en: 'Direct-to-consumer agricultural & specialty food storefront built on WordPress, Elementor, and WoodMart.',
@@ -431,8 +434,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 8,
     slug: 'valiasr-charity',
     category: 'wordpress',
-    featured: true,
     image: '',
+    link: '',
     title: { en: 'Valiasr Charity', fa: 'خیریه ولیعصر (Valiasr Charity)' },
     summary: {
       en: 'Transparent charity & donation portal built with WordPress, Elementor, and WoodMart for community campaigns.',
@@ -450,8 +453,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 9,
     slug: 'pershia-chic',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Pershia Chic', fa: 'Pershia Chic' },
     summary: {
       en: 'Fashion & lifestyle e-commerce experience powered by WordPress, Elementor, and WoodMart.',
@@ -469,8 +472,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 10,
     slug: 'persia-ozone',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Persia Ozone', fa: 'Persia Ozone' },
     summary: {
       en: 'Industrial technology and ozone equipment corporate site built with WordPress, Elementor, and WoodMart.',
@@ -488,8 +491,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 11,
     slug: 'arnik-web',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Arnik Web', fa: 'آرنیک وب (Arnik Web)' },
     summary: {
       en: 'Main agency website designed solo for Arnik Web using WordPress, Elementor, and WoodMart.',
@@ -507,8 +510,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 12,
     slug: 'tak-omran',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Tak Omran', fa: 'تک عمران (Tak Omran)' },
     summary: {
       en: 'Construction and civil engineering corporate presence built with WordPress, Elementor, and WoodMart.',
@@ -526,8 +529,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 13,
     slug: 'atilis',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Atilis', fa: 'آتیلیس (Atilis)' },
     summary: {
       en: 'Corporate digital studio site crafted with WordPress, Elementor, WoodMart, and custom CSS refinements.',
@@ -545,8 +548,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 14,
     slug: 'shahre-behesht',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Shahre Behesht', fa: 'شهر بهشت (Shahre Behesht)' },
     summary: {
       en: 'Real estate and hospitality showcase developed with WordPress, Elementor, and WoodMart.',
@@ -564,8 +567,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 15,
     slug: 'hayper-ahan',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Hayper Ahan', fa: 'هایپر آهن (Hayper Ahan)' },
     summary: {
       en: 'Steel & construction materials commerce portal structured with WordPress, Elementor, and WoodMart.',
@@ -583,8 +586,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 16,
     slug: 'jahan-taraz',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Jahan Taraz', fa: 'جهان تراز (Jahan Taraz)' },
     summary: {
       en: 'Financial & industrial weighing/accounting solutions corporate site on WordPress, Elementor, and WoodMart.',
@@ -602,8 +605,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 17,
     slug: 'sajjad-massage-services',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Sajjad Massage Services', fa: 'خدمات ماساژ سجاد' },
     summary: {
       en: 'Wellness & therapy booking website built with WordPress, Elementor, and WoodMart.',
@@ -621,8 +624,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 18,
     slug: 'chaapica',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Chaapica', fa: 'چاپیکا (Chaapica)' },
     summary: {
       en: 'Custom print & packaging ordering storefront powered by WordPress, Elementor, and WoodMart.',
@@ -640,8 +643,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 19,
     slug: 'hodge-and-waj-shoes',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Hodge and Waj Shoes', fa: 'کفش Hodge and Waj' },
     summary: {
       en: 'Footwear e-commerce store built with WordPress, Elementor, and WoodMart featuring clean variant browsing.',
@@ -659,8 +662,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 20,
     slug: 'havan-spice-factory',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Havan Spice Factory', fa: 'کارخانه ادویه هاون (Havan Spice)' },
     summary: {
       en: 'Manufacturer showcase & wholesale storefront for Havan Spice Factory on WordPress, Elementor, and WoodMart.',
@@ -678,8 +681,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 21,
     slug: 'premium-lingerie-brand',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Premium Lingerie Brand', fa: 'برند تخصصی پوشاک (Premium Brand)' },
     summary: {
       en: 'Private-label fashion retail storefront developed with WordPress, Elementor, and WoodMart.',
@@ -697,8 +700,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 22,
     slug: 'ainaz-beauty-salon',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Ainaz Beauty Salon', fa: 'سالن زیبایی آیناز' },
     summary: {
       en: 'Beauty studio portfolio and booking site built with WordPress, Elementor, and WoodMart.',
@@ -716,8 +719,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 23,
     slug: 'sony-mashhad',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Sony Mashhad', fa: 'سونی مشهد (Sony Mashhad)' },
     summary: {
       en: 'Consumer electronics & authorized retail storefront for Mashhad built with WordPress, Elementor, and WoodMart.',
@@ -735,8 +738,8 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     id: 24,
     slug: 'siamese-cat',
     category: 'wordpress',
-    featured: false,
     image: '',
+    link: '',
     title: { en: 'Siamese Cat', fa: 'Siamese Cat' },
     summary: {
       en: 'Pet care & specialty brand website crafted with WordPress, Elementor, and WoodMart.',
@@ -751,6 +754,18 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
     sector: { en: 'Pet & Lifestyle', fa: 'حیوانات خانگی' },
   },
 ];
+
+export const PORTFOLIO_PROJECTS: PortfolioProject[] = LEGACY_PORTFOLIO_PROJECTS.map(
+  ({ id, image, link, title, summary, tech }) => ({
+    id,
+    slug: createProjectSlug(title.en),
+    image,
+    link: link ?? '',
+    title,
+    summary,
+    tech,
+  }),
+);
 
 export const PORTFOLIO_SKILLS: PortfolioSkillGroup[] = [
   {

@@ -371,9 +371,7 @@ export function ProjectVisualFrame({
     );
   }
 
-  const isCode = project.category === 'code';
-  const hasThree = project.tech.some((t) => t.toLowerCase().includes('three'));
-  const accentHex = isCode ? '#55FF8A' : '#22D3EE';
+  const accentHex = '#55FF8A';
 
   return (
     <div
@@ -389,7 +387,7 @@ export function ProjectVisualFrame({
           <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
         </div>
         <span className="font-mono-tech text-[10px] uppercase tracking-wider text-[#898F9D]">
-          {isCode ? 'CUSTOM BUILD' : 'WORDPRESS STUDIO'}
+          PORTFOLIO PROJECT
         </span>
       </div>
 
@@ -397,41 +395,22 @@ export function ProjectVisualFrame({
       <div className="relative flex-1 p-5 flex flex-col justify-between overflow-hidden ws-grid-overlay">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="font-mono-tech text-[11px] uppercase tracking-wider" style={{ color: accentHex }}>
-              {project.sector[lang]}
-            </div>
             <div className="mt-1 font-display font-bold text-white text-lg md:text-xl leading-tight">
               {project.title[lang]}
             </div>
           </div>
-          {hasThree ? (
-            <svg viewBox="0 0 64 64" className="w-12 h-12 shrink-0" fill="none" aria-hidden="true">
-              <polygon points="32,6 56,20 56,44 32,58 8,44 8,20" stroke="#55FF8A" strokeWidth="2.5" fill="#0B1E28" />
-              <line x1="32" y1="6" x2="32" y2="32" stroke="#22D3EE" strokeWidth="2" />
-              <line x1="32" y1="32" x2="56" y2="44" stroke="#22D3EE" strokeWidth="2" />
-              <line x1="32" y1="32" x2="8" y2="44" stroke="#22D3EE" strokeWidth="2" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 64 64" className="w-12 h-12 shrink-0" fill="none" aria-hidden="true">
-              <rect x="8" y="12" width="48" height="40" rx="8" fill="#0D1F2D" stroke={accentHex} strokeWidth="2.5" />
-              <path d="M22 26L15 32L22 38M42 26L49 32L42 38M35 23L29 41" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          )}
         </div>
 
         {/* Wireframe interface bars */}
-        <div className="grid grid-cols-3 gap-2.5 mt-4" aria-hidden="true">
-          <div className="col-span-2 rounded-lg bg-[#0B1324]/90 border border-white/10 p-3 space-y-2">
-            <div className="h-2 w-2/3 rounded bg-white/80" />
-            <div className="h-1.5 w-full rounded bg-white/25" />
-            <div className="h-1.5 w-4/5 rounded bg-white/15" />
-          </div>
-          <div className="rounded-lg bg-[#0E2426]/90 border border-[#55FF8A]/30 p-3 flex flex-col justify-between">
-            <div className="h-2 w-1/2 rounded bg-[#55FF8A]" />
-            <div className="font-mono-tech text-[10px] text-[#55FF8A] font-semibold">
-              {project.year}
-            </div>
-          </div>
+        <div className="mt-4 flex flex-wrap gap-2" aria-label={project.tech.join(', ')}>
+          {project.tech.slice(0, 5).map((technology) => (
+            <span
+              key={technology}
+              className="rounded-md border border-[#55FF8A]/25 bg-[#0E2426]/90 px-2.5 py-1.5 font-mono-tech text-[10px] text-[#55FF8A]"
+            >
+              {technology}
+            </span>
+          ))}
         </div>
       </div>
     </div>

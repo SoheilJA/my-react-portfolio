@@ -23,7 +23,7 @@ export function Footer() {
     { to: '/contact', label: lang === 'fa' ? 'تماس و شروع همکاری' : 'Contact' },
   ];
 
-  const featuredProjects = sortProjectsByNewest(PORTFOLIO_PROJECTS).slice(0, 6);
+  const recentProjects = sortProjectsByNewest(PORTFOLIO_PROJECTS).slice(0, 6);
 
   const changeLanguage = (next: 'en' | 'fa') => {
     setLang(next);
@@ -78,7 +78,7 @@ export function Footer() {
               {lang === 'fa' ? 'پروژه‌های منتخب' : 'Selected Projects'}
             </h3>
             <ul className="space-y-2.5 text-sm text-[#898F9D]">
-              {featuredProjects.map((project) => (
+              {recentProjects.map((project) => (
                 <li key={project.id}>
                   <Link
                     to={`/projects/${project.slug}`}

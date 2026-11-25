@@ -4,8 +4,6 @@ import {
   PortfolioStat,
 } from '../data/portfolioData';
 
-export type ProjectCategoryFilter = 'all' | 'code' | 'wordpress';
-
 export interface ContactFormInput {
   name: string;
   phone: string;
@@ -26,28 +24,23 @@ export function sortProjectsByNewest(
 
 export function filterProjects(
   projects: readonly PortfolioProject[],
-  category: ProjectCategoryFilter,
   query = '',
   lang: Language = 'en'
 ): PortfolioProject[] {
   const normalizedQuery = query.trim().toLowerCase();
 
   return sortProjectsByNewest(projects).filter((project) => {
-    const matchesCategory = category === 'all' || project.category === category;
-    if (!matchesCategory) return false;
     if (!normalizedQuery) return true;
 
     const titleText = project.title[lang].toLowerCase();
     const altTitleText = project.title[lang === 'en' ? 'fa' : 'en'].toLowerCase();
     const summaryText = project.summary[lang].toLowerCase();
-    const sectorText = project.sector[lang].toLowerCase();
     const techMatch = project.tech.some((t) => t.toLowerCase().includes(normalizedQuery));
 
     return (
       titleText.includes(normalizedQuery) ||
       altTitleText.includes(normalizedQuery) ||
       summaryText.includes(normalizedQuery) ||
-      sectorText.includes(normalizedQuery) ||
       techMatch
     );
   });
