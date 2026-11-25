@@ -216,10 +216,6 @@ function PortfolioImageField({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [uploadStatus, setUploadStatus] = useState('');
-  const canUploadLocally =
-    typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1');
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
@@ -237,7 +233,7 @@ function PortfolioImageField({
         (1 - uploaded.webpSize / uploaded.originalSize) * 100,
       );
       setUploadStatus(
-        `WebP با حجم ${sizeInKb} کیلوبایت در public${uploaded.url} ذخیره شد${reduction > 0 ? ` (${reduction}٪ کاهش حجم)` : ''}. فایل را deploy کنید؛ سپس همین مسیر را در پنل آنلاین برای پروژه ثبت و ذخیره کنید.`,
+        `تصویر WebP با حجم ${sizeInKb} کیلوبایت در D1 ذخیره شد${reduction > 0 ? ` (${reduction}٪ کاهش حجم)` : ''}.`,
       );
     } catch (error) {
       setUploadError(
@@ -268,8 +264,7 @@ function PortfolioImageField({
       {fieldHelp(path) && (
         <p className="text-xs leading-5 text-muted-foreground">{fieldHelp(path)}</p>
       )}
-      {canUploadLocally ? (
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <label
           className={cn(
             'inline-flex cursor-pointer items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent',
@@ -292,14 +287,11 @@ function PortfolioImageField({
         <span className="text-xs text-muted-foreground">
           JPG، PNG یا WebP؛ حداکثر ۲۰ مگابایت
         </span>
-        </div>
-      ) : (
-        <p className="rounded-md border border-dashed p-3 text-xs leading-6 text-muted-foreground">
-          برای بارگذاری، پنل را روی همین رایانه با <code dir="ltr">npm run dev</code> باز کنید. تصویر WebP در پوشهٔ public ذخیره می‌شود؛ پس از deploy، مسیر تصویر را در همین فیلد وارد و ذخیره کنید.
-        </p>
-      )}
+      </div>
       {value && (
         <img
+          loading="lazy"
+          decoding="async"
           src={value}
           alt={`پیش‌نمایش ${label}`}
           className="max-h-40 w-fit max-w-full rounded-md border object-contain"
@@ -783,6 +775,9 @@ export function AdminPage() {
     ],
     [content],
   );
+  const imageCount =
+    draft.projects.filter((project) => project.image.trim()).length +
+    draft.certificates.filter((certificate) => certificate.image.trim()).length;
 
   const importContentFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
@@ -1102,6 +1097,14 @@ export function AdminPage() {
                 <Button type="button" variant="outline" size="sm" onClick={() => void reload()}>
                   تلاش دوباره
                 </Button>
+              </div>
+            )}
+            {imageCount > 60 && (
+              <div
+                role="alert"
+                className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-800 dark:text-amber-300"
+              >
+                بیش از ۶۰ تصویر در محتوای فعلی ثبت شده است ({imageCount} تصویر). تصاویر بلااستفاده را پاک‌سازی کنید.
               </div>
             )}
             {saveMessage && (

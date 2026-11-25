@@ -71,6 +71,8 @@ export function CertificatesPage() {
                     className="relative block w-full overflow-hidden rounded-xl border border-white/15 bg-[#090E19] cursor-pointer text-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#55FF8A]"
                   >
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={cert.image}
                       alt={t(cert.title)}
                       referrerPolicy="no-referrer"
@@ -163,6 +165,8 @@ export function CertificatesPage() {
 
             <div className="mt-5 overflow-hidden rounded-xl border border-white/10 bg-[#070E17]">
               <img
+                loading="lazy"
+                decoding="async"
                 src={activeCert.image}
                 alt={t(activeCert.title)}
                 referrerPolicy="no-referrer"

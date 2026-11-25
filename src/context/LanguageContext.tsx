@@ -1,50 +1,129 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { BilingualText, Language } from '../data/portfolioData';
 
 interface LanguageContextValue {
   lang: Language;
+  isLanguageReady: boolean;
   isRtl: boolean;
   setLang: (next: Language) => void;
+  setLangFromPath: (next: Language) => void;
   toggleLang: () => void;
   t: (text: BilingualText) => string;
 }
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
+const LANGUAGE_STORAGE_KEY = 'soheil_portfolio_lang';
 
-function detectInitialLanguage(): Language {
-  if (typeof window === 'undefined') return 'en';
-  const pathname = window.location.pathname;
+function languageFromPath(pathname: string): Language | null {
   if (pathname === '/fa' || pathname.startsWith('/fa/')) return 'fa';
   if (pathname === '/en' || pathname.startsWith('/en/')) return 'en';
-  const saved = window.localStorage.getItem('soheil_portfolio_lang');
-  if (saved === 'fa' || saved === 'en') return saved;
-  return 'en';
+  return null;
+}
+
+function getSavedLanguage(): Language | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    return saved === 'fa' || saved === 'en' ? saved : null;
+  } catch {
+    return null;
+  }
+}
+
+function getBrowserLanguage(): Language {
+  return typeof navigator !== 'undefined' &&
+    navigator.language.toLowerCase().startsWith('fa')
+    ? 'fa'
+    : 'en';
+}
+
+function getInitialLanguageState(): { lang: Language; ready: boolean } {
+  if (typeof window === 'undefined') return { lang: 'en', ready: true };
+  const pathLanguage = languageFromPath(window.location.pathname);
+  if (pathLanguage) return { lang: pathLanguage, ready: true };
+
+  const savedLanguage = getSavedLanguage();
+  if (savedLanguage) return { lang: savedLanguage, ready: true };
+  return { lang: getBrowserLanguage(), ready: false };
+}
+
+let localeDetection: Promise<Language> | null = null;
+
+function detectLanguageFromApi(): Promise<Language> {
+  if (!localeDetection) {
+    localeDetection = fetch('/api/locale', {
+      credentials: 'same-origin',
+      cache: 'no-store',
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Locale detection request failed.');
+        const result: unknown = await response.json();
+        if (
+          !result ||
+          typeof result !== 'object' ||
+          !('lang' in result) ||
+          (result.lang !== 'fa' && result.lang !== 'en')
+        ) {
+          throw new Error('Locale detection response is invalid.');
+        }
+        return result.lang;
+      })
+      .catch((error: unknown) => {
+        console.warn('Using browser language because locale detection failed:', error);
+        return getBrowserLanguage();
+      });
+  }
+  return localeDetection;
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>(detectInitialLanguage);
-
-  const setLang = (next: Language) => {
-    setLangState(next);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('soheil_portfolio_lang', next);
-    }
-  };
-
-  const toggleLang = () => {
-    setLang(lang === 'en' ? 'fa' : 'en');
-  };
+  const [initialState] = useState(getInitialLanguageState);
+  const [lang, setLangState] = useState<Language>(initialState.lang);
+  const [isLanguageReady, setIsLanguageReady] = useState(initialState.ready);
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.lang = lang;
-    root.dir = lang === 'fa' ? 'rtl' : 'ltr';
-    document.title = window.location.pathname.startsWith('/admin')
-      ? 'مدیریت محتوا — Soheil'
-      : lang === 'fa'
-        ? 'سهیل جلال‌احمدی — طراح و توسعه‌دهنده وب'
-        : 'Soheil Jalal-Ahmadi — Web Designer & Developer';
-  }, [lang]);
+    if (initialState.ready) return;
+    let active = true;
+    void detectLanguageFromApi().then((detectedLanguage) => {
+      if (!active) return;
+      setLangState(
+        languageFromPath(window.location.pathname) ??
+          getSavedLanguage() ??
+          detectedLanguage,
+      );
+      setIsLanguageReady(true);
+    });
+    return () => {
+      active = false;
+    };
+  }, [initialState.ready]);
+
+  const setLang = useCallback((next: Language) => {
+    setLangState(next);
+    setIsLanguageReady(true);
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(LANGUAGE_STORAGE_KEY, next);
+      } catch (error) {
+        console.warn('Could not save the selected language:', error);
+      }
+    }
+  }, []);
+
+  const setLangFromPath = useCallback((next: Language) => {
+    setLangState(next);
+    setIsLanguageReady(true);
+  }, []);
+
+  const toggleLang = useCallback(() => {
+    setLang(lang === 'en' ? 'fa' : 'en');
+  }, [lang, setLang]);
 
   const t = (text: BilingualText) => text[lang];
 
@@ -52,8 +131,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     <LanguageContext.Provider
       value={{
         lang,
+        isLanguageReady,
         isRtl: lang === 'fa',
         setLang,
+        setLangFromPath,
         toggleLang,
         t,
       }}

@@ -219,6 +219,8 @@ export function HomePage() {
       {/* 4. SERVICES & SOLUTIONS BENTO GRID (Windscribe "Solution to All Your Problems" Pattern) */}
       <section className="relative bg-[#070E17] py-20 md:py-28 border-t border-white/10 overflow-hidden" data-reveal>
         <img
+          loading="lazy"
+          decoding="async"
           src={ARTWORK_ASSETS.servicesGeometric}
           alt=""
           aria-hidden="true"
@@ -293,6 +295,8 @@ export function HomePage() {
       {/* 5. SELECTED WORK — ALTERNATING FEATURE ROWS + COMPACT GALLERY (Windscribe "More Than Just a VPN" Pattern) */}
       <section className="relative bg-[#090E19] py-20 md:py-28 border-t border-white/10 overflow-hidden" data-reveal>
         <img
+          loading="lazy"
+          decoding="async"
           src={ARTWORK_ASSETS.projectsBackdrop}
           alt=""
           aria-hidden="true"
@@ -588,6 +592,8 @@ export function HomePage() {
                 <div>
                   <div className="aspect-[16/11] rounded-xl overflow-hidden border border-white/10 bg-[#070E17]">
                     <img
+                      loading="lazy"
+                      decoding="async"
                       src={cert.image}
                       alt={t(cert.title)}
                       className="w-full h-full object-cover"

@@ -17,6 +17,8 @@ export function ServicesPage() {
       {/* Services Hero */}
       <section className="relative py-16 md:py-24 overflow-hidden border-b border-white/10">
         <img
+          loading="lazy"
+          decoding="async"
           src={ARTWORK_ASSETS.servicesGeometric}
           alt=""
           aria-hidden="true"

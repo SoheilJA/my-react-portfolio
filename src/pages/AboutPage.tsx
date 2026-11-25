@@ -63,6 +63,8 @@ export function AboutPage() {
             <div className="lg:col-span-5">
               <div className="relative rounded-2xl border-2 border-[#02050A] bg-[#070E17] overflow-hidden ring-1 ring-[#55FF8A]/35 shadow-[0_24px_60px_rgba(0,0,0,0.7)]">
                 <img
+                  loading="lazy"
+                  decoding="async"
                   src={ARTWORK_ASSETS.aboutAtelier}
                   alt={
                     lang === 'fa'

@@ -21,6 +21,8 @@ export function ProjectsPage() {
       {/* Projects Header with Cosmic Backdrop */}
       <section className="relative py-16 md:py-24 overflow-hidden border-b border-white/10">
         <img
+          loading="lazy"
+          decoding="async"
           src={ARTWORK_ASSETS.projectsBackdrop}
           alt=""
           aria-hidden="true"

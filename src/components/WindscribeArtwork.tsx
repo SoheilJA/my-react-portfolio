@@ -358,6 +358,8 @@ export function ProjectVisualFrame({
         </div>
         <div className="relative flex-1 min-h-0 overflow-hidden">
           <img
+            loading="lazy"
+            decoding="async"
             src={project.image}
             alt={project.title[lang]}
             referrerPolicy="no-referrer"

@@ -33,9 +33,79 @@ import { AdminPage } from './pages/AdminPage';
 import { LocalizedLink } from './components/LocalizedLink';
 import { SiteLoadingEffects } from './components/SiteLoadingEffects';
 
+const SITE_ORIGIN = 'https://soheil-ja.ir';
+
+const siteMetadata = {
+  fa: {
+    title: 'سهیل جلال احمدی — طراح و توسعه‌دهنده وب',
+    description:
+      'نمونه‌کارهای سهیل جلال احمدی، طراح و توسعه‌دهنده وب؛ شامل طراحی و توسعه وب‌سایت، Django، Laravel، WordPress و فرانت‌اند.',
+    adminTitle: 'مدیریت محتوا — سهیل جلال احمدی',
+    adminDescription: 'پنل مدیریت محتوای سایت سهیل جلال احمدی.',
+  },
+  en: {
+    title: 'Soheil Jalal-Ahmadi — Web Designer & Developer',
+    description:
+      'Bilingual developer portfolio of Soheil Jalal-Ahmadi featuring Django, Laravel, WordPress, and custom frontend engineering.',
+    adminTitle: 'Content Admin — Soheil Jalal-Ahmadi',
+    adminDescription: 'Content administration for Soheil Jalal-Ahmadi’s website.',
+  },
+} as const;
+
+function updateMetaContent(
+  attribute: 'name' | 'property',
+  key: string,
+  content: string,
+) {
+  let meta = document.head.querySelector<HTMLMetaElement>(
+    `meta[${attribute}="${key}"]`,
+  );
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute(attribute, key);
+    document.head.appendChild(meta);
+  }
+  meta.content = content;
+}
+
+function updateAlternateLinks(pathname: string) {
+  const existingLinks = document.head.querySelectorAll<HTMLLinkElement>(
+    'link[rel="alternate"][hreflang]',
+  );
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+    existingLinks.forEach((link) => link.remove());
+    return;
+  }
+
+  const localizedPath = pathname.replace(/^\/(fa|en)(?=\/|$)/, '') || '/';
+  const getUrl = (language: 'fa' | 'en') =>
+    new URL(
+      `/${language}${localizedPath === '/' ? '' : localizedPath}`,
+      SITE_ORIGIN,
+    ).href;
+  const alternateUrls = {
+    fa: getUrl('fa'),
+    en: getUrl('en'),
+    'x-default': getUrl('en'),
+  };
+
+  for (const [language, href] of Object.entries(alternateUrls)) {
+    let link = document.head.querySelector<HTMLLinkElement>(
+      `link[rel="alternate"][hreflang="${language}"]`,
+    );
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'alternate';
+      link.hreflang = language;
+      document.head.appendChild(link);
+    }
+    link.href = href;
+  }
+}
+
 function RouteEffects() {
   const { pathname } = useLocation();
-  const { setLang } = useLanguage();
+  const { setLangFromPath } = useLanguage();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -43,12 +113,40 @@ function RouteEffects() {
 
   useEffect(() => {
     if (pathname === '/fa' || pathname.startsWith('/fa/')) {
-      setLang('fa');
+      setLangFromPath('fa');
     } else if (pathname === '/en' || pathname.startsWith('/en/')) {
-      setLang('en');
+      setLangFromPath('en');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, setLangFromPath]);
+
+  return null;
+}
+
+function SeoMetadata() {
+  const { pathname } = useLocation();
+  const { lang } = useLanguage();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.lang = lang;
+    root.dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+    const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
+    const metadata = siteMetadata[lang];
+    document.title = isAdmin ? metadata.adminTitle : metadata.title;
+    updateMetaContent(
+      'name',
+      'description',
+      isAdmin ? metadata.adminDescription : metadata.description,
+    );
+    updateMetaContent('property', 'og:title', document.title);
+    updateMetaContent(
+      'property',
+      'og:description',
+      isAdmin ? metadata.adminDescription : metadata.description,
+    );
+    updateAlternateLinks(pathname);
+  }, [lang, pathname]);
 
   return null;
 }
@@ -100,7 +198,8 @@ function LanguageShell() {
 }
 
 function HomeRedirect() {
-  const { lang } = useLanguage();
+  const { lang, isLanguageReady } = useLanguage();
+  if (!isLanguageReady) return null;
   return <Navigate to={`/${lang}`} replace />;
 }
 
@@ -168,6 +267,7 @@ export default function App() {
       <LanguageProvider>
         <PortfolioContentProvider>
           <BrowserRouter>
+            <SeoMetadata />
             <Routes>
               <Route path="/admin/*" element={<AdminPage />} />
               <Route path="/" element={<HomeRedirect />} />

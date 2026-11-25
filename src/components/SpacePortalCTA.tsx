@@ -12,6 +12,8 @@ export function SpacePortalCTA() {
       <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-[#070E17] px-6 py-20 md:px-14 md:py-24 text-center shadow-[0_24px_80px_rgba(0,0,0,0.65)]">
         {/* Background Windscribe Space Portal Artwork */}
         <img
+          loading="lazy"
+          decoding="async"
           src={content.assets.contactPortal}
           alt=""
           aria-hidden="true"

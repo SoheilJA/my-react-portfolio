@@ -1,11 +1,17 @@
 interface D1Statement {
-  bind(...values: (string | number)[]): D1Statement;
+  bind(...values: (string | number | ArrayBuffer | ArrayBufferView)[]): D1Statement;
   first<T>(): Promise<T | null>;
   run(): Promise<unknown>;
 }
 
 interface D1Database {
   prepare(query: string): D1Statement;
+}
+
+interface CloudflareRequest extends Request {
+  cf?: {
+    country?: string;
+  };
 }
 
 interface Env {
@@ -18,6 +24,9 @@ interface Env {
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
 const SESSION_COOKIE = 'portfolio_admin';
+const MAX_IMAGE_SIZE = 1_000_000;
+const WEBP_MIME = 'image/webp';
+const CONTENT_CACHE_CONTROL = 'public, max-age=60, stale-while-revalidate=300';
 
 function jsonResponse(body: unknown, status = 200, headers?: HeadersInit): Response {
   return new Response(JSON.stringify(body), {
@@ -122,6 +131,51 @@ function isSameOrigin(request: Request, configuredOrigin: string | undefined): b
   );
 }
 
+function isImageId(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+}
+
+function imageCacheKey(request: Request, id: string): Request {
+  return new Request(new URL(`/api/img/${id}`, request.url));
+}
+
+function contentCacheKey(request: Request): Request {
+  const url = new URL('/api/content', request.url);
+  return new Request(url);
+}
+
+function getPreferredLanguage(request: CloudflareRequest): 'fa' | 'en' {
+  if (request.cf?.country === 'IR') return 'fa';
+
+  const preferred = (request.headers.get('Accept-Language') || '')
+    .split(',')
+    .map((entry, order) => {
+      const [tag, ...parameters] = entry.trim().split(';');
+      const qualityParameter = parameters
+        .map((parameter) => parameter.trim())
+        .find((parameter) => /^q=/i.test(parameter));
+      const quality = qualityParameter ? Number(qualityParameter.slice(2)) : 1;
+      return { tag: tag.trim().toLowerCase(), quality, order };
+    })
+    .filter(({ tag, quality }) => tag.length > 0 && quality > 0 && quality <= 1)
+    .sort((left, right) => right.quality - left.quality || left.order - right.order)[0];
+
+  return preferred?.tag === 'fa' || preferred?.tag.startsWith('fa-') ? 'fa' : 'en';
+}
+
+function decodeStoredImage(data: ArrayBuffer): Uint8Array {
+  const bytes = new Uint8Array(data);
+  if (String.fromCharCode(...bytes.subarray(0, 5)) !== 'UklGR') return bytes;
+
+  const base64 = new TextDecoder().decode(bytes);
+  const binary = atob(base64);
+  const decoded = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    decoded[index] = binary.charCodeAt(index);
+  }
+  return decoded;
+}
+
 async function readContent(db: D1Database): Promise<string | null> {
   const row = await db
     .prepare('SELECT document FROM site_content WHERE id = 1')
@@ -155,10 +209,157 @@ function isContentDocument(value: unknown): value is Record<string, unknown> {
   );
 }
 
-async function handleApi(request: Request, env: Env): Promise<Response> {
-  const { pathname } = new URL(request.url);
+async function handleApi(request: CloudflareRequest, env: Env): Promise<Response> {
+  const requestUrl = new URL(request.url);
+  const { pathname } = requestUrl;
+
+  if (pathname === '/api/locale' && request.method === 'GET') {
+    return jsonResponse(
+      { lang: getPreferredLanguage(request) },
+      200,
+      { 'Cache-Control': 'no-store' },
+    );
+  }
+
+  if (pathname === '/api/uploads' && request.method === 'POST') {
+    if (!isSameOrigin(request, env.SITE_ORIGIN)) {
+      return jsonResponse({ error: 'Cross-origin request rejected.' }, 403);
+    }
+    if (!(await isAuthenticated(request, env.SESSION_SECRET))) {
+      return jsonResponse({ error: 'Authentication required.' }, 401);
+    }
+    if (
+      request.headers.get('Content-Type')?.split(';', 1)[0].trim().toLowerCase() !==
+      WEBP_MIME
+    ) {
+      return jsonResponse({ error: 'Only WebP images can be uploaded.' }, 415);
+    }
+    const declaredLength = Number(request.headers.get('Content-Length') || 0);
+    if (declaredLength > MAX_IMAGE_SIZE) {
+      return jsonResponse({ error: 'Image exceeds the 1 MB limit.' }, 413);
+    }
+    if (!request.body) {
+      return jsonResponse({ error: 'Image body is required.' }, 400);
+    }
+
+    const reader = request.body.getReader();
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_IMAGE_SIZE) {
+        await reader.cancel();
+        return jsonResponse({ error: 'Image exceeds the 1 MB limit.' }, 413);
+      }
+      chunks.push(value);
+    }
+
+    const bytes = new Uint8Array(size);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    if (
+      bytes.byteLength < 12 ||
+      String.fromCharCode(...bytes.subarray(0, 4)) !== 'RIFF' ||
+      String.fromCharCode(...bytes.subarray(8, 12)) !== 'WEBP'
+    ) {
+      return jsonResponse({ error: 'The uploaded file is not a valid WebP image.' }, 415);
+    }
+
+    const id = crypto.randomUUID();
+    try {
+      await env.DB.prepare(
+        'INSERT INTO images (id, data, mime, size) VALUES (?, ?, ?, ?)',
+      )
+        .bind(id, bytes, WEBP_MIME, bytes.byteLength)
+        .run();
+      return jsonResponse({ url: `/api/img/${id}` }, 201);
+    } catch (error) {
+      console.error('Failed to store uploaded image in D1:', error);
+      return jsonResponse({ error: 'Could not save image to D1.' }, 503);
+    }
+  }
+
+  const imageDeleteMatch = pathname.match(/^\/api\/uploads\/([^/]+)$/);
+  if (imageDeleteMatch && request.method === 'DELETE') {
+    if (!isSameOrigin(request, env.SITE_ORIGIN)) {
+      return jsonResponse({ error: 'Cross-origin request rejected.' }, 403);
+    }
+    if (!(await isAuthenticated(request, env.SESSION_SECRET))) {
+      return jsonResponse({ error: 'Authentication required.' }, 401);
+    }
+    const id = imageDeleteMatch[1];
+    if (!isImageId(id)) {
+      return jsonResponse({ error: 'Invalid image ID.' }, 400);
+    }
+
+    try {
+      const deleted = await env.DB.prepare(
+        'DELETE FROM images WHERE id = ? RETURNING id',
+      )
+        .bind(id)
+        .first<{ id: string }>();
+      if (!deleted) return jsonResponse({ error: 'Image not found.' }, 404);
+      const cache = (caches as CacheStorage & { default: Cache }).default;
+      await cache.delete(imageCacheKey(request, id));
+      return new Response(null, { status: 204 });
+    } catch (error) {
+      console.error('Failed to delete uploaded image from D1:', error);
+      return jsonResponse({ error: 'Could not delete image.' }, 503);
+    }
+  }
+
+  const imageMatch = pathname.match(/^\/api\/img\/([^/]+)$/);
+  if (imageMatch && request.method === 'GET') {
+    const id = imageMatch[1];
+    if (!isImageId(id)) return jsonResponse({ error: 'Image not found.' }, 404);
+
+    const cache = (caches as CacheStorage & { default: Cache }).default;
+    const cacheKey = imageCacheKey(request, id);
+    const cachedResponse = await cache.match(cacheKey);
+    if (cachedResponse) return cachedResponse;
+
+    try {
+      const image = await env.DB.prepare(
+        'SELECT data, mime FROM images WHERE id = ?',
+      )
+        .bind(id)
+        .first<{ data: ArrayBuffer; mime: string }>();
+      if (!image) return jsonResponse({ error: 'Image not found.' }, 404);
+
+      const data = decodeStoredImage(image.data);
+      const body = new ArrayBuffer(data.byteLength);
+      new Uint8Array(body).set(data);
+      const response = new Response(body, {
+        headers: {
+          'Content-Type': image.mime,
+          'Content-Length': String(data.byteLength),
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          'X-Content-Type-Options': 'nosniff',
+        },
+      });
+      await cache.put(cacheKey, response.clone());
+      return response;
+    } catch (error) {
+      console.error('Failed to load image from D1:', error);
+      return jsonResponse({ error: 'Could not load image.' }, 503);
+    }
+  }
 
   if (pathname === '/api/content' && request.method === 'GET') {
+    const cache = (caches as CacheStorage & { default: Cache }).default;
+    const cacheKey = contentCacheKey(request);
+    try {
+      const cachedResponse = await cache.match(cacheKey);
+      if (cachedResponse) return cachedResponse;
+    } catch (error) {
+      console.error('Failed to read site content from cache:', error);
+    }
+
     try {
       const document = await readContent(env.DB);
       if (!document) {
@@ -167,12 +368,18 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
           404,
         );
       }
-      return new Response(document, {
+      const response = new Response(document, {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'no-store',
+          'Cache-Control': CONTENT_CACHE_CONTROL,
         },
       });
+      try {
+        await cache.put(cacheKey, response.clone());
+      } catch (error) {
+        console.error('Failed to cache site content:', error);
+      }
+      return response;
     } catch (error) {
       console.error('Failed to load site content from D1:', error);
       return jsonResponse({ error: 'Content storage is unavailable.' }, 503);
@@ -270,11 +477,21 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
       )
         .bind(document)
         .run();
-      return jsonResponse({ saved: true });
     } catch (error) {
       console.error('Failed to save site content to D1:', error);
       return jsonResponse({ error: 'Could not save content to D1.' }, 503);
     }
+    try {
+      const cache = (caches as CacheStorage & { default: Cache }).default;
+      await cache.delete(contentCacheKey(request));
+    } catch (error) {
+      console.error('Content was saved, but its cache could not be invalidated:', error);
+      return jsonResponse(
+        { error: 'Content was saved, but its cache could not be invalidated.' },
+        503,
+      );
+    }
+    return jsonResponse({ saved: true });
   }
 
   if (pathname.startsWith('/api/')) {
@@ -284,7 +501,7 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
 }
 
 export default {
-  fetch(request: Request, env: Env): Promise<Response> {
+  fetch(request: CloudflareRequest, env: Env): Promise<Response> {
     return handleApi(request, env);
   },
 };
