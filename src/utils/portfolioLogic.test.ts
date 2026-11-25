@@ -1,11 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   PORTFOLIO_CERTIFICATES,
   PORTFOLIO_PROJECTS,
   PORTFOLIO_SERVICES,
   PORTFOLIO_STATS,
   createProjectSlug,
+  getProjectCategory,
+  PROJECT_CATEGORIES,
 } from '../data/portfolioData';
 import {
   filterProjects,
@@ -17,13 +20,22 @@ import {
   validateContactForm,
 } from './portfolioLogic';
 
-test('filterProjects searches project titles, descriptions, and technologies', () => {
+test('filterProjects searches both project titles and technologies without descriptions', () => {
   const all = filterProjects(PORTFOLIO_PROJECTS, '', 'en');
   assert.equal(all.length, PORTFOLIO_PROJECTS.length);
 
   const djangoSearch = filterProjects(PORTFOLIO_PROJECTS, 'django', 'en');
   assert.ok(djangoSearch.some((p) => p.slug === 'pixoria'));
   assert.ok(djangoSearch.some((p) => p.slug === 'phazldaru-holding'));
+
+  assert.deepEqual(
+    filterProjects(PORTFOLIO_PROJECTS, '  PIXORIA  ', 'fa').map((p) => p.slug),
+    ['pixoria'],
+  );
+  assert.deepEqual(
+    filterProjects(PORTFOLIO_PROJECTS, 'پیکسوریا', 'en').map((p) => p.slug),
+    ['pixoria'],
+  );
 });
 
 test('createProjectSlug builds URL-safe English and Persian title slugs', () => {
@@ -36,9 +48,30 @@ test('default projects use their English titles as slugs and keep only project f
     assert.equal(project.slug, createProjectSlug(project.title.en));
     assert.deepEqual(
       Object.keys(project).sort(),
-      ['id', 'image', 'link', 'slug', 'summary', 'tech', 'title'].sort(),
+      ['category', 'id', 'image', 'link', 'slug', 'tech', 'title'].sort(),
     );
+    assert.ok(PROJECT_CATEGORIES.some((category) => category.value === project.category));
   }
+});
+
+test('legacy projects receive a category from their existing technologies', () => {
+  assert.equal(getProjectCategory({ tech: [' WordPress ', 'Elementor'] }), 'wordpress');
+  assert.equal(getProjectCategory({ tech: ['WORDPRESS'] }), 'wordpress');
+  assert.equal(getProjectCategory({ tech: ['Django', 'Python'] }), 'programming');
+  assert.equal(getProjectCategory({ category: 'custom-code', tech: ['Laravel'] }), 'programming');
+  assert.equal(getProjectCategory({ tech: [] }), 'programming');
+});
+
+test('explicit project categories remain unchanged when technologies differ', () => {
+  assert.equal(getProjectCategory({ category: 'programming', tech: ['WordPress'] }), 'programming');
+  assert.equal(getProjectCategory({ category: 'wordpress', tech: ['PHP'] }), 'wordpress');
+});
+
+test('importable content preserves the canonical project fields and values', () => {
+  const exportedContent = JSON.parse(
+    readFileSync(new URL('../../site-content-export.json', import.meta.url), 'utf8'),
+  );
+  assert.deepEqual(exportedContent.projects, PORTFOLIO_PROJECTS);
 });
 
 test('projects are ordered newest first without mutating the source array', () => {

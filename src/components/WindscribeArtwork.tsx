@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Image as ImageIcon } from 'lucide-react';
 import { Language, PortfolioProject, PortfolioService } from '../data/portfolioData';
 
 export function BrandLogoMark({ className = 'w-7 h-7' }: { className?: string }) {
@@ -331,88 +332,34 @@ export function ServiceBentoArt({
 export function ProjectVisualFrame({
   project,
   lang,
-  compact = false,
 }: {
   project: PortfolioProject;
   lang: Language;
-  compact?: boolean;
 }) {
   const [imgFailed, setImgFailed] = useState(false);
 
-  if (project.image && !imgFailed) {
-    return (
-      <div
-        className={`project-screen-frame relative flex flex-col border-2 border-[#02050A] bg-[#0B1324] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] ${
-          compact ? 'aspect-[16/10]' : 'aspect-[16/10]'
-        }`}
-      >
-        <div className="flex items-center justify-between px-3.5 py-2 bg-[#070E17] border-b border-white/10 shrink-0">
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#55FF8A]" />
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-white/25" />
-          </div>
-          <span className="font-mono-tech text-[10px] text-[#898F9D] truncate max-w-[200px]">
-            {project.slug}.soheil.dev
-          </span>
-        </div>
-        <div className="relative flex-1 min-h-0 overflow-hidden">
-          <img
-            loading="lazy"
-            decoding="async"
-            src={project.image}
-            alt={project.title[lang]}
-            referrerPolicy="no-referrer"
-            onError={() => setImgFailed(true)}
-            className="w-full h-full object-cover object-top"
-          />
-        </div>
-      </div>
-    );
-  }
-
-  const accentHex = '#55FF8A';
-
   return (
-    <div
-      className={`project-screen-frame relative border-2 border-[#02050A] bg-[#070E17] overflow-hidden ring-1 ring-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.65)] flex flex-col ${
-        compact ? 'aspect-[16/10]' : 'aspect-[16/10]'
-      }`}
-    >
-      {/* Stylized browser frame */}
-      <div className="flex items-center justify-between px-3.5 py-2 bg-[#0B111E] border-b border-white/10 shrink-0">
-        <div className="flex items-center gap-1.5" aria-hidden="true">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: accentHex }} />
-          <span className="w-2.5 h-2.5 rounded-full bg-white/30" />
-          <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
+    <div className="project-screen-frame relative">
+      {project.image && !imgFailed ? (
+        <img
+          loading="lazy"
+          decoding="async"
+          src={project.image}
+          alt={project.title[lang]}
+          referrerPolicy="no-referrer"
+          onError={() => setImgFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover object-top"
+        />
+      ) : (
+        <div
+          role="img"
+          aria-label={project.title[lang]}
+          className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#898F9D]"
+        >
+          <ImageIcon className="h-10 w-10 text-[#55FF8A]/50" aria-hidden="true" />
+          <span className="text-xs">{lang === 'fa' ? 'تصویر نمونه‌کار' : 'Project image'}</span>
         </div>
-        <span className="font-mono-tech text-[10px] uppercase tracking-wider text-[#898F9D]">
-          PORTFOLIO PROJECT
-        </span>
-      </div>
-
-      {/* Windscribe comic-technical blueprint preview */}
-      <div className="relative flex-1 p-5 flex flex-col justify-between overflow-hidden ws-grid-overlay">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="mt-1 font-display font-bold text-white text-lg md:text-xl leading-tight">
-              {project.title[lang]}
-            </div>
-          </div>
-        </div>
-
-        {/* Wireframe interface bars */}
-        <div className="mt-4 flex flex-wrap gap-2" aria-label={project.tech.join(', ')}>
-          {project.tech.slice(0, 5).map((technology) => (
-            <span
-              key={technology}
-              className="rounded-md border border-[#55FF8A]/25 bg-[#0E2426]/90 px-2.5 py-1.5 font-mono-tech text-[10px] text-[#55FF8A]"
-            >
-              {technology}
-            </span>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

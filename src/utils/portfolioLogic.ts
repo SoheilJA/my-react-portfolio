@@ -34,13 +34,11 @@ export function filterProjects(
 
     const titleText = project.title[lang].toLowerCase();
     const altTitleText = project.title[lang === 'en' ? 'fa' : 'en'].toLowerCase();
-    const summaryText = project.summary[lang].toLowerCase();
     const techMatch = project.tech.some((t) => t.toLowerCase().includes(normalizedQuery));
 
     return (
       titleText.includes(normalizedQuery) ||
       altTitleText.includes(normalizedQuery) ||
-      summaryText.includes(normalizedQuery) ||
       techMatch
     );
   });

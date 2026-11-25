@@ -80,6 +80,38 @@
     color: var(--text-primary);
     overflow-x: clip;
   }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--background-deep);
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background-color: var(--background-deep);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    min-height: 40px;
+    border: 2px solid var(--background-deep);
+    border-radius: 999px;
+    background-color: var(--accent);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6EFF9B;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #72FFFF;
+  }
 }
 
 .font-display {
@@ -102,42 +134,16 @@ html[lang="fa"] .font-russo {
 
 .project-card {
   position: relative;
-  isolation: isolate;
   min-width: 0;
-  padding: 1px;
-  background: linear-gradient(135deg, #72ffff 0%, #127481 22%, #143442 55%, #55ff8a 100%);
-  clip-path: polygon(
-    18px 0,
-    calc(100% - 18px) 0,
-    100% 18px,
-    100% calc(100% - 18px),
-    calc(100% - 18px) 100%,
-    18px 100%,
-    0 calc(100% - 18px),
-    0 18px
-  );
-  transition: filter 180ms ease, transform 180ms ease;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1rem;
+  background-color: var(--surface);
+  transition: border-color 180ms ease;
 }
 
 .project-card:hover,
 .project-card:focus-within {
-  filter: drop-shadow(0 0 12px rgb(34 211 238 / 22%));
-}
-
-.project-card__content {
-  clip-path: polygon(
-    17px 0,
-    calc(100% - 17px) 0,
-    100% 17px,
-    100% calc(100% - 17px),
-    calc(100% - 17px) 100%,
-    17px 100%,
-    0 calc(100% - 17px),
-    0 17px
-  );
-  background:
-    linear-gradient(145deg, rgb(9 20 31 / 96%), rgb(7 14 23 / 99%) 48%),
-    #070e17;
+  border-color: rgb(85 255 138 / 45%);
 }
 
 .project-card__open {
@@ -145,17 +151,11 @@ html[lang="fa"] .font-russo {
 }
 
 .project-screen-frame {
-  clip-path: polygon(
-    14px 0,
-    calc(100% - 14px) 0,
-    100% 14px,
-    100% calc(100% - 14px),
-    calc(100% - 14px) 100%,
-    14px 100%,
-    0 calc(100% - 14px),
-    0 14px
-  );
-  border-color: rgb(103 245 255 / 54%);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.75rem;
+  background-color: var(--background-deep);
 }
 
 .project-preview-dialog {
@@ -208,20 +208,10 @@ html[lang="fa"] .font-russo {
 .project-preview-panel {
   max-height: calc(100dvh - 2rem);
   overflow-y: auto;
-  border: 1px solid rgb(103 245 255 / 38%);
-  background:
-    linear-gradient(145deg, rgb(9 20 31 / 98%), rgb(5 11 19 / 99%));
-  box-shadow: 0 24px 90px rgb(0 0 0 / 80%), 0 0 28px rgb(34 211 238 / 10%);
-  clip-path: polygon(
-    20px 0,
-    calc(100% - 20px) 0,
-    100% 20px,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    20px 100%,
-    0 calc(100% - 20px),
-    0 20px
-  );
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background-color: var(--surface);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 85%);
 }
 
 .font-editorial-italic {

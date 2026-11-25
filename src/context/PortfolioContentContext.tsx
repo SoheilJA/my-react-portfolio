@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   DEFAULT_PORTFOLIO_CONTENT,
+  getProjectCategory,
   PortfolioContent,
 } from '../data/portfolioData';
 
@@ -71,7 +72,13 @@ export function PortfolioContentProvider({ children }: { children: React.ReactNo
       if (!isPortfolioContent(result)) {
         throw new Error('The server returned an invalid portfolio content document.');
       }
-      setContent(result);
+      setContent({
+        ...result,
+        projects: result.projects.map((project) => ({
+          ...project,
+          category: getProjectCategory(project),
+        })),
+      });
       setIsContentInitialized(true);
       setError(null);
     } catch (loadError) {

@@ -427,15 +427,12 @@
     {
       "id": 1795410275020,
       "slug": "siyas",
+      "category": "programming",
       "image": "/assets/portfolio/project-siyas.webp",
       "link": "https://siyas-v2.soheilahmadijalal-sj1378.workers.dev/",
       "title": {
         "en": "Siyas",
         "fa": "سی‌یاس"
-      },
-      "summary": {
-        "en": "Interactive web experience combining a Laravel backend architecture with Three.js spatial visuals and Tailwind UI.",
-        "fa": "تجربه وب تعاملی با ترکیب معماری بک‌اند Laravel، صحنه‌های سه‌بعدی Three.js و رابط کاربری Tailwind."
       },
       "tech": [
         "Laravel",
@@ -446,15 +443,12 @@
     {
       "id": 1,
       "slug": "reza-hoseini-s-resume",
+      "category": "programming",
       "image": "",
       "link": "",
       "title": {
         "en": "Reza Hoseini's Resume",
         "fa": "رزومه رضا حسینی"
-      },
-      "summary": {
-        "en": "Custom Django personal resume and portfolio platform with structured content management and Tailwind styling.",
-        "fa": "وب‌سایت شخصی و رزومه اختصاصی با Django، پنل مدیریت محتوا و طراحی مدرن Tailwind."
       },
       "tech": [
         "Django",
@@ -465,15 +459,12 @@
     {
       "id": 2,
       "slug": "pixoria",
+      "category": "programming",
       "image": "",
       "link": "",
       "title": {
         "en": "Pixoria",
         "fa": "پیکسوریا"
-      },
-      "summary": {
-        "en": "Digital creative platform engineered with Django, Python, Tailwind CSS, and interactive vanilla JavaScript workflows.",
-        "fa": "پلتفرم خلاقیت دیجیتال ساخته‌شده با Django، Python، Tailwind CSS و تعاملات اختصاصی JavaScript."
       },
       "tech": [
         "Django",
@@ -485,15 +476,12 @@
     {
       "id": 3,
       "slug": "marjan-hosseinzadeh-resume",
+      "category": "programming",
       "image": "",
       "link": "",
       "title": {
         "en": "Marjan Hosseinzadeh Resume",
         "fa": "رزومه مرجان حسین‌زاده"
-      },
-      "summary": {
-        "en": "Lightweight bilingual-ready personal resume built with semantic HTML, CSS, PHP, and Alpine.js micro-interactions.",
-        "fa": "وب‌سایت رزومه شخصی سبک و سریع با HTML، CSS، PHP و تعاملات ظریف Alpine.js."
       },
       "tech": [
         "HTML",
@@ -505,15 +493,12 @@
     {
       "id": 4,
       "slug": "derakht-e-toot",
+      "category": "programming",
       "image": "",
       "link": "",
       "title": {
         "en": "Derakht-e Toot",
         "fa": "درخت توت"
-      },
-      "summary": {
-        "en": "Expressive custom web platform built on Laravel and PHP with Tailwind CSS and immersive Three.js 3D storytelling.",
-        "fa": "پلتفرم وب اختصاصی ساخته‌شده با Laravel و PHP همراه با Tailwind CSS و صحنه‌پردازی سه‌بعدی Three.js."
       },
       "tech": [
         "Tailwind",
@@ -525,15 +510,12 @@
     {
       "id": 5,
       "slug": "phazldaru-holding",
+      "category": "programming",
       "image": "",
       "link": "",
       "title": {
         "en": "Phazldaru Holding",
         "fa": "هلدینگ فضل‌دارو"
-      },
-      "summary": {
-        "en": "Enterprise pharmaceutical holding portal built with Django, Python, Tailwind CSS, and Three.js interactive graphics.",
-        "fa": "پورتال سازمانی هلدینگ دارویی فضل‌دارو توسعه‌یافته با Django، Python، Tailwind و گرافیک سه‌بعدی Three.js."
       },
       "tech": [
         "Django",
@@ -545,15 +527,12 @@
     {
       "id": 6,
       "slug": "cocodood",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Cocodood",
         "fa": "Cocodood"
-      },
-      "summary": {
-        "en": "Modern online storefront designed with WordPress, Elementor, and WoodMart with streamlined product discovery.",
-        "fa": "فروشگاه آنلاین مدرن طراحی‌شده با وردپرس، المنتور و وودمارت با تمرکز بر نمایش جذاب محصولات."
       },
       "tech": [
         "WordPress",
@@ -564,15 +543,12 @@
     {
       "id": 7,
       "slug": "yousefi-rice",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Yousefi Rice",
         "fa": "برنج یوسفی (Yousefi Rice)"
-      },
-      "summary": {
-        "en": "Direct-to-consumer agricultural & specialty food storefront built on WordPress, Elementor, and WoodMart.",
-        "fa": "فروشگاه اینترنتی تخصصی عرضه مستقیم برنج و محصولات غذایی با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -583,15 +559,12 @@
     {
       "id": 8,
       "slug": "valiasr-charity",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Valiasr Charity",
         "fa": "خیریه ولیعصر (Valiasr Charity)"
-      },
-      "summary": {
-        "en": "Transparent charity & donation portal built with WordPress, Elementor, and WoodMart for community campaigns.",
-        "fa": "پورتال اطلاع‌رسانی و مشارکت‌های مردمی خیریه ولیعصر طراحی‌شده با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -602,15 +575,12 @@
     {
       "id": 9,
       "slug": "pershia-chic",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Pershia Chic",
         "fa": "Pershia Chic"
-      },
-      "summary": {
-        "en": "Fashion & lifestyle e-commerce experience powered by WordPress, Elementor, and WoodMart.",
-        "fa": "فروشگاه اینترنتی مد و پوشاک طراحی‌شده با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -621,15 +591,12 @@
     {
       "id": 10,
       "slug": "persia-ozone",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Persia Ozone",
         "fa": "Persia Ozone"
-      },
-      "summary": {
-        "en": "Industrial technology and ozone equipment corporate site built with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت شرکتی تجهیزات صنعتی و سیستم‌های ازن ساخته‌شده با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -640,15 +607,12 @@
     {
       "id": 11,
       "slug": "arnik-web",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Arnik Web",
         "fa": "آرنیک وب (Arnik Web)"
-      },
-      "summary": {
-        "en": "Main agency website designed solo for Arnik Web using WordPress, Elementor, and WoodMart.",
-        "fa": "طراحی کامل وب‌سایت اصلی آژانس آرنیک وب به‌صورت مستقل با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -659,15 +623,12 @@
     {
       "id": 12,
       "slug": "tak-omran",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Tak Omran",
         "fa": "تک عمران (Tak Omran)"
-      },
-      "summary": {
-        "en": "Construction and civil engineering corporate presence built with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت شرکتی حوزه ساخت‌وساز و عمران با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -678,15 +639,12 @@
     {
       "id": 13,
       "slug": "atilis",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Atilis",
         "fa": "آتیلیس (Atilis)"
-      },
-      "summary": {
-        "en": "Corporate digital studio site crafted with WordPress, Elementor, WoodMart, and custom CSS refinements.",
-        "fa": "وب‌سایت استودیو دیجیتال آتیلیس طراحی‌شده با وردپرس، المنتور، وودمارت و CSS اختصاصی."
       },
       "tech": [
         "WordPress",
@@ -698,15 +656,12 @@
     {
       "id": 14,
       "slug": "shahre-behesht",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Shahre Behesht",
         "fa": "شهر بهشت (Shahre Behesht)"
-      },
-      "summary": {
-        "en": "Real estate and hospitality showcase developed with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت معرفی مجموعه اقامتی و ساختمانی شهر بهشت با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -717,15 +672,12 @@
     {
       "id": 15,
       "slug": "hayper-ahan",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Hayper Ahan",
         "fa": "هایپر آهن (Hayper Ahan)"
-      },
-      "summary": {
-        "en": "Steel & construction materials commerce portal structured with WordPress, Elementor, and WoodMart.",
-        "fa": "پورتال فروش و استعلام قیمت مقاطع فولادی و آهن‌آلات با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -736,15 +688,12 @@
     {
       "id": 16,
       "slug": "jahan-taraz",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Jahan Taraz",
         "fa": "جهان تراز (Jahan Taraz)"
-      },
-      "summary": {
-        "en": "Financial & industrial weighing/accounting solutions corporate site on WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت شرکتی جهان تراز با طراحی ساختارمند وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -755,15 +704,12 @@
     {
       "id": 17,
       "slug": "sajjad-massage-services",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Sajjad Massage Services",
         "fa": "خدمات ماساژ سجاد"
-      },
-      "summary": {
-        "en": "Wellness & therapy booking website built with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت معرفی خدمات و رزرو نوبت ماساژ سجاد با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -774,15 +720,12 @@
     {
       "id": 18,
       "slug": "chaapica",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Chaapica",
         "fa": "چاپیکا (Chaapica)"
-      },
-      "summary": {
-        "en": "Custom print & packaging ordering storefront powered by WordPress, Elementor, and WoodMart.",
-        "fa": "فروشگاه آنلاین خدمات چاپ و بسته‌بندی چاپیکا با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -793,15 +736,12 @@
     {
       "id": 19,
       "slug": "hodge-and-waj-shoes",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Hodge and Waj Shoes",
         "fa": "کفش Hodge and Waj"
-      },
-      "summary": {
-        "en": "Footwear e-commerce store built with WordPress, Elementor, and WoodMart featuring clean variant browsing.",
-        "fa": "فروشگاه اینترنتی کفش Hodge and Waj با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -812,15 +752,12 @@
     {
       "id": 20,
       "slug": "havan-spice-factory",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Havan Spice Factory",
         "fa": "کارخانه ادویه هاون (Havan Spice)"
-      },
-      "summary": {
-        "en": "Manufacturer showcase & wholesale storefront for Havan Spice Factory on WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت معرفی کارخانه و فروشگاه محصولات ادویه هاون با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -831,15 +768,12 @@
     {
       "id": 21,
       "slug": "premium-lingerie-brand",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Premium Lingerie Brand",
         "fa": "برند تخصصی پوشاک (Premium Brand)"
-      },
-      "summary": {
-        "en": "Private-label fashion retail storefront developed with WordPress, Elementor, and WoodMart.",
-        "fa": "فروشگاه اختصاصی برند مد و پوشاک طراحی‌شده با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -850,15 +784,12 @@
     {
       "id": 22,
       "slug": "ainaz-beauty-salon",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Ainaz Beauty Salon",
         "fa": "سالن زیبایی آیناز"
-      },
-      "summary": {
-        "en": "Beauty studio portfolio and booking site built with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت معرفی خدمات و نوبت‌دهی سالن زیبایی آیناز با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -869,15 +800,12 @@
     {
       "id": 23,
       "slug": "sony-mashhad",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Sony Mashhad",
         "fa": "سونی مشهد (Sony Mashhad)"
-      },
-      "summary": {
-        "en": "Consumer electronics & authorized retail storefront for Mashhad built with WordPress, Elementor, and WoodMart.",
-        "fa": "فروشگاه اینترنتی تجهیزات الکترونیک سونی مشهد با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",
@@ -888,15 +816,12 @@
     {
       "id": 24,
       "slug": "siamese-cat",
+      "category": "wordpress",
       "image": "",
       "link": "",
       "title": {
         "en": "Siamese Cat",
         "fa": "Siamese Cat"
-      },
-      "summary": {
-        "en": "Pet care & specialty brand website crafted with WordPress, Elementor, and WoodMart.",
-        "fa": "وب‌سایت تخصصی معرفی و فروشگاه برند Siamese Cat با وردپرس، المنتور و وودمارت."
       },
       "tech": [
         "WordPress",

@@ -1,2 +1,0 @@
-ADMIN_PASSWORD="replace-with-a-long-unique-password"
-SESSION_SECRET="replace-with-a-random-secret-at-least-32-characters"

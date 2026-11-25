@@ -18,14 +18,32 @@ export interface PortfolioService {
   artVariant: 'backend' | 'ecommerce' | 'corporate' | 'marketplace' | 'portfolio';
 }
 
+export const PROJECT_CATEGORIES = [
+  { value: 'wordpress', label: 'وردپرس' },
+  { value: 'programming', label: 'برنامه‌نویسی' },
+] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]['value'];
+
 export interface PortfolioProject {
   id: number;
   slug: string;
+  category: ProjectCategory;
   image: string;
   link: string;
   title: BilingualText;
-  summary: BilingualText;
   tech: string[];
+}
+
+export function getProjectCategory(
+  project: Pick<PortfolioProject, 'tech'> & { category?: unknown },
+): ProjectCategory {
+  const category = PROJECT_CATEGORIES.find((option) => option.value === project.category);
+  return category?.value ?? (
+    project.tech.some((technology) => technology.trim().toLowerCase() === 'wordpress')
+      ? 'wordpress'
+      : 'programming'
+  );
 }
 
 export function createProjectSlug(title: string): string {
@@ -756,13 +774,13 @@ const LEGACY_PORTFOLIO_PROJECTS = [
 ];
 
 export const PORTFOLIO_PROJECTS: PortfolioProject[] = LEGACY_PORTFOLIO_PROJECTS.map(
-  ({ id, image, link, title, summary, tech }) => ({
+  ({ id, category, image, link, title, tech }) => ({
     id,
     slug: createProjectSlug(title.en),
+    category: getProjectCategory({ category, tech }),
     image,
     link: link ?? '',
     title,
-    summary,
     tech,
   }),
 );

@@ -46,14 +46,11 @@ export function ProjectPreviewDialog({
       }}
     >
       <div className="project-preview-panel">
-        <header className="flex items-start justify-between gap-4 border-b border-cyan-300/15 px-5 py-4 sm:px-7">
+        <header className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-7">
           <div>
-            <p className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-cyan-300">
-              {lang === 'fa' ? 'پروندهٔ نمونه‌کار' : 'PROJECT FILE'}
-            </p>
             <h2
               id="project-preview-title"
-              className="mt-1 font-display text-xl font-bold text-white sm:text-2xl"
+              className="font-display text-xl font-bold text-white sm:text-2xl"
             >
               {project.title[lang]}
             </h2>
@@ -62,12 +59,8 @@ export function ProjectPreviewDialog({
             type="button"
             autoFocus
             onClick={() => dialogRef.current?.close()}
-            aria-label={lang === 'fa' ? 'بستن جزئیات نمونه‌کار' : 'Close project details'}
-            className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/15 bg-[#08121B] text-white transition-colors hover:border-cyan-300 hover:text-cyan-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
-            style={{
-              clipPath:
-                'polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px)',
-            }}
+            aria-label={lang === 'fa' ? 'بستن پیش‌نمایش نمونه‌کار' : 'Close project preview'}
+            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-white/15 bg-[#090E19] text-white transition-colors hover:border-[#55FF8A] hover:text-[#55FF8A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#55FF8A]"
           >
             <X className="h-5 w-5" />
           </button>
@@ -77,23 +70,16 @@ export function ProjectPreviewDialog({
           <ProjectVisualFrame project={project} lang={lang} />
 
           <div className="space-y-6">
-            <p className="text-sm leading-7 text-[#C2C8D4] sm:text-base">
-              {project.summary[lang]}
-            </p>
-
             <div>
-              <h3 className="font-mono-tech text-[11px] uppercase tracking-wider text-cyan-200">
+              <h3 className="font-mono-tech text-[11px] uppercase tracking-wider text-[#55FF8A]">
                 {lang === 'fa' ? 'فناوری‌های استفاده‌شده' : 'TECHNOLOGIES'}
               </h3>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {project.tech.map((technology) => (
                   <li
                     key={technology}
-                    className="border border-cyan-300/20 bg-cyan-300/5 px-3 py-1.5 font-mono-tech text-xs text-cyan-100"
-                    style={{
-                      clipPath:
-                        'polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px)',
-                    }}
+                    dir="ltr"
+                    className="max-w-full rounded-full border border-white/10 bg-[#070E17] px-2.5 py-1 font-mono-tech text-[11px] break-words text-[#C2C8D4]"
                   >
                     {technology}
                   </li>
@@ -106,11 +92,7 @@ export function ProjectPreviewDialog({
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-cyan-300 bg-cyan-300 px-5 py-3 text-xs font-extrabold uppercase tracking-wider text-[#061017] transition-colors hover:bg-white hover:border-white"
-                style={{
-                  clipPath:
-                    'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-                }}
+                className="inline-flex items-center gap-2 rounded-full bg-[#55FF8A] px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-black transition-colors hover:bg-[#6EFF9B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#55FF8A]"
               >
                 <span>{lang === 'fa' ? 'مشاهدهٔ وب‌سایت' : 'VISIT WEBSITE'}</span>
                 <ExternalLink className="h-4 w-4" />

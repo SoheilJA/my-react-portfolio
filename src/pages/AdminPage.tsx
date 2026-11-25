@@ -25,7 +25,9 @@ import {
 import {
   createProjectSlug,
   DEFAULT_PORTFOLIO_CONTENT,
+  getProjectCategory,
   PortfolioContent,
+  PROJECT_CATEGORIES,
 } from '../data/portfolioData';
 import { useLanguage } from '../context/LanguageContext';
 import {
@@ -64,7 +66,7 @@ const sections: {
 }[] = [
   { key: 'profile', title: 'پروفایل', description: 'معرفی، راه‌های ارتباطی و اطلاعات شخصی', icon: UserRound },
   { key: 'pageCopy', title: 'متن صفحات', description: 'تیترها و متن‌های اصلی صفحه‌های سایت در هر دو زبان', icon: FileText },
-  { key: 'projects', title: 'پروژه‌ها', description: 'نمونه‌کارها، جزئیات و لینک‌های پروژه', icon: FolderKanban },
+  { key: 'projects', title: 'پروژه‌ها', description: 'دسته‌بندی، تصویر، عنوان فارسی و انگلیسی، فناوری‌ها و لینک نمونه‌کار', icon: FolderKanban },
   { key: 'services', title: 'خدمات', description: 'خدمات قابل ارائه و موارد تحویل', icon: Wrench },
   { key: 'experience', title: 'سوابق کاری', description: 'تجربه‌ها و مسیر حرفه‌ای', icon: BriefcaseBusiness },
   { key: 'certificates', title: 'گواهی‌نامه‌ها', description: 'مدارک، توضیحات و لینک استعلام', icon: Award },
@@ -157,10 +159,10 @@ function fieldHelp(path: (string | number)[]): string | null {
   const key = String(path[path.length - 1]);
   const helpBySection: Partial<Record<SectionKey, Record<string, string>>> = {
     projects: {
+      category: 'نوع اجرای نمونه‌کار را انتخاب کنید: وردپرس یا برنامه‌نویسی.',
       image: 'تصویر نمونه‌کار را بارگذاری کنید.',
       link: 'نشانی کامل سایت یا دموی پروژه با https://؛ برای نمایش لینک بازدید.',
       title: 'عنوان نمونه‌کار را به فارسی و انگلیسی وارد کنید؛ نامک از عنوان انگلیسی ساخته می‌شود.',
-      summary: 'توضیحات نمونه‌کار را به فارسی و انگلیسی وارد کنید.',
       tech: 'فناوری‌های استفاده‌شده را جداگانه اضافه کنید.',
     },
     certificates: {
@@ -185,10 +187,6 @@ function fieldPlaceholder(path: (string | number)[], language: 'fa' | 'en'): str
   if (path[0] === 'projects') {
     const examples: Record<string, { fa: string; en: string }> = {
       title: { fa: 'مثال: فروشگاه آنلاین', en: 'Example: Online Store' },
-      summary: {
-        fa: 'مثال: طراحی فروشگاه اینترنتی با پرداخت آنلاین.',
-        en: 'Example: An online store with a streamlined checkout.',
-      },
       link: { fa: 'https://example.com', en: 'https://example.com' },
     };
     return examples[String(path[path.length - 1])]?.[language];
@@ -360,8 +358,8 @@ function fieldTitle(key: string) {
 function contextualFieldTitle(key: string, path: (string | number)[]) {
   const labelsBySection: Partial<Record<SectionKey, Record<string, string>>> = {
     projects: {
+      category: 'دسته‌بندی نمونه‌کار',
       title: 'عنوان نمونه‌کار',
-      summary: 'توضیحات نمونه‌کار',
       link: 'آدرس سایت نمونه‌کار',
       image: 'تصویر نمونه‌کار',
       tech: 'فناوری‌های استفاده‌شده',
@@ -522,9 +520,10 @@ function JsonEditor({
     const isProject = path[0] === 'projects' && path.length === 2;
     const entries = isProject
       ? Object.entries(value).filter(([key]) =>
-          ['image', 'title', 'summary', 'tech', 'link'].includes(key),
+          ['category', 'image', 'title', 'tech', 'link'].includes(key),
         )
       : Object.entries(value);
+    if (isProject && typeof value.category !== 'string') entries.unshift(['category', '']);
     if (isProject && typeof value.image !== 'string') entries.unshift(['image', '']);
     if (isProject && typeof value.link !== 'string') entries.push(['link', '']);
     if (
@@ -551,8 +550,7 @@ function JsonEditor({
               return (
                 <label key={language} className="grid gap-2 text-sm font-medium">
                   {language === 'fa' ? 'فارسی' : 'English'}
-                  {translated.length > 100 ||
-                  (path[0] === 'projects' && path[path.length - 1] === 'summary') ? (
+                  {translated.length > 100 ? (
                     <Textarea
                       dir={language === 'fa' ? 'rtl' : 'ltr'}
                       placeholder={fieldPlaceholder(path, language)}
@@ -626,9 +624,12 @@ function JsonEditor({
     );
   }
 
-  const options =
-    path[path.length - 1] === 'artVariant'
+  const isProjectCategory = path[0] === 'projects' && path.length === 3 && path[2] === 'category';
+  const options = isProjectCategory
+    ? PROJECT_CATEGORIES
+    : path[path.length - 1] === 'artVariant'
       ? ['backend', 'ecommerce', 'corporate', 'marketplace', 'portfolio', 'frontend', 'wordpress']
+          .map((option) => ({ value: option, label: option }))
       : null;
 
   if (options) {
@@ -637,13 +638,14 @@ function JsonEditor({
         <label className="grid gap-2 text-sm font-medium">
           {label}
           <select
+            required={isProjectCategory}
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
             value={typeof value === 'string' ? value : ''}
             onChange={(event) => onChange(path, event.target.value)}
           >
             <option value="">انتخاب کنید</option>
             {options.map((option) => (
-              <option key={option} value={option}>{option}</option>
+              <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
         </label>
@@ -858,7 +860,13 @@ export function AdminPage() {
       if (!isPortfolioContent(imported)) {
         throw new Error('ساختار JSON با محتوای کامل سایت مطابقت ندارد.');
       }
-      setDraft(imported);
+      setDraft({
+        ...imported,
+        projects: imported.projects.map((project) => ({
+          ...project,
+          category: getProjectCategory(project),
+        })),
+      });
       setIsDirty(true);
       setImportFileName(file.name);
       setSaveHasError(false);
@@ -894,12 +902,13 @@ export function AdminPage() {
   }
 
   const save = async () => {
+    const uncategorizedProjectIndex = draft.projects.findIndex(
+      (project) => !PROJECT_CATEGORIES.some((option) => option.value === project.category),
+    );
     const incompleteProjectIndex = draft.projects.findIndex(
       (project) =>
         !project.title.fa.trim() ||
         !project.title.en.trim() ||
-        !project.summary.fa.trim() ||
-        !project.summary.en.trim() ||
         !project.tech.some((technology) => technology.trim()) ||
         !createProjectSlug(project.title.en),
     );
@@ -916,12 +925,14 @@ export function AdminPage() {
       ),
     );
 
-    if (incompleteProjectIndex >= 0 || duplicateProjectSlug) {
+    if (uncategorizedProjectIndex >= 0 || incompleteProjectIndex >= 0 || duplicateProjectSlug) {
       setActiveSection('projects');
       setSaveHasError(true);
-      setSaveMessage(duplicateProjectSlug
+      setSaveMessage(uncategorizedProjectIndex >= 0
+        ? `برای نمونه‌کار شمارهٔ ${uncategorizedProjectIndex + 1} دسته‌بندی «وردپرس» یا «برنامه‌نویسی» را انتخاب کنید.`
+        : duplicateProjectSlug
         ? 'عنوان انگلیسی نمونه‌کارها باید یکتا باشد تا نامک تکراری ساخته نشود.'
-        : `نمونه‌کار شمارهٔ ${incompleteProjectIndex + 1} ناقص است؛ عنوان و توضیحات فارسی و انگلیسی و حداقل یک فناوری را وارد کنید یا مورد را حذف کنید.`);
+        : `نمونه‌کار شمارهٔ ${incompleteProjectIndex + 1} ناقص است؛ عنوان فارسی و انگلیسی و حداقل یک فناوری را وارد کنید یا مورد را حذف کنید.`);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -944,10 +955,10 @@ export function AdminPage() {
       projects: draft.projects.map((project) => ({
         id: project.id,
         slug: createProjectSlug(project.title.en),
+        category: project.category,
         image: project.image,
         link: project.link?.trim() ?? '',
         title: project.title,
-        summary: project.summary,
         tech: project.tech.filter((technology) => technology.trim()),
       })),
     };
